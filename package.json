@@ -1,0 +1,14 @@
+{
+  "name": "coremind_web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "ect": "^0.5.9"
+  }
+}
