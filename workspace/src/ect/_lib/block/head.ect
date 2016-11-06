@@ -1,0 +1,39 @@
+<head>
+    <title><%= @page.head.title %></title>
+    <link rel="shortcut icon" href="<%= @config.shortcutIconURL %>" />
+
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="<%= @page.head.keyword %>" />
+    <meta name="description" content="<%= @page.head.description %>" />
+<% if @config.isSupportedPc : %>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<% end %>
+<% if @config.isSupportedMobile : %>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<% end %> 
+<% if @config.isSupportedSNS : %>
+    <meta property="og:title" content="<%= @config.sns.title %>" />
+    <meta property="og:type" content="<%= @config.sns.type %>" />
+    <meta property="og:url" content="<%= @config.sns.url %>" />
+    <meta property="og:image" content="<%= @config.sns.image %>" />
+    <meta property="og:site_name" content="<%= @config.sns.siteName %>" />
+    <meta property="og:description" content="<%= @config.sns.description %>" />
+    <meta property="og:locale" content="<%= @config.sns.locale %>" />
+
+    <meta name="twitter:card" content="<%= @config.sns.card %>">
+    <meta name="twitter:site" content="<%= @config.sns.site %>">
+<% end %> 
+    <!--[if lt IE9]>
+     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+<% if @page.css : %>
+    <link rel="stylesheet" href="../css/<%= @page.id %>.js">
+<% end %>
+<% if @page.js == "prepend": %>
+    <script src="../js/<%= @page.id %>.js"></script>
+<% end %>
+<% content "appendHead" %>
+</head>

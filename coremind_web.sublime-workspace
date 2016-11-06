@@ -520,12 +520,23 @@
 	"buffers":
 	[
 		{
+			"contents": "var gulp    = require(\"gulp\");\t\t\t//task runner\n\n//HTML Template Engene\nvar ect         = require(\"gulp-ect\");\nvar ectRenderer = ect({\n\troot: \"./workspace/src/ect\",\n\text:  \"ect\",\n);\n\ngulp.task(\"ect\", function() {\n\tgulp.src(\"./workspace/src/ect/**/*.ect\")\n\t\t.pipe(plumber({ errorHandler: notify.onError(\"Error: <% Error: error.message %>\") }))\n\t\t.pipe(ect)\n\n});\n\n\n//var sass    = require(\"sass\"); \t\t\t//sass compiler\nvar plumber = require(\"gulp-plumber\"); \t//Prevent pipe breaking caused by errors from gulp plugins\nvar notify  = require(\"gulp-notify\");\n\ngulp.task(\"default\", function() {\n\treturn gulp.src(\"**/*\")\n\t\t.pipe(plumber({ errorHandler: notify.onError(\"Error: <% Error: error.message %>\") }))\n\t\t.pipe(ectRenderer(\".test\", )\n      }));\n});\n\n",
 			"file": "gulpfile.js",
+			"file_size": 664,
+			"file_write_time": 131228385654551034,
 			"settings":
 			{
-				"buffer_size": 32,
+				"buffer_size": 746,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 324,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -935,15 +946,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 32,
+						"buffer_size": 746,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								32,
-								32
+								744,
+								744
 							]
 						],
 						"settings":
@@ -955,6 +966,34 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 324,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								131,
+								131
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

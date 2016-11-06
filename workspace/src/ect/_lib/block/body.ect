@@ -1,0 +1,9 @@
+<body id="#<% @page.id %>">
+<% include "_lib/block/header.ect" %>
+<% content content %>
+<% include "_lib/block/footer.ect" %>
+<% if @page.js == "append": %>
+    <script src="../js/<%= @page.id %>.js"></script>
+<% end %>
+</body>
+<% content "appendBody" %>
