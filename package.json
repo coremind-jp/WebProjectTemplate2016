@@ -12,6 +12,7 @@
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-ect-simple": "^0.1.0",
+    "gulp-frontnote": "^2.0.1",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0"
   }

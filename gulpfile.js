@@ -3,31 +3,25 @@ var gulp      = require("gulp");              //task runner
 var del       = require("del");               //file, directory delete
 var plumber   = require("gulp-plumber");      //Prevent pipe breaking caused by errors from gulp plugins
 var notify    = require("gulp-notify");       //notification (dosnt work for win10)
-var ect       = require("gulp-ect-simple");   //HTML Template Engene
+var ect       = require("gulp-ect-simple");   //html template Engene
+var frontNote = require("gulp-frontNote");    //styleguide generator
 
 //path list------------------------------------
 var root     = "./workspace";
 var rootSrc  = root+"/src";
-var rootDest = root+"/public";
+var rootDest = root+"/www";
 var dir = {
-    dest: {
-        html: rootDest,
-        js  : rootDest+"/js",
-        css : rootDest+"/css"
-    },
     src:  {
-        ect : rootSrc+"/ect",
-        sass: rootSrc+"/sass"
-    }
-};
-
-//utility variables, functions-----------------
-var ectParams = {
-    options: {
-        root: dir.src.ect,
-        ext : ".ect",
+        ect  : rootSrc+"/ect",
+        sass : rootSrc+"/sass",
+        guide: rootSrc+"/sass/guide"
     },
-    data: require("./siteConfigure.js")
+    dest: {
+        html : rootDest,
+        js   : rootDest+"/js",
+        css  : rootDest+"/css",
+        guide: rootDest+"/guide"
+    }
 };
 
 function glob(extension, rootDirectory, advance)
@@ -43,11 +37,37 @@ function glob(extension, rootDirectory, advance)
 
 
 //task list-----------------------------------
-gulp.task("build-ECT", function() {
-    gulp.src(glob(".ect", dir.src.ect))
-        .pipe(ect(ectParams))
+/*
+テンプレートからhtmlを生成
+*/
+gulp.task("build-ect", function()
+{
+    var params = {
+        options: { root: dir.src.ect, ext: ".ect", },
+        data: require("./siteConfigure.js")
+    };
+
+    gulp
+        .src(glob(".ect", dir.src.ect))
+        .pipe(plumber())
+        .pipe(ect(params))
         .pipe(gulp.dest(dir.dest.html));
 });
 
+/*
+スタイルガイド更新
+*/
+gulp.task("update-frontnote", function()
+{
+    var params = {
+        clean: true,
+        verbose: true,
+        out: dir.dest.guide
+    };
 
-gulp.task('default', ['build-ECT']);
+    gulp.src(glob(".sass", dir.src.guide))
+        .pipe(plumber())
+        .pipe(frontNote(params))
+});
+
+gulp.task('default', ['build-ect']);
