@@ -1,0 +1,197 @@
+@import "config.scss";
+/*
+#styleguide
+リスト：水平(シングルラインセンタリング)
+```
+<div class="margin padding" style="border: 1px solid #eee;">
+	<div style="width: 100px; height: 100px; background: #f00;"></div>
+</div>
+<div class="sample-wrapper margin padding" style="border: 1px solid #eee;">
+	<ul class="list-grid center">
+		<li class="item">titleA</li>
+		<li class="item">titleB</li>
+		<li class="item">titleC</li>
+		<li class="item">titleD</li>
+		<li class="item">titleE</li>
+		<li class="item">titleF</li>
+		<li class="item">titleG</li>
+		<li class="item">titleH</li>
+		<li class="item">titleI</li>
+		<li class="item">titleJ</li>
+		<li class="item">titleK</li>
+		<li class="item">titleL</li>
+		<li class="item">titleM</li>
+		<li class="item">titleN</li>
+		<li class="item">titleO</li>
+	</ul>
+</div>
+```
+*/
+@mixin list-grid() {
+	display: table;
+
+	text-align: center;
+
+	.item {
+		display: inline-block;
+		vertical-align: middle;
+		width: 100px;
+		height: 100px;
+	}
+
+	&.not-center {
+		.item {
+			vertical-align: baseline !important;
+		}
+	}
+}
+.list-grid {
+	@include list-grid;
+}
+/*
+#styleguide
+リスト：水平(シングルラインセンタリング)
+```
+<ul class="list-horizontal margin">
+	<li class="item">titleA</li>
+	<li class="item">titleB</li>
+	<li class="item">titleC</li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：水平(マルチラインセンタリング)
+```
+<ul class="list-horizontal margin">
+	<li class="item">titleA<br>subtitle</li>
+	<li class="item">titleB<br>subtitle</li>
+	<li class="item">titleC<br>subtitle</li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：水平(センタリングなし)
+```
+<ul class="list-horizontal margin not-center">
+	<li class="item">titleA</li>
+	<li class="item">titleB</li>
+	<li class="item">titleC</li>
+</ul>
+```
+*/
+@mixin list-horizontal() {
+	display: table;
+	table-layout: fixed;
+
+	text-align: center;
+
+	.item {
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+	&.not-center {
+		text-align: start;
+
+		.item {
+			vertical-align: baseline !important;
+		}
+	}
+}
+.list-horizontal {
+	@include list-horizontal;
+}
+/*
+#styleguide
+リスト：垂直(シングルラインセンタリング)
+```
+```
+<ul class="list-vertical margin paddingless">
+	<li class="item">titleA</li>
+	<li class="item">titleB</li>
+	<li class="item">titleC</li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：垂直(マルチラインセンタリング)
+```
+<ul class="list-vertical margin paddingless">
+	<li class="item"><span class="multiline">titleA<br>subtitle</span></li>
+	<li class="item"><span class="multiline">titleB<br>subtitle</span></li>
+	<li class="item"><span class="multiline">titleC<br>subtitle</span></li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：垂直(センタリングなし)
+```
+<ul class="list-vertical margin paddingless not-center">
+	<li class="item">titleA</li>
+	<li class="item">titleB</li>
+	<li class="item">titleC</li>
+</ul>
+```
+*/
+@mixin list-vertical() {
+	display: block;
+	text-align: center;
+
+	:before {
+		content: "";
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+	}
+
+	.item {
+		display: block;
+
+		.multiline {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+
+	&.not-center {
+		text-align: start;
+
+		:before {
+			display: none;
+		}
+	}
+}
+.list-vertical {
+	@include list-vertical;
+}
+
+
+
+/*
+#styleguide
+```
+<style>
+	.list-horizontal,
+	.list-vertical {
+		width: 100%;
+	}
+	.list-horizontal {
+		height: 35px;
+	}
+	.list-vertical .item {
+		width: 100%;
+		height: 35px;
+	}
+	ul > li:nth-child(odd) {
+		background: #ccc;
+	}
+	ul > li:nth-child(even) {
+		background: #aaa;
+	}
+</style>
+```
+*/

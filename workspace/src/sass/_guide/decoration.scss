@@ -1,0 +1,113 @@
+@import "config.scss";
+/*
+#styleguide
+シェイプ：角丸
+```
+<div class="sample-shape sample-wrapper">
+	<div class="roundrect gentle shape-box">roundrect gentle</div>
+	<div class="roundrect shape-box">roundrect</div>
+	<div class="roundrect sharp shape-box">roundrect sharp</div>
+
+	<div class="roundrect gentle" style="width: 50px; height: 100px;">roundrect gentle</div>
+	<div class="roundrect" style="width: 50px; height: 100px;">roundrect</div>
+	<div class="roundrect sharp" style="width: 50px; height: 100px;">roundrect sharp</div>
+
+	<div class="roundrect gentle" style="width: 100px; height: 50px;">roundrect gentle</div>
+	<div class="roundrect" style="width: 100px; height: 50px;">roundrect</div>
+	<div class="roundrect sharp" style="width: 100px; height: 50px;">roundrect sharp</div>
+</div>
+```
+*/
+@mixin roundrect {
+	overflow: hidden;
+	border-radius: $global-gap;
+
+	&.sharp {
+		border-radius: $global-gap * .5
+	}
+
+	&.gentle {
+		border-radius: $global-gap * 2;
+	}
+}
+.roundrect {
+	@include roundrect;
+}
+/*
+#styleguide
+シェイプ：円
+```
+<div class="sample-shape sample-wrapper">
+	<div class="circle" style="width: 100px; height: 100px; text-align: center;">circle</div>
+</div>
+```
+*/
+.circle {
+	overflow: hidden;
+	border-radius: 100%;
+}
+/*
+#styleguide
+陰影
+```
+<div class="sample-shape sample-wrapper">
+	<div class="circle shadow shape-box">shadow</div>
+	<div class="circle shadow-45 shape-box">shadow-45</div>
+	<div class="circle shadow-90 shape-box">shadow-90</div>
+	<div class="circle shadow-135 shape-box">shadow-135</div>
+	<div class="circle shadow-180 shape-box">shadow-180</div>
+	<div class="circle shadow-225 shape-box">shadow-225</div>
+	<div class="circle shadow-270 shape-box">shadow-270</div>
+	<div class="circle shadow-315 shape-box">shadow-315</div>
+	<div class="circle shadow-360 shape-box">shadow-360</div>
+</div>
+```
+*/
+$s: $shadow-size;
+$c: $shadow-color;
+.shadow     { box-shadow:   0px   0px $s $s $c; }
+.shadow-45  { box-shadow:    $s $s*-1 $s $s $c; }
+.shadow-90  { box-shadow:    $s   0px $s $s $c; }
+.shadow-135 { box-shadow:    $s    $s $s $s $c; }
+.shadow-180 { box-shadow:   0px    $s $s $s $c; }
+.shadow-225 { box-shadow: $s*-1    $s $s $s $c; }
+.shadow-270 { box-shadow: $s*-1   0px $s $s $c; }
+.shadow-315 { box-shadow: $s*-1 $s*-1 $s $s $c; }
+.shadow-360 { box-shadow:   0px $s*-1 $s $s $c; }
+/*
+#styleguide
+光源
+```
+<div class="sample-shape sample-wrapper">
+	<div class="circle light shape-box">inset shadow</div>
+	<div class="circle light-45 shape-box">light-45</div>
+	<div class="circle light-90 shape-box">light-90</div>
+	<div class="circle light-135 shape-box">light-135</div>
+	<div class="circle light-180 shape-box">light-180</div>
+	<div class="circle light-225 shape-box">light-225</div>
+	<div class="circle light-270 shape-box">light-270</div>
+	<div class="circle light-315 shape-box">light-315</div>
+	<div class="circle light-360 shape-box">light-360</div>
+</div>
+```
+*/
+.light     { box-shadow:   0px   0px $s $s $c inset; }
+.light-45  { box-shadow:    $s $s*-1 $s $s $c inset; }
+.light-90  { box-shadow:    $s   0px $s $s $c inset; }
+.light-135 { box-shadow:    $s    $s $s $s $c inset; }
+.light-180 { box-shadow:   0px    $s $s $s $c inset; }
+.light-225 { box-shadow: $s*-1    $s $s $s $c inset; }
+.light-270 { box-shadow: $s*-1   0px $s $s $c inset; }
+.light-315 { box-shadow: $s*-1 $s*-1 $s $s $c inset; }
+.light-360 { box-shadow:   0px $s*-1 $s $s $c inset; }
+/*
+#styleguide
+```
+<style>
+	.shape-box { width: 50px; height: 50px; }
+	.sample-shape > div { display: inline-block; }
+	.sample-wrapper { border: 1px solid #000; }
+	.sample-wrapper > div { background: #aaf; margin: 10px; }
+</style>
+```
+*/

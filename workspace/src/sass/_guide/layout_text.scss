@@ -1,0 +1,482 @@
+@import "config.scss";
+/*
+#styleguide
+フォントサイズ
+```
+<h1 class="font-size-1 bold">font-size-1</h1>
+<hr>
+<h2 class="font-size-2">font-size-2</h2>
+<hr>
+<h3 class="font-size-3">font-size-3</h3>
+<hr>
+<h4 class="font-size-4">font-size-4</h4>
+<hr>
+<h5 class="font-size-5">font-size-5</h5>
+<hr>
+<h6 class="font-size-6">font-size-6</h6>
+<p class="bold">bold</p>
+```
+*/
+.font-size-1 { font-size: nth($fontSize, 1); }
+.font-size-2 { font-size: nth($fontSize, 2); }
+.font-size-3 { font-size: nth($fontSize, 3); }
+.font-size-4 { font-size: nth($fontSize, 4); }
+.font-size-5 { font-size: nth($fontSize, 5); }
+.font-size-6 { font-size: nth($fontSize, 6); }
+.bold { font-weight: 700; }
+/*
+#styleguide
+余白：padding(px)
+```
+<style>
+	.sample-shape > div { display: inline-block; }
+	.sample-wrapper { border: 1px solid #000; }
+	.sample-wrapper > div { background: #e0e0e0; }
+</style>
+<div class="sample-wrapper">
+	<div class="padding-x2">padding-x2</div>
+	<hr>
+	<div class="padding">padding</div>
+	<hr>
+	<div class="padding-three-quarter">padding-three-quarter</div>
+	<hr>
+	<div class="padding-two-third">padding-two-third</div>
+	<hr>
+	<div class="padding-half">padding-half</div>
+	<hr>
+	<div class="padding-one-third">padding-one-third</div>
+	<hr>
+	<div class="padding-one-quarter">padding-one-quarter</div>
+</div>
+```
+*/
+@mixin padding-x2() {
+	padding: $global-gap * 2;
+}
+@mixin padding() {
+	padding: $global-gap;
+}
+@mixin padding-three-quarter() {
+	padding: $global-gap * .75;
+}
+@mixin padding-two-third() {
+	padding: $global-gap * .66;
+}
+@mixin padding-half() {
+	padding: $global-gap * .5;
+}
+@mixin padding-one-third() {
+	padding: $global-gap * .33;
+}
+@mixin padding-one-quarter() {
+	padding: $global-gap * .25;
+}
+.padding-x2 {
+	@include padding-x2;
+}
+.padding {
+	@include padding;
+}
+.padding-three-quarter {
+	@include padding-three-quarter;
+}
+.padding-two-third {
+	@include padding-two-third;
+}
+.padding-half {
+	@include padding-half;
+}
+.padding-one-third {
+	@include padding-one-third;
+}
+.padding-one-quarter {
+	@include padding-one-quarter;
+}
+/*
+#styleguide
+余白：padding(em)
+```
+<div class="sample-wrapper">
+	<div class="padding-em-x2">padding-em-x2</div>
+	<hr>
+	<div class="padding-em">padding-em</div>
+	<hr>
+	<div class="padding-em-three-quarter">padding-em-three-quarter</div>
+	<hr>
+	<div class="padding-em-two-third">padding-em-two-third</div>
+	<hr>
+	<div class="padding-em-half">padding-em-half</div>
+	<hr>
+	<div class="padding-em-one-third">padding-em-one-third</div>
+	<hr>
+	<div class="padding-em-one-quarter">padding-em-one-quarter</div>
+</div>
+```
+*/
+@mixin padding-em-x2() {
+	padding: 2em;
+}
+@mixin padding-em() {
+	padding: 1em;
+}
+@mixin padding-em-three-quarter() {
+	padding: .75em;
+}
+@mixin padding-em-two-third() {
+	padding: .66em;
+}
+@mixin padding-em-half() {
+	padding: .5em;
+}
+@mixin padding-em-one-third() {
+	padding: .33em;
+}
+@mixin padding-em-one-quarter() {
+	padding: .25em;
+}
+.padding-em-x2 {
+	@include padding-em-x2;
+}
+.padding-em {
+	@include padding-em;
+}
+.padding-em-three-quarter {
+	@include padding-em-three-quarter;
+}
+.padding-em-two-third {
+	@include padding-em-two-third;
+}
+.padding-em-half {
+	@include padding-em-half;
+}
+.padding-em-one-third {
+	@include padding-em-one-third;
+}
+.padding-em-one-quarter {
+	@include padding-em-one-quarter;
+}
+/*
+#styleguide
+余白打消：paddingless
+```
+<div class="sample-wrapper">
+	<div class="padding paddingless">paddingless</div>
+	<hr>
+	<div class="padding paddingless-top">paddingless-top</div>
+	<hr>
+	<div class="padding paddingless-right">paddingless-right</div>
+	<hr>
+	<div class="padding paddingless-bottom">paddingless-bottom</div>
+	<hr>
+	<div class="padding paddingless-left">paddingless-left</div>
+	<hr>
+	<div class="padding paddingless-vertical">paddingless-vertical</div>
+	<hr>
+	<div class="padding paddingless-horizontal">paddingless-horizontal</div>
+</div>
+```
+*/
+@mixin paddingless() {
+	padding: 0 !important;
+}
+@mixin paddingless-top() {
+	padding-top: 0 !important;
+}
+@mixin paddingless-right() {
+	padding-right: 0 !important;
+}
+@mixin paddingless-bottom() {
+	padding-bottom: 0 !important;
+}
+@mixin paddingless-left() {
+	padding-left: 0 !important;
+}
+@mixin paddingless-vertical() {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+@mixin paddingless-horizontal() {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.paddingless {
+	@include paddingless
+}
+.paddingless-top {
+	@include paddingless-top;
+}
+.paddingless-right {
+	@include paddingless-right;
+}
+.paddingless-bottom {
+	@include paddingless-bottom;
+}
+.paddingless-left {
+	@include paddingless-left;
+}
+.paddingless-vertical {
+	@include paddingless-vertical;
+}
+.paddingless-horizontal {
+	@include paddingless-horizontal;
+}
+/*
+#styleguide
+余白：margin(px)
+```
+<div class="sample-wrapper">
+	<div class="margin-x2">margin-x2</div>
+	<hr>
+	<div class="margin">margin</div>
+	<hr>
+	<div class="margin-three-quarter">margin-three-quarter</div>
+	<hr>
+	<div class="margin-two-third">margin-two-third</div>
+	<hr>
+	<div class="margin-half">margin-half</div>
+	<hr>
+	<div class="margin-one-third">margin-one-third</div>
+	<hr>
+	<div class="margin-one-quarter">margin-one-quarter</div>
+</div>
+```
+*/
+@mixin margin-x2() {
+	margin: $global-gap * 2;
+}
+@mixin margin() {
+	margin: $global-gap;
+}
+@mixin margin-three-quarter() {
+	margin: $global-gap * .75;
+}
+@mixin margin-two-third() {
+	margin: $global-gap * .66;
+}
+@mixin margin-half() {
+	margin: $global-gap * .5;
+}
+@mixin margin-one-third() {
+	margin: $global-gap * .33;
+}
+@mixin margin-one-quarter() {
+	margin: $global-gap * .25;
+}
+.margin-x2 {
+	@include margin-x2;
+}
+.margin {
+	@include margin;
+}
+.margin-three-quarter {
+	@include margin-three-quarter;
+}
+.margin-two-third {
+	@include margin-two-third;
+}
+.margin-half {
+	@include margin-half;
+}
+.margin-one-third {
+	@include margin-one-third;
+}
+.margin-one-quarter {
+	@include margin-one-quarter;
+}
+/*
+#styleguide
+余白：margin(em)
+```
+<div class="sample-wrapper">
+	<div class="margin-em-x2">margin-em-x2</div>
+	<hr>
+	<div class="margin-em">margin-em</div>
+	<hr>
+	<div class="margin-em-three-quarter">margin-em-three-quarter</div>
+	<hr>
+	<div class="margin-em-two-third">margin-em-two-third</div>
+	<hr>
+	<div class="margin-em-half">margin-em-half</div>
+	<hr>
+	<div class="margin-em-one-third">margin-em-one-third</div>
+	<hr>
+	<div class="margin-em-one-quarter">margin-em-one-quarter</div>
+</div>
+```
+*/
+@mixin margin-em-x2() {
+	margin: 2em;
+}
+@mixin margin-em() {
+	margin: 1em;
+}
+@mixin margin-em-three-quarter() {
+	margin: .75em;
+}
+@mixin margin-em-two-third() {
+	margin: .66em;
+}
+@mixin margin-em-half() {
+	margin: .5em;
+}
+@mixin margin-em-one-third() {
+	margin: .33em;
+}
+@mixin margin-em-one-quarter() {
+	margin: .25em;
+}
+.margin-em-x2 {
+	@include margin-em-x2;
+}
+.margin-em {
+	@include margin-em;
+}
+.margin-em-three-quarter {
+	@include margin-em-three-quarter;
+}
+.margin-em-two-third {
+	@include margin-em-two-third;
+}
+.margin-em-half {
+	@include margin-em-half;
+}
+.margin-em-one-third {
+	@include margin-em-one-third;
+}
+.margin-em-one-quarter {
+	@include margin-em-one-quarter;
+}/*
+#styleguide
+余白打消：marginless
+```
+<div class="sample-wrapper">
+	<div class="margin marginless">marginless</div>
+	<hr>
+	<div class="margin marginless-top">marginless-top</div>
+	<hr>
+	<div class="margin marginless-right">marginless-right</div>
+	<hr>
+	<div class="margin marginless-bottom">marginless-bottom</div>
+	<hr>
+	<div class="margin marginless-left">marginless-left</div>
+	<hr>
+	<div class="margin marginless-vertical">marginless-vertical</div>
+	<hr>
+	<div class="margin marginless-horizontal">marginless-horizontal</div>
+</div>
+```
+*/
+@mixin marginless() {
+	margin: 0 !important;
+}
+@mixin marginless-top() {
+	margin-top: 0 !important;
+}
+@mixin marginless-right() {
+	margin-right: 0 !important;
+}
+@mixin marginless-bottom() {
+	margin-bottom: 0 !important;
+}
+@mixin marginless-left() {
+	margin-left: 0 !important;
+}
+@mixin marginless-vertical() {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+@mixin marginless-horizontal() {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+.marginless {
+	@include marginless
+}
+.marginless-top {
+	@include marginless-top;
+}
+.marginless-right {
+	@include marginless-right;
+}
+.marginless-bottom {
+	@include marginless-bottom;
+}
+.marginless-left {
+	@include marginless-left;
+}
+.marginless-vertical {
+	@include marginless-vertical;
+}
+.marginless-horizontal {
+	@include marginless-horizontal;
+}
+/*
+#styleguide
+整頓
+```
+<h1>inline elements</h1>
+<div class="margin anchor" style="height: 100px;">
+	<span class="top left">top left</span>
+	<span class="top center">top center</span>
+	<span class="top right">top right</span>
+	<span class="middle left">middle left</span>
+	<span class="middle center">middle center</span>
+	<span class="middle right">middle right</span>
+	<span class="bottom left">bottom left</span>
+	<span class="bottom center">bottom center</span>
+	<span class="bottom right">bottom right</span>
+</div>
+<h1>block elements</h1>
+<div class="anchor" style="height: 100px;">
+	<div class="padding top left">top left</div>
+	<div class="padding top center">top center</div>
+	<div class="padding top right">top right</div>
+	<div class="padding middle left">middle left</div>
+	<div class="padding middle center">middle center</div>
+	<div class="padding middle right">middle right</div>
+	<div class="padding bottom left">bottom left</div>
+	<div class="padding bottom center">bottom center</div>
+	<div class="padding bottom right">bottom right</div>
+</div>
+```
+*/
+@mixin anchor {
+	position: relative;
+
+	.left {
+		position: absolute;
+		left: 0;
+	}
+	.center {
+		position: absolute;
+		top: auto;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+	.right {
+		position: absolute;
+		right: 0;
+	}
+	.top {
+		position: absolute;
+		top: 0;
+	}
+	.middle {
+		position: absolute;
+		top: 50%;
+		left: auto;
+		transform: translateY(-50%);
+	}
+	.bottom {
+		position: absolute;
+		bottom: 0;
+	}
+	.middle.center {
+		top: 50% !important;
+		left: 50% !important;
+		transform: translate(-50%, -50%) !important;
+	}
+}
+.anchor {
+	@include anchor;
+}
