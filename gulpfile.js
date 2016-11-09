@@ -5,6 +5,7 @@ var plumber   = require("gulp-plumber");      //Prevent pipe breaking caused by 
 var notify    = require("gulp-notify");       //notification (dosnt work for win10)
 var concat    = require("gulp-concat");
 var _if       = require("gulp-if");
+var rename    = require("gulp-rename");
 var browser   = null;
 
 //path variable & utility function-------------
@@ -15,14 +16,18 @@ var dir = {
     src:  {
         ect  : rootSrc+"/ect",
         sass : rootSrc+"/sass",
-        guide: rootSrc+"/sass/_guide"
+        guide: rootSrc+"/sass/_guide",
+        js   : rootSrc+"/js",
+        jsx  : rootSrc+"/jsx",
+        asset: rootSrc+"/asset"
     },
     dest: {
         html : rootDest,
-        js   : rootDest+"/js",
         css  : rootDest+"/css",
+        guide: rootDest+"/guide",
+        js   : rootDest+"/js",
         asset: rootDest+"/asset",
-        guide: rootDest+"/guide"
+        temp : rootDest+"/_temp"
     }
 };
 
@@ -66,6 +71,68 @@ function glob(extension, rootDirectory, advance)
 
 //task list-----------------------------------
 /*
+テストサーバー起動
+*/
+gulp.task("run-server", function() {
+    var http = require("http");
+    var fs = require("fs");
+    server = http.createServer();
+    server.listen(80, "localhost");
+
+    var responseData = "";
+    function readJson(callback) {
+        fs.readFile(dir.dest.temp+"/comments.json", 'utf-8', function(err, data) {
+            callback(err ? "[]": data);
+        });
+    };
+
+    server.on("request", function(req, res)
+    {
+        function finalize(comments)
+        {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.write(comments);
+            res.end();
+        };
+
+        if (req.method === "POST")
+        {
+            console.log("POST process");
+            var plane = "";
+
+            req.on("readable", function(chunk) { plane += req.read(); });
+            req.on("end", function()
+            {
+                console.log("read complete. for post data", plane);
+
+                var comment = {};
+
+                var v = plane.split("&");
+                console.log(v);
+                for (var i = v.length - 1; i >= 0; i--)
+                {
+                    var w = v[i].split("=");
+                    console.log(w);
+                    comment[w[0]] = w[1];
+                }
+
+                readJson(function(comments)
+                {
+                    comments = JSON.parse(comments);
+                    comments.push(comment);
+                    comments = JSON.stringify(comments);
+
+                    fs.writeFileSync(dir.dest.temp+"/comments.json", comments);
+
+                    finalize(comments);
+                });
+            });
+        }
+        else readJson(finalize);
+    });
+});
+/*
 テンプレートからhtmlを生成
 */
 var ect = require("gulp-ect-simple");
@@ -80,6 +147,41 @@ gulp.task("build-ect", function()
 });
 gulp.task("dev-ect", ["try-start-server"], function() {
     gulp.watch(glob(".ect", dir.src.ect), ["build-ect"]);
+});
+
+/*
+js圧縮
+*/
+var uglify = require("gulp-uglify");
+gulp.task("build-js", function()
+{
+    return gulp
+        .src(glob(".js", dir.src.js))
+        .pipe(plumber(params.plumber))
+        //.pipe(uglify())
+        .pipe(gulp.dest(dir.dest.js))
+        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
+});
+gulp.task("dev-js", ["try-start-server"], function() {
+    gulp.watch(glob(".js", dir.src.js), ["build-js"]);
+});
+
+/*
+Reactプリコンパイル
+*/
+var react = require("gulp-react");
+gulp.task("build-react", function()
+{
+    return gulp
+        .src(glob(".jsx", dir.src.jsx))
+        .pipe(plumber(params.plumber))
+        .pipe(rename({ suffix: ".react" }))
+        .pipe(react())
+        .pipe(gulp.dest(dir.dest.js))
+        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
+});
+gulp.task("dev-react", ["try-start-server"], function() {
+    gulp.watch(glob(".jsx", dir.src.jsx), ["build-react"]);
 });
 
 /*
@@ -127,6 +229,13 @@ gulp.task("dev-guide", ["try-start-server"], function() {
 });
 
 /*
+出力ファイル削除
+*/
+gulp.task("clean", function() {
+    del(glob("*.*", rootDest));
+});
+
+/*
 開発タスク
 */
 gulp.task("try-start-server", function() {
@@ -137,4 +246,4 @@ gulp.task("try-start-server", function() {
         server: rootDest
     });
 });
-gulp.task('default', ["dev-sass", "dev-ect", "dev-guide"]);
+gulp.task('default', ["clean", "dev-sass", "dev-ect", "dev-guide", "dev-js", "dev-react"]);
