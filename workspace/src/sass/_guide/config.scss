@@ -2,3 +2,15 @@ $global-gap: 10px;
 $fontSize: 18px, 16px, 14px, 12px, 10px, 8px;
 $shadow-size: 3px;
 $shadow-color: rgba(0, 0, 0, .5);
+
+@function pageColor()  { @return #101010; }
+@function blockColor() { @return #292930; }
+@function accentColor($scheme: 0) {
+	@if $scheme == 0 {
+		@return #225964;
+	} @else if $scheme == 1 {
+		@return #2e7b8b;
+	} @else {
+		@return #399eb3;
+	}
+}

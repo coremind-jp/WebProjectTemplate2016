@@ -4,9 +4,17 @@
 ボタン
 
 ```
-<button class="button">見出し1</button>
+<input type="button" class="button" value="ボタン">
+<button type="submit" class="button">ボタン</button>
 ```
 */
+button[type="submit"],
+input[type='button'] {
+}
+
+
 .button {
-	border-radius: "10px";
+	background-color: accentColor(2);
+	border-color: transparent;
+	color: #fff;
 }
