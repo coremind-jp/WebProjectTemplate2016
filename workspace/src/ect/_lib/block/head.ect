@@ -33,7 +33,11 @@
 <% if @page.css : %>
     <link rel="stylesheet" href="css/<%= @page.id %>.css">
 <% end %>
-<% if @page.js == "prepend": %>
+
+<% if @page.jsx : %>
+    <script src="https://fb.me/react-0.13.3.js"></script>
+<% end %>
+<% if @page.js == "prepend" : %>
     <script src="js/<%= @page.id %>.js"></script>
 <% end %>
 <% content "appendHead" %>

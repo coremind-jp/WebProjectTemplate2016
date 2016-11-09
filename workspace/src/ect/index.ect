@@ -1,10 +1,13 @@
 <%- @setTargetPage "index" %>
 <% extend "_lib/block/html.ect" %>
     <article class="content-wrapper">
-        <p class="font-size-1">test</p>
-        <p class="font-size-2">test</p>
-        <p class="font-size-3">test</p>
-        <p class="font-size-4">test</p>
-        <p class="font-size-5">test</p>
-        <p class="font-size-6">test</p>
+    <div id="content"></div>
     </article>
+
+<% block "appendHead" : %>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+	<script
+	  src="https://code.jquery.com/jquery-3.1.1.min.js"
+	  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	  crossorigin="anonymous"></script>	
+<% end %>

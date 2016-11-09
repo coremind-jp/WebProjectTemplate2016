@@ -6,4 +6,7 @@
     <script src="../js/<%= @page.id %>.js"></script>
 <% end %>
 </body>
+<% if @page.jsx : %>
+    <script src="js/<%= @page.id %>.react.js"></script>
+<% end %>
 <% content "appendBody" %>

@@ -33,6 +33,7 @@ module.exports = {
             "id"    : "common",
             "css"   : false,
             "js"    : false,
+            "jsx"   : false,
             "head": {
                 "title"      : "common",
                 "keyword"    : "common 0",
@@ -43,6 +44,7 @@ module.exports = {
             "id"    : "index",
             "css"   : true,
             "js"    : "prepend",
+            "jsx"   : true,
             "head": {
                 "title"      : "index",
                 "keyword"    : "index, 1",
