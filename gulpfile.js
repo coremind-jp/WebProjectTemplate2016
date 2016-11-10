@@ -6,7 +6,6 @@ var notify    = require("gulp-notify");       //notification (dosnt work for win
 var concat    = require("gulp-concat");
 var _if       = require("gulp-if");
 var rename    = require("gulp-rename");
-var browser   = null;
 
 //path variable & utility function-------------
 var root     = "./workspace";
@@ -19,6 +18,7 @@ var dir = {
         guide: rootSrc+"/sass/_guide",
         js   : rootSrc+"/js",
         jsx  : rootSrc+"/jsx",
+        ts   : rootSrc+"/ts",
         asset: rootSrc+"/asset"
     },
     dest: {
@@ -27,6 +27,10 @@ var dir = {
         guide: rootDest+"/guide",
         js   : rootDest+"/js",
         asset: rootDest+"/asset",
+        maps : {
+            relative: "../map",
+            absolute: rootDest+"/map"
+        },
         temp : rootDest+"/_temp"
     }
 };
@@ -53,10 +57,16 @@ var params = {
     ect: {
         options: { root: dir.src.ect, ext: ".ect" },
         data: require("./siteConfigure.js")
+    },
+    typescript: {
+        target: "ES6",
+        newLine: 'CRLF', //'LF' for linux
+        noEmitOnError: true,
+        //outFile: false,
+        removeComments: true
     }
 };
 
-function isExistBrowser() { return browser !== null; };
 
 function glob(extension, rootDirectory, advance)
 {
@@ -167,6 +177,25 @@ gulp.task("dev-js", ["try-start-server"], function() {
 });
 
 /*
+typescriptプリコンパイル
+*/
+var typescript = require("gulp-typescript");
+gulp.task("build-typescript", function()
+{
+    return gulp
+        .src(glob(".ts", dir.src.ts))
+        .pipe(plumber(params.plumber))
+        .pipe(sourceMap.init())
+            .pipe(typescript(params.typescript))
+        .pipe(sourceMap.write(dir.dest.maps.relative))
+        .pipe(gulp.dest(dir.dest.js))
+        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
+});
+gulp.task("dev-typescript", ["try-start-server"], function() {
+    gulp.watch(glob(".ts", dir.src.ts), ["build-typescript"]);
+});
+
+/*
 Reactプリコンパイル
 */
 var react = require("gulp-react");
@@ -198,7 +227,7 @@ gulp.task("build-sass", function()
         .pipe(sourceMap.init())
             .pipe(sass(params.sass))
             .pipe(prefixer(params.prefixer))
-        .pipe(sourceMap.write("../map"))
+        .pipe(sourceMap.write(dir.dest.maps.relative))
         .pipe(gulp.dest(dir.dest.css))
         .pipe(_if(isExistBrowser, browser.stream({ once: true })));
 });
@@ -220,7 +249,7 @@ gulp.task("build-guide", function()
             .pipe(concat("guide.css"))
             .pipe(sass(params.sass))
             .pipe(prefixer(params.prefixer))
-        .pipe(sourceMap.write("../map"))
+        .pipe(sourceMap.write(dir.dest.maps.relative))
         .pipe(gulp.dest(dir.dest.css))
         .pipe(_if(isExistBrowser, browser.stream({ once: true })));
 });
@@ -238,6 +267,8 @@ gulp.task("clean", function() {
 /*
 開発タスク
 */
+var browser = null;
+function isExistBrowser() { return browser !== null; };
 gulp.task("try-start-server", function() {
     if (isExistBrowser())
         return;
