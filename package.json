@@ -26,6 +26,6 @@
     "gulp-typescript": "^3.1.2",
     "gulp-uglify": "^2.0.0",
     "http": "0.0.0",
-    "typescript": "^2.0.8"
+    "typescript": "^2.0.9"
   }
 }

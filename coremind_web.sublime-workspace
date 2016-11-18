@@ -4,6 +4,50 @@
 		"selected_items":
 		[
 			[
+				"pse",
+				"pseudo-before-after"
+			],
+			[
+				"op",
+				"opacity\topacity()"
+			],
+			[
+				"clearfix",
+				"clearfix-after"
+			],
+			[
+				"inc",
+				"include\t@include"
+			],
+			[
+				"requestD",
+				"requestData"
+			],
+			[
+				"read",
+				"readJson"
+			],
+			[
+				"pre",
+				"prefixer"
+			],
+			[
+				"noti",
+				"notify"
+			],
+			[
+				"pipe",
+				"pipewatch"
+			],
+			[
+				"b",
+				"browser"
+			],
+			[
+				"build",
+				"build-guide"
+			],
+			[
 				"st",
 				"style\tTag"
 			],
@@ -470,50 +514,6 @@
 			[
 				"lo",
 				"lowerSectionOffset"
-			],
-			[
-				"upp",
-				"upperSectionOffset"
-			],
-			[
-				"win",
-				"window"
-			],
-			[
-				"sele",
-				"selectorIndex"
-			],
-			[
-				"di",
-				"direction"
-			],
-			[
-				"time",
-				"timeStamp"
-			],
-			[
-				"ini",
-				"initializeDefaultScroll"
-			],
-			[
-				"wheelC",
-				"wheelCount"
-			],
-			[
-				"curren",
-				"currentSectionIndex"
-			],
-			[
-				"sec",
-				"sectionHead"
-			],
-			[
-				"close",
-				"closeNav"
-			],
-			[
-				"to",
-				"toMobileView"
 			]
 		]
 	},
@@ -523,33 +523,7 @@
 			"file": "gulpfile.js",
 			"settings":
 			{
-				"buffer_size": 1938,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "node_modules/gulp-frontnote/README.md",
-			"settings":
-			{
-				"buffer_size": 878,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "workspace/src/ect/index.ect",
-			"settings":
-			{
-				"buffer_size": 118,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "workspace/src/sass/guide/common.sass",
-			"settings":
-			{
-				"buffer_size": 241,
+				"buffer_size": 8034,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -558,8 +532,141 @@
 			"file": "siteConfigure.js",
 			"settings":
 			{
-				"buffer_size": 1523,
+				"buffer_size": 1580,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/sass/_core.scss",
+			"settings":
+			{
+				"buffer_size": 5945,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/sass/_guide/1_helper.scss",
+			"settings":
+			{
+				"buffer_size": 3008,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/sass/_guide/2_decoration.scss",
+			"settings":
+			{
+				"buffer_size": 5432,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/sass/_guide/3_text.scss",
+			"settings":
+			{
+				"buffer_size": 2400,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/sass/_guide/4_layout.scss",
+			"settings":
+			{
+				"buffer_size": 18900,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/sass/_guide/5_form.scss",
+			"settings":
+			{
+				"buffer_size": 8595,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/jsx/index.jsx",
+			"settings":
+			{
+				"buffer_size": 2711,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/ts/ReacctTutorial.tsx",
+			"settings":
+			{
+				"buffer_size": 580,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/ts/test.ts",
+			"settings":
+			{
+				"buffer_size": 0,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/js/index.js",
+			"settings":
+			{
+				"buffer_size": 0,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/ect/index.ect",
+			"settings":
+			{
+				"buffer_size": 891,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/ect/_lib/block/header.ect",
+			"settings":
+			{
+				"buffer_size": 243,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/ect/_lib/block/head.ect",
+			"settings":
+			{
+				"buffer_size": 1925,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/ect/_lib/block/body.ect",
+			"settings":
+			{
+				"buffer_size": 355,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "workspace/src/ect/_lib/block/footer.ect",
+			"settings":
+			{
+				"buffer_size": 51,
 				"line_ending": "Windows"
 			}
 		}
@@ -624,15 +731,57 @@
 		"/E/coremind_web",
 		"/E/coremind_web/workspace",
 		"/E/coremind_web/workspace/src",
+		"/E/coremind_web/workspace/src/ect",
+		"/E/coremind_web/workspace/src/ect/_lib",
+		"/E/coremind_web/workspace/src/ect/_lib/block",
+		"/E/coremind_web/workspace/src/ect/_lib/layout",
+		"/E/coremind_web/workspace/src/ect/_lib/parts",
+		"/E/coremind_web/workspace/src/js",
+		"/E/coremind_web/workspace/src/jsx",
+		"/E/coremind_web/workspace/src/lib",
 		"/E/coremind_web/workspace/src/sass",
-		"/E/coremind_web/workspace/src/sass/guide"
+		"/E/coremind_web/workspace/src/sass/_guide",
+		"/E/coremind_web/workspace/src/ts",
+		"/E/coremind_web/workspace/www",
+		"/E/coremind_web/workspace/www/asset",
+		"/E/coremind_web/workspace/www/css"
 	],
 	"file_history":
 	[
-		"/E/coremind_web/workspace/public/index.html",
+		"/E/coremind_web/workspace/www/css/index.css",
+		"/E/coremind_web/workspace/src/sass/index.scss",
+		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/_icons.scss",
+		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/_variables.scss",
+		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/font-awesome.scss",
+		"/E/coremind_web/workspace/www/css/guide.css",
+		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/_animated.scss",
+		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/_path.scss",
+		"/E/coremind_web/workspace/src/ect/_lib/block/html.ect",
+		"/E/coremind_web/workspace/src/sass/_guide/0_reset.scss",
+		"/E/coremind_web/workspace/src/sass/_guide/list.scss",
+		"/E/coremind_web/node_modules/browser-sync/node_modules/browser-sync-ui/node_modules/weinre/web/client/inspector.css",
+		"/E/coremind_web/.gitignore",
+		"/E/coremind_web/workspace/www/index.html",
+		"/E/coremind_web/workspace/src/js/index.js",
+		"/E/coremind_web/workspace/www/js/Test.js",
+		"/E/coremind_web/workspace/www/comments.json",
 		"/E/coremind_web/workspace/src/ect/_lib/block/body.ect",
 		"/E/coremind_web/workspace/src/ect/_lib/block/head.ect",
-		"/E/coremind_web/workspace/src/ect/_lib/block/html.ect",
+		"/E/coremind_web/workspace/www/js/index.react.js",
+		"/E/coremind_web/workspace/www/jsx/index.js",
+		"/E/coremind_web/workspace/src/ect/index.ect",
+		"/E/coremind_web/workspace/src/sass/_guide/colorscheme.scss",
+		"/E/coremind_web/workspace/src/sass/_guide/font_text.scss",
+		"/E/coremind_web/workspace/src/sass/_guide/config.scss",
+		"/E/coremind_web/workspace/src/sass/_guide/_config.scss",
+		"/E/coremind_web/workspace/src/sass/_guide/reset.scss",
+		"/E/coremind_web/workspace/src/sass/_guide/button.scss",
+		"/E/coremind_web/workspace/src/sass/guide/font_text.scss",
+		"/E/coremind_web/workspace/src/sass/common.scss",
+		"/E/coremind_web/workspace/www/css/guide/common.css.map",
+		"/E/coremind_web/workspace/src/sass/guide/common.scss",
+		"/E/coremind_web/workspace/www/css/guide/common.css",
+		"/E/coremind_web/workspace/public/index.html",
 		"/E/coremind_web/workspace/ect-wrapper.js",
 		"/E/coremind_web/node_modules/gulp-ect/index.js",
 		"/E/coremind_web/workspace/src/ect/_lib/block/header.ect",
@@ -726,37 +875,7 @@
 		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/dataObject/RecruitmentProcessBridge.as",
 		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/scene/TopPage.as",
 		"/E/Grandharem-bitbucket/Shared/srcExternal/hensei/HenseiTop.as",
-		"/E/Grandharem-bitbucket/Shared/srcExternal/friendselect/FriendSelectTop.as",
-		"/E/Grandharem-bitbucket/Shared/srcExternal/friend/FriendMain.as",
-		"/E/Grandharem-bitbucket/bin/configure.json",
-		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/parts/ninecard/NineCardKeyDialog.as",
-		"/E/AmplitubeDoll/sass/mixin.sass",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/functions.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/single-labo.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/static-chokaigi.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/static-labo-archivelist.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/static-news-archivelist.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/archive-news.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/footer.php",
-		"/E/AmplitubeDoll/sass/labo.sass",
-		"/E/AmplitubeDoll/sass/character.sass",
-		"/E/AmplitubeDoll/sass/news.sass",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/archive-labo.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-includes/link-template.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-includes/query.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/archive-character.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/single-news.php",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/css/top.min.css",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/css/mixin.css",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/css/common.css",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/css/character.min.css",
-		"/E/AmplitubeDoll/sass/config.sass",
-		"/E/AmplitubeDoll/sass/config.rb",
-		"/E/AmplitubeDoll/sass/sections.scss",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/css/top.css",
-		"/E/AmplitubeDoll/htdocs/dev/wp-content/themes/original/index.php",
-		"/C/Windows/System32/drivers/etc/hosts",
-		"/E/AmplitubeDoll/htdocs/hosts"
+		"/E/Grandharem-bitbucket/Shared/srcExternal/friendselect/FriendSelectTop.as"
 	],
 	"find":
 	{
@@ -767,6 +886,10 @@
 		"height": 90.0,
 		"where_history":
 		[
+			"E:\\coremind_web\\workspace\\src\\sass\\",
+			"E:\\coremind_web\\src\\sass\\",
+			"E:\\coremind_web\\src\\sass",
+			"E:\\coremind_web",
 			"E:\\AmplitubeDoll",
 			"E:\\cmal\\src",
 			"E:\\Grandharem-bitbucket\\Shared\\src,E:\\Grandharem-bitbucket\\Shared\\srcExternal,E:\\Grandharem-bitbucket\\External\\src",
@@ -819,134 +942,134 @@
 		"case_sensitive": true,
 		"find_history":
 		[
-			"１",
-			"3",
-			".ect",
-			"@",
-			"current",
-			"-h",
-			"meta-head",
-			"<%= @",
-			"<% @",
-			"<% ",
-			"_",
-			"is_s",
-			"@head",
-			"-",
-			"<%  %>",
-			"content=\"\"",
-			"title",
-			"-------------------------------------------",
-			"gulp-",
-			"192.168.11.4",
-			"console",
-			"sityouson",
-			"setAddress",
-			"address",
-			"cityname",
-			"setCity",
-			"setAddress",
-			"address",
-			"citySelectForm",
-			"input",
-			"reject(null, ",
-			", ",
-			"animate",
-			"fookLinkProcess",
-			"i18n",
-			"i18n-0.7.0",
-			"https://rubygems.org/gems/i18n-0.7.0.gem",
-			"遠征",
-			"resetReader",
-			"[ModuleStorage]",
-			"overwriteModuleList",
-			"purge",
-			".initialize(",
-			"\\.initialize(",
-			".initialize(",
-			",initialize(",
-			"buildForListElement",
-			"BitmapPainter",
-			"textureScale",
-			"contentScaleFactor",
-			"text-align",
-			"face",
-			"doInteraction",
-			"hover",
-			"doPaymentWrapper",
-			"_onReceivedDialogResult",
-			"switchPaymentProcess",
-			"_agreeAction",
-			"do_payment",
-			"execute",
-			"do_payment",
-			"purchaseItem",
-			"do_payment()",
-			"do_payment",
-			"_onClickBuyButton",
-			"クローズに伴う課金機能廃止",
-			"check_payment",
-			"do_payment",
-			"check_payment",
-			"_0801",
-			"check_payment",
-			"do_payment",
-			"PAYMENT",
-			"check_payment",
-			"_onClickBuyButton",
-			"DO_PAYMENT",
-			"API.DO_PAYMENT",
-			"doPaymentWrapper",
-			"rqPayment",
-			"buyShopItem",
-			"rqPayment",
-			"doPaymentWrapper",
-			"ドールス",
-			"x_fade",
-			"56px",
-			"$h",
-			"cellHeight",
-			"56px",
-			"font-size",
-			"tt_",
-			"tt_right",
-			"tt_left",
-			"time_table",
-			"d7d1cd",
-			"    <p>",
-			"$m",
-			"$pad",
-			"text",
-			"text-align",
+			"sample-wrapper",
+			"fill",
+			"fullsize",
+			"_arrow",
+			"}}@media (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2){.sample-image{background-image:url(\"../asset/test@2.png\")}}@media (min-r",
+			".sample-image{width:150px;height:150px}@media (min-resolution: 3dppx), (-webkit-min-device-pixel-ratio: 3){.sample-image{background-image:url(\"../asset/test@3.png\")}}@media (min-resolution: 2dppx), (-webkit-min-device-pixel-ratio: 2){.sample-image{background-image:url(\"../asset/test@2.png\")}}@media (min-resolution: 1dppx), (-webkit-min-device-pixel-ratio: 1){.sample-image{background-image:url(\"../asset/test@1.png\")}}",
+			"if",
+			"font-weight",
+			"bold",
+			" font-weight: normal;",
+			"font-size-base",
+			"@extend .font-small;",
+			"@extend .font-size-6;",
+			"font-size-6",
+			"font-size-",
+			"font-size-6",
+			"font-size-5",
+			"font-size-4",
+			"size-4",
+			"font-size-3",
+			"font-size-2",
+			"font-size-1",
+			"font-size-1]",
+			"h6",
+			"h5",
+			"h4",
+			"h3",
+			"h2",
+			"h1",
+			"font-size-6",
+			"100%",
+			"em;",
+			"nth($font-size-list, ",
+			"nth($font-size-list, 1)em",
+			"font-size-",
+			"$fa-var-quote-left;",
+			"fa-quote-left",
+			"inlinebox-right",
+			"h4",
+			"h3",
+			"_arrow",
+			"</dd>",
+			"<dd>",
+			"</dt>",
+			"<dt>",
+			"inline ",
+			"block",
+			" block",
+			"_form-border-style",
+			" top",
+			"default",
+			" left",
+			"inline",
+			" inline",
+			"inline ",
+			"666",
+			"_form-border-style",
+			"is-",
+			"fixed",
+			"font-w",
+			"font-weight",
+			"bottom",
+			"class=\"top\"",
+			"div class=\"left\"",
+			"フィールドセット＆ラベル",
+			"legend",
+			"arrow-width",
+			"width",
+			"arrow-width",
+			"7px",
+			"5px",
+			"-block",
+			"f00",
+			"radio",
+			"border-style",
+			"class=\"marginless-right\"",
+			"fieldname",
+			"submit inline",
+			"text inline",
+			"horizontal",
+			"<fieldset>",
+			"half",
+			".margin-three-quarter",
+			"_label-template",
+			"margin ",
+			" class=\"fieldname\"",
+			"margin",
+			"<style",
 			"padding",
-			"setInnterHeight",
-			"</p>",
-			"p class",
-			"caption, td, th",
-			"chokaigi",
-			"static_page",
-			"php?post_type=page",
-			"labo_foo",
-			"vm_SingleLine",
-			"historyButton",
-			"to_top",
-			"else",
-			"refreshNaviStyle",
-			"onLoad",
-			"getCurrentNavStyle",
-			"refreshNaviStyle",
-			"getCurrentNavStyle",
-			"updateScrollStatus",
-			"_refreshNaviStyle",
-			"refreshNaviStyle",
-			"getCurrentNavStyle",
-			".overlay",
-			"initializeWheelEventLitener",
-			"patternIndex",
-			"updateVerticalPositionForSection",
-			"scrollTarget",
-			"getScrollVolume",
-			"updateVerticalPositionForSection"
+			"paddingless",
+			"padding",
+			"clearfix",
+			"$global-gap",
+			"sharp",
+			"p",
+			"class=\"circle",
+			" shape-box",
+			"circle shadow",
+			"shape-box ",
+			"shape-box",
+			"p",
+			"div",
+			"}",
+			"span",
+			"style=",
+			"style",
+			"defaultFontSize",
+			" fixed",
+			"fixed ",
+			"is-mobile",
+			"col ",
+			"+%;",
+			"; }",
+			"@include colSize",
+			"+%",
+			"colSize",
+			"colWidth",
+			"width:",
+			"calcGridWidth",
+			"is-5",
+			"is-7",
+			"is-4",
+			"is-6",
+			"2",
+			"11",
+			"marginLeft",
+			"; }",
+			"gridResolution"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -965,7 +1088,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -974,108 +1097,176 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1938,
+						"buffer_size": 8034,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1346,
-								1346
+								4148,
+								4148
+							]
+						],
+						"settings":
+						{
+							"rulers":
+							[
+								80
+							],
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1056.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "siteConfigure.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1580,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1580,
+								1580
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 528.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "workspace/src/sass/_core.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5945,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2742,
+								2742
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 240.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "workspace/src/sass/_guide/1_helper.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3008,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3008,
+								3008
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "node_modules/gulp-frontnote/README.md",
-					"semi_transient": true,
+					"buffer": 4,
+					"file": "workspace/src/sass/_guide/2_decoration.scss",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 878,
+						"buffer_size": 5432,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								515,
-								515
+								1901,
+								1901
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax",
+							"open_with_edit": true,
+							"rulers":
+							[
+								80
+							],
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 2,
-					"file": "workspace/src/ect/index.ect",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 118,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								118,
-								118
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "workspace/src/sass/guide/common.sass",
+					"buffer": 5,
+					"file": "workspace/src/sass/_guide/3_text.scss",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 241,
+						"buffer_size": 2400,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								241,
-								241
+								182,
+								182
 							]
 						],
 						"settings":
@@ -1089,6 +1280,71 @@
 					},
 					"stack_index": 1,
 					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "workspace/src/sass/_guide/4_layout.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18900,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16242,
+								16242
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"translate_tabs_to_spaces": true,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 10035.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "workspace/src/sass/_guide/5_form.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8595,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								127,
+								127
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
 				}
 			]
 		},
@@ -1097,25 +1353,224 @@
 			"sheets":
 			[
 				{
-					"buffer": 4,
-					"file": "siteConfigure.js",
+					"buffer": 8,
+					"file": "workspace/src/jsx/index.jsx",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1523,
+						"buffer_size": 2711,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								511,
-								511
+								93,
+								93
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"open_with_edit": true,
+							"rulers":
+							[
+								80
+							],
+							"syntax": "Packages/React Templates/react-templates.tmLanguage",
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "workspace/src/ts/ReacctTutorial.tsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 580,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								580,
+								580
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"rulers":
+							[
+								80
+							],
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							},
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 240.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "workspace/src/ts/test.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "workspace/src/js/index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 12,
+					"file": "workspace/src/ect/index.ect",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 891,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								891,
+								891
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 134.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "workspace/src/ect/_lib/block/header.ect",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 243,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								243,
+								243
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ECT/Syntaxes/ect_html.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "workspace/src/ect/_lib/block/head.ect",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1925,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ECT/Syntaxes/ect_html.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -1123,14 +1578,69 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "workspace/src/ect/_lib/block/body.ect",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 355,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								38,
+								38
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "workspace/src/ect/_lib/block/footer.ect",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 51,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								51,
+								51
+							]
+						],
+						"settings":
+						{
+							"rulers":
+							[
+								80
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
 					"type": "text"
 				}
-			]
-		},
-		{
-			"sheets":
-			[
 			]
 		}
 	],
@@ -1159,32 +1669,37 @@
 				1
 			],
 			[
+				2,
 				0,
-				1,
-				1,
-				2
+				3,
+				1
 			],
 			[
-				1,
-				1,
-				2,
-				2
+				3,
+				0,
+				4,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
+			0.23171547436,
+			0.520906268663,
+			0.763801342146,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.5,
 			1.0
 		]
 	},
 	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
 	"output.exec":
 	{
 		"height": 146.0
@@ -1239,7 +1754,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 2,
+	"selected_group": 1,
 	"settings":
 	{
 	},
