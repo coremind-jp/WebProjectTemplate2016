@@ -62,6 +62,7 @@ var params = {
         target: "ES6",
         newLine: 'CRLF', //'LF' for linux
         noEmitOnError: true,
+        jsx: "react",
         //outFile: false,
         removeComments: true
     }
@@ -183,7 +184,7 @@ var typescript = require("gulp-typescript");
 gulp.task("build-typescript", function()
 {
     return gulp
-        .src(glob(".ts", dir.src.ts))
+        .src(glob("{ts, tsx}", dir.src.ts))
         .pipe(plumber(params.plumber))
         .pipe(sourceMap.init())
             .pipe(typescript(params.typescript))
@@ -192,7 +193,7 @@ gulp.task("build-typescript", function()
         .pipe(_if(isExistBrowser, browser.stream({ once: true })));
 });
 gulp.task("dev-typescript", ["try-start-server"], function() {
-    gulp.watch(glob(".ts", dir.src.ts), ["build-typescript"]);
+    gulp.watch(glob("{ts, tsx}", dir.src.ts), ["build-typescript"]);
 });
 
 /*
@@ -274,7 +275,13 @@ gulp.task("try-start-server", function() {
         return;
 
     (browser = require("browser-sync")).init({
-        server: rootDest
+        server: {
+            baseDir: rootDest,
+        },
+        open: false,
+        startPath: "/guide"
     });
 });
-gulp.task('default', ["clean", "dev-sass", "dev-ect", "dev-guide", "dev-js", "dev-react"]);
+gulp.task('default', [
+    //"clean",
+    "dev-sass", "dev-ect", "dev-guide", "dev-js", "dev-react", "dev-typescript"]);
