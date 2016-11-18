@@ -1,0 +1,792 @@
+html {
+    @extend .fullsize-width;
+    min-height: 100vh;
+}
+/*
+#styleguide
+リスト：水平(シングルラインセンタリング)
+```
+<style>
+    .list-horizontal,
+    .list-vertical {
+        width: 100%;
+    }
+    .list-horizontal {
+        height: 35px;
+    }
+    .list-vertical .item {
+        width: 100%;
+        height: 35px;
+    }
+    ul > li:nth-child(odd) {
+        background: #ccc;
+    }
+    ul > li:nth-child(even) {
+        background: #aaa;
+    }
+</style>
+<ul class="list-horizontal">
+    <li class="item">titleA</li>
+    <li class="item">titleB</li>
+    <li class="item">titleC</li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：水平(マルチラインセンタリング)
+```
+<ul class="list-horizontal">
+    <li class="item">titleA<br>subtitle</li>
+    <li class="item">titleB<br>subtitle</li>
+    <li class="item">titleC<br>subtitle</li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：水平(センタリングなし)
+```
+<ul class="list-horizontal not-center">
+    <li class="item">titleA</li>
+    <li class="item">titleB</li>
+    <li class="item">titleC</li>
+</ul>
+```
+*/
+.list-horizontal {
+    display: table;
+    table-layout: fixed;
+
+    text-align: center;
+
+    .item {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    &.not-center {
+        text-align: start;
+
+        .item {
+            vertical-align: baseline !important;
+        }
+    }
+}
+/*
+#styleguide
+リスト：垂直(シングルラインセンタリング)
+```
+```
+<ul class="list-vertical">
+    <li class="item">titleA</li>
+    <li class="item">titleB</li>
+    <li class="item">titleC</li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：垂直(マルチラインセンタリング)
+```
+<ul class="list-vertical">
+    <li class="item"><span class="multiline">titleA<br>subtitle</span></li>
+    <li class="item"><span class="multiline">titleB<br>subtitle</span></li>
+    <li class="item"><span class="multiline">titleC<br>subtitle</span></li>
+</ul>
+```
+*/
+/*
+#styleguide
+リスト：垂直(センタリングなし)
+```
+<ul class="list-vertical not-center">
+    <li class="item">titleA</li>
+    <li class="item">titleB</li>
+    <li class="item">titleC</li>
+</ul>
+```
+*/
+.list-vertical {
+    display: block;
+    text-align: center;
+
+    :before {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    .item {
+        display: block;
+
+        .multiline {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    &.not-center {
+        text-align: start;
+
+        :before {
+            display: none;
+        }
+    }
+}
+/*
+#styleguide
+余白：padding(px)
+```
+<style>
+    .sample-shape > div { display: inline-block; }
+    .body { border: 1px solid #000; }
+    .body > div { background: #e0e0e0; }
+</style>
+<div class="body">
+    <div class="padding-x2">padding-x2</div>
+    <hr>
+    <div class="padding">padding</div>
+    <hr>
+    <div class="padding-three-quarter">padding-three-quarter</div>
+    <hr>
+    <div class="padding-two-third">padding-two-third</div>
+    <hr>
+    <div class="padding-half">padding-half</div>
+    <hr>
+    <div class="padding-one-third">padding-one-third</div>
+    <hr>
+    <div class="padding-one-quarter">padding-one-quarter</div>
+</div>
+```
+*/
+.padding-x2 {
+    padding: $global-gap * 2;
+}
+.padding {
+    padding: $global-gap;
+}
+.padding-three-quarter {
+    padding: $global-gap * .75;
+}
+.padding-two-third {
+    padding: $global-gap * .66;
+}
+.padding-half {
+    padding: $global-gap * .5;
+}
+.padding-one-third {
+    padding: $global-gap * .33;
+}
+.padding-one-quarter {
+    padding: $global-gap * .25;
+}
+/*
+#styleguide
+余白：padding(em)
+```
+<div class="body">
+    <div class="padding-em-x2">padding-em-x2</div>
+    <hr>
+    <div class="padding-em">padding-em</div>
+    <hr>
+    <div class="padding-em-three-quarter">padding-em-three-quarter</div>
+    <hr>
+    <div class="padding-em-two-third">padding-em-two-third</div>
+    <hr>
+    <div class="padding-em-half">padding-em-half</div>
+    <hr>
+    <div class="padding-em-one-third">padding-em-one-third</div>
+    <hr>
+    <div class="padding-em-one-quarter">padding-em-one-quarter</div>
+</div>
+```
+*/
+.padding-em-x2 {
+    padding: 2em;
+}
+.padding-em {
+    padding: 1em;
+}
+.padding-em-three-quarter {
+    padding: .75em;
+}
+.padding-em-two-third {
+    padding: .66em;
+}
+.padding-em-half {
+    padding: .5em;
+}
+.padding-em-one-third {
+    padding: .33em;
+}
+.padding-em-one-quarter {
+    padding: .25em;
+}
+/*
+#styleguide
+余白打消：paddingless
+```
+<div class="body">
+    <div class="padding paddingless">paddingless</div>
+    <hr>
+    <div class="padding paddingless-top">paddingless-top</div>
+    <hr>
+    <div class="padding paddingless-right">paddingless-right</div>
+    <hr>
+    <div class="padding paddingless-bottom">paddingless-bottom</div>
+    <hr>
+    <div class="padding paddingless-left">paddingless-left</div>
+    <hr>
+    <div class="padding paddingless-vertical">paddingless-vertical</div>
+    <hr>
+    <div class="padding paddingless-horizontal">paddingless-horizontal</div>
+</div>
+```
+*/
+.paddingless {
+    padding: 0 !important;
+}
+.paddingless-top {
+    padding-top: 0 !important;
+}
+.paddingless-right {
+    padding-right: 0 !important;
+}
+.paddingless-bottom {
+    padding-bottom: 0 !important;
+}
+.paddingless-left {
+    padding-left: 0 !important;
+}
+.paddingless-vertical {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+.paddingless-horizontal {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+/*
+#styleguide
+余白：margin(px)
+```
+<div class="body">
+    <div class="margin-x2">margin-x2</div>
+    <hr>
+    <div class="margin">margin</div>
+    <hr>
+    <div class="margin-three-quarter">margin-three-quarter</div>
+    <hr>
+    <div class="margin-two-third">margin-two-third</div>
+    <hr>
+    <div class="margin-half">margin-half</div>
+    <hr>
+    <div class="margin-one-third">margin-one-third</div>
+    <hr>
+    <div class="margin-one-quarter">margin-one-quarter</div>
+</div>
+```
+*/
+.margin-x2 {
+    margin: $global-gap * 2;
+}
+.margin {
+    margin: $global-gap;
+}
+.margin-three-quarter {
+    margin: $global-gap * .75;
+}
+.margin-two-third {
+    margin: $global-gap * .66;
+}
+.margin-half {
+    margin: $global-gap * .5;
+}
+.margin-one-third {
+    margin: $global-gap * .33;
+}
+.margin-one-quarter {
+    margin: $global-gap * .25;
+}
+/*
+#styleguide
+余白：margin(em)
+```
+<div class="body">
+    <div class="margin-em-x2">margin-em-x2</div>
+    <hr>
+    <div class="margin-em">margin-em</div>
+    <hr>
+    <div class="margin-em-three-quarter">margin-em-three-quarter</div>
+    <hr>
+    <div class="margin-em-two-third">margin-em-two-third</div>
+    <hr>
+    <div class="margin-em-half">margin-em-half</div>
+    <hr>
+    <div class="margin-em-one-third">margin-em-one-third</div>
+    <hr>
+    <div class="margin-em-one-quarter">margin-em-one-quarter</div>
+</div>
+```
+*/
+.margin-em-x2 {
+    margin: 2em;
+}
+.margin-em {
+    margin: 1em;
+}
+.margin-em-three-quarter {
+    margin: .75em;
+}
+.margin-em-two-third {
+    margin: .66em;
+}
+.margin-em-half {
+    margin: .5em;
+}
+.margin-em-one-third {
+    margin: .33em;
+}
+.margin-em-one-quarter {
+    margin: .25em;
+}
+/*
+#styleguide
+余白打消：marginless
+```
+<div class="body">
+    <div class="margin marginless">marginless</div>
+    <hr>
+    <div class="margin marginless-top">marginless-top</div>
+    <hr>
+    <div class="margin marginless-right">marginless-right</div>
+    <hr>
+    <div class="margin marginless-bottom">marginless-bottom</div>
+    <hr>
+    <div class="margin marginless-left">marginless-left</div>
+    <hr>
+    <div class="margin marginless-vertical">marginless-vertical</div>
+    <hr>
+    <div class="margin marginless-horizontal">marginless-horizontal</div>
+</div>
+```
+*/
+.marginless {
+    margin: 0 !important;
+}
+.marginless-top {
+    margin-top: 0 !important;
+}
+.marginless-right {
+    margin-right: 0 !important;
+}
+.marginless-bottom {
+    margin-bottom: 0 !important;
+}
+.marginless-left {
+    margin-left: 0 !important;
+}
+.marginless-vertical {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+.marginless-horizontal {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+/*
+#styleguide
+整頓
+```
+<h1>inline elements</h1>
+<div class="margin anchor" style="height: 100px;">
+    <span class="top left">top left</span>
+    <span class="top center">top center</span>
+    <span class="top right">top right</span>
+    <span class="middle left">middle left</span>
+    <span class="middle center">middle center</span>
+    <span class="middle right">middle right</span>
+    <span class="bottom left">bottom left</span>
+    <span class="bottom center">bottom center</span>
+    <span class="bottom right">bottom right</span>
+</div>
+<h1>block elements</h1>
+<div class="anchor" style="height: 100px;">
+    <div class="padding top left">top left</div>
+    <div class="padding top center">top center</div>
+    <div class="padding top right">top right</div>
+    <div class="padding middle left">middle left</div>
+    <div class="padding middle center">middle center</div>
+    <div class="padding middle right">middle right</div>
+    <div class="padding bottom left">bottom left</div>
+    <div class="padding bottom center">bottom center</div>
+    <div class="padding bottom right">bottom right</div>
+</div>
+```
+*/
+.anchor {
+    position: relative;
+
+    .left {
+        position: absolute;
+        left: 0;
+    }
+    .center {
+        position: absolute;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .right {
+        position: absolute;
+        right: 0;
+    }
+    .top {
+        position: absolute;
+        top: 0;
+    }
+    .middle {
+        position: absolute;
+        top: 50%;
+        left: auto;
+        transform: translateY(-50%);
+    }
+    .bottom {
+        position: absolute;
+        bottom: 0;
+    }
+    .middle.center {
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+}
+/*
+#styleguide
+レスポンシブグリッド(12分割)
+```
+<style>
+    .col {
+        background: #aaa;
+        margin-bottom: 10px;
+        height: 25px;
+    }
+</style>
+<div class="grid12">
+    <div class="col size12 first">size12</div>
+
+    <div class="col size1 first">size1</div>
+    <div class="col size11">size11</div>
+
+    <div class="col size2 first">size2</div>
+    <div class="col size10">size10</div>
+
+    <div class="col size3 first">size3</div>
+    <div class="col size9">size9</div>
+
+    <div class="col size4 first">size4</div>
+    <div class="col size8">size8</div>
+
+    <div class="col size5 first">size5</div>
+    <div class="col size7">size7</div>
+
+    <div class="col size6 first">size6</div>
+    <div class="col size6">size6</div>
+
+    <div class="col size4 first">size4</div>
+    <div class="col size4">size4</div>
+    <div class="col size4">size4</div>
+
+    <div class="col size3 first">size3</div>
+    <div class="col size3">size3</div>
+    <div class="col size3">size3</div>
+    <div class="col size3">size3</div>
+
+    <div class="col size2 first">size2</div>
+    <div class="col size2">size2</div>
+    <div class="col size2">size2</div>
+    <div class="col size2">size2</div>
+    <div class="col size2">size2</div>
+    <div class="col size2">size2</div>
+
+    <div class="col size1 first">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+</div>
+```
+*/
+/*
+#styleguide
+レスポンシブグリッド(10分割)
+```
+<div class="grid10">
+    <div class="col size10 first">size10</div>
+
+    <div class="col size1 first">size1</div>
+    <div class="col size9">size9</div>
+
+    <div class="col size2 first">size2</div>
+    <div class="col size8">size8</div>
+
+    <div class="col size3 first">size3</div>
+    <div class="col size7">size7</div>
+
+    <div class="col size4 first">size4</div>
+    <div class="col size6">size6</div>
+
+    <div class="col size5 first">size5</div>
+    <div class="col size5">size5</div>
+
+    <div class="col size2 first">size2</div>
+    <div class="col size2">size2</div>
+    <div class="col size2">size2</div>
+    <div class="col size2">size2</div>
+    <div class="col size2">size2</div>
+
+    <div class="col size1 first">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+    <div class="col size1">size1</div>
+</div>
+```
+*/
+/*
+#styleguide
+レスポンシブグリッド(モバイルビューでグリッドを維持)
+```
+<div class="grid12">
+    <div class="col size6 fixed first">size6</div>
+    <div class="col size6 fixed">size6</div>
+
+    <div class="col size4 fixed first">size4</div>
+    <div class="col size4 fixed">size4</div>
+    <div class="col size4 fixed">size4</div>
+
+    <div class="col size3 fixed first">size3</div>
+    <div class="col size3 fixed">size3</div>
+    <div class="col size3 fixed">size3</div>
+    <div class="col size3 fixed">size3</div>
+
+    <div class="col size2 fixed first">size2</div>
+    <div class="col size2 fixed">size2</div>
+    <div class="col size2 fixed">size2</div>
+    <div class="col size2 fixed">size2</div>
+    <div class="col size2 fixed">size2</div>
+    <div class="col size2 fixed">size2</div>
+</div>
+```
+*/
+.grid12 { @include generateGrid(12, $grid-margin); }
+.grid10 { @include generateGrid(10, $grid-margin); }
+/*
+#styleguide
+dd, dl, dt
+dtのwidthは必須. ddのpadding-leftにも同じ値を指定する.
+backgroundを変える場合はddに指定する.
+borderを入れる場合はdd, .ddに色だけ指定する.(!important付き)
+太さやスタイルも変えたい場合はddのborder-bottom, .ddのborder-leftに指定する.
+
+また、dtの高さよりもddの高さの方が大きくないと表示が崩れるので注意.
+```
+<style>
+    dt {
+        width: 25%;
+    }
+    dd {
+        padding-left: 25%;
+    }
+    dd, .dd{
+        border-color: #888 !important;
+    }
+    dd:nth-of-type(odd) {
+        background: #aaa;
+    }
+    dd:nth-of-type(even) {
+        background: #ccc;
+    }
+</style>
+
+<div class="body">
+    <dl class="dl roundrect">
+        <dt><span class="dt">apple</span></dt>
+        <dd>
+            <p class="dd">
+            ハードウェア製品として、スマートフォンのiPhone、タブレット型情報端末のiPad、パーソナルコンピュータのMacintosh (Mac)、携帯音楽プレーヤーのiPod、ウェアラブルコンピュータのApple Watch、ソフトウェア製品としては、オペレーティングシステムのmacOS、iOS、watchOS、tvOS、クラウドサービスとしてはiCloudなどの開発・販売を行っている。
+            </p>
+        </dd>
+        <dt><span class="dt">micro<br>soft</span></dt>
+        <dd>
+            <p class="dd">
+            当初は世に登場して間もない8ビットのマイクロプロセッサを搭載したコンピュータ「アルテア (Altair)」上で動く、BASICインタプリタの開発・販売で成功を収めた。
+            当初はネイティブ環境（カセットテープベースでオペレーティングシステムはなくROM-BASICに近い環境のもの）だったが、CP/Mが標準プラットフォームとなると、CP/MベースのMBASICを発表する。グラフィックス機能をつけたGBASIC、16ビット用のGWBASICが登場する。なお、GWのWは16ビットを意味するダブルバイト/ワードだとされている。
+            </p>
+        </dd>
+        <dt><span class="dt">adobe</span></dt>
+        <dd>
+            <p class="dd">
+            アドビシステムズ（Adobe Systems Incorporated）は、ジョン・ワーノックとチャールズ・ゲシキーによって1982年12月に設立された、アメリカ合衆国カリフォルニア州サンノゼ市に本社を置くコンピュータ・ソフトウェア会社である。ソフトウェアのみを開発・販売する企業としては現在、世界最大である。
+            日本法人であるアドビシステムズ株式会社は、東京都品川区大崎に所在。
+            </p>
+        </dd>
+        <dt><span class="dt">steam</span></dt>
+        <dd>
+            <p class="dd">
+            Steam（スチーム）は、PCゲーム、PCソフトウェアおよびストリーミングビデオのダウンロード販売とハードウェアの通信販売、デジタル著作権管理、マルチプレイヤーゲームのサポート、ユーザの交流補助を目的としたプラットフォームである。開発および運営はValve Corporationによって行われている。なお、Steamとは英語で「水蒸気、蒸気機関」という意味である。
+            </p>
+        </dd>
+        <dt>valve</dt>
+        <dd>
+            <p class="dd">
+            Valve Corporation（バルブ・コーポレーション）は、アメリカ合衆国のコンピュータゲーム製作及び他社多数のゲームを配信している会社。1996年に元マイクロソフト社員であったゲイブ・ニューウェルとマイク・ハリントンにより設立された。代表作に『ハーフライフ』、『ハーフライフ2』、『カウンターストライク』などを製作し、ゲーム配信サービス「Steam」を運営している。Valve Software（バルブ・ソフトウェア）や単にValve（バルブ）とも呼ばれる。
+            </p>
+        </dd>
+    </dl>
+</div>
+```
+*/
+.dl {
+    position: relative;
+
+    dt {
+        position: absolute;
+        left: 0;
+
+        display: block;
+
+        @extend .padding-x2;
+        @extend .paddingless-horizontal;
+        @extend .font-bold;
+
+        text-align: center;
+        .dt {
+            display: inline-block;
+            text-align: left;
+        }
+    }
+
+    dd {
+        display: block;
+        border-bottom: 1px solid transparent;
+
+        @include pseudo-after {
+            clear: left;
+        }
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        .dd {
+            border-left: 1px solid transparent;
+            @extend .padding-x2;
+        }
+
+    }
+}
+/*
+#styleguide
+blockquote
+```
+<div class="body">
+    <blockquote cite="https://ja.wikipedia.org/wiki/HyperText_Markup_Language">
+        <q><b>HyperText Markup Language（ハイパーテキスト マークアップ ランゲージ）</b>、略記・略称<b>HTML（エイチティーエムエル）</b>とは、ウェブ上の文書を記述するためのマークアップ言語である。文章の中に記述することでさまざまな機能を記述設定することができる。</q>
+        <span class="inline-block right"><a href="https://ja.wikipedia.org/wiki/HyperText_Markup_Language">引用元</a></span>
+    </blockquote>
+</div>
+```
+*/
+.body {
+    blockquote {
+        position: relative;
+        @extend .block-gap;
+
+        @include pseudo-before-after {
+            @extend .fa;
+            font-size: 5em;
+            position: absolute;
+            color: rgba(#888, .1);
+        }
+
+        * {
+            position: relative;
+            z-index: 1;
+        }
+
+        @include pseudo-before(null, null) {
+            @extend .fa-quote-left;
+            top: 0;
+            left: 0px;
+        }
+
+        @include pseudo-after(null, null) {
+            //クラスで指定すると:beforeにcontentが入るので変数を直接指定
+            content: $fa-var-quote-right;
+            bottom: 0;
+            right: 0;
+        }
+    }
+}
+/*
+#styleguide
+blockquote
+```
+<article class="body">
+    <div class="article-head">
+        <h1>Page Title</h1>
+    </div>
+    <div class="article-body">
+        <section>
+            <div class="section-head">
+                <h2>Main Content Title</h2>
+            </div>
+            <div class="section-body">
+            </div>
+        </section>
+
+        <section>
+            <div class="section-head">
+                <h3>Sub Content Title1</h3>
+            </div>
+            <div class="section-body">
+                <p>device-pixel-ratioとは、CSSピクセルに対するデバイスのピクセル密度のことです。minと付いているように、最低2以上という意味です。Androidの高解像度ディスプレイも対象に含める場合は1.5と設定するとほとんどのデバイスに対応することが出来ます。</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-head clearfix-after">
+                <h4 class="inline-block">Sub Content Title2</h4>
+                <time class="float-right">2016-11-18</time>
+            </div>
+            <div class="section-body">
+                <p>タグは、日付や時刻を表記する際に、グレゴリオ暦による日付や24時間表記の時刻で正確に示す際に使用します。日時を記述するのに、必ず time を使用しなくてはならないわけではなく、コンピュータやブラウザが理解できるように日時を示すことが目的です。</p>
+            </div>
+        </section>
+    </div>
+</article>
+```
+*/
+.body {
+    section {
+        @extend .block-gap;
+        +section {
+            padding-bottom: 0;
+        }
+    }
+}

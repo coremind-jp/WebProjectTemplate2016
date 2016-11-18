@@ -1,0 +1,304 @@
+/*
+#styleguide
+フィールドセット＆ラベル：legend左配置
+※テキストフォームにplaceholderを入れ、並べて配置するとIEで選択時にずれるので、
+実際に並べて使う時はlabelタグを別途ブロック要素等で包んだほうが良い。
+
+```
+<section class="body">
+    <fieldset class="fieldset">
+        <div class="legend inline">名前</div>
+        <label class="text inline">
+            <input type="text" name="" placeholder="山田">
+        </label>
+        <label class="text inline">
+            <input type="text" name="" placeholder="太郎">
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend inline">電話番号</div>
+        <label class="tel inline">
+            <input type="tel" name="" placeholder="xxyyyyzzzz">
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend inline">Eメール</div>
+        <label class="email inline">
+            <input type="email" name="" placeholder="your-address@exsample.com">
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend inline">性別</div>
+        <label class="radio inline">
+            <input type="radio" name="sex">
+            <span>男</span>
+        </label>
+        <label class="radio inline">
+            <input type="radio" name="sex">
+            <span>女</span>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend inline">好きな色</div>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>黒</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>白</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>赤</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>緑</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>青</span>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend inline">星座</div>
+        <label class="select">
+            <select name="horoscope">
+                <option value="Aries">おひつじ座</option>
+                <option value="Taurus">おうし座</option>
+                <option value="Gemini">ふたご座</option>
+                <option value="Cancer">かに座</option>
+                <option value="Leo">しし座</option>
+                <option value="Virgo">おとめ座</option>
+                <option value="Libra">てんびん座</option>
+                <option value="Scorpio">さそり座</option>
+                <option value="Saggitarius">いて座</option>
+                <option value="Capricorn">やぎ座</option>
+                <option value="Aquarius">みずがめ座</option>
+                <option value="Pisces">うお座</option>
+            </select>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend inline">コメント</div>
+        <label class="textarea inline">
+            <textarea name="" rows="4" cols="25"></textarea>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend inline">パスワード</div>
+        <label class="password inline">
+            <input type="password" name="">
+        </label>
+        <label class="submit inline">
+            <input type="submit" name="" value="submit">
+        </label>
+    </fieldset>
+</section>
+```
+*/
+/*
+#styleguide
+フィールドセット＆ラベル：legend上配置
+```
+<section class="body">
+    <fieldset class="fieldset">
+        <div class="legend">名前</div>
+        <label class="text inline">
+            <input type="text" name="" placeholder="山田">
+        </label>
+        <label class="text inline">
+            <input type="text" name="" placeholder="太郎">
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend">電話番号</div>
+        <label class="tel">
+            <input type="tel" name="" placeholder="xxyyyyzzzz">
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend">Eメール</div>
+        <label class="email">
+            <input type="email" name="" placeholder="your-address@exsample.com">
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend">性別</div>
+        <label class="radio inline">
+            <input type="radio" name="sex">
+            <span>男</span>
+        </label>
+        <label class="radio inline">
+            <input type="radio" name="sex">
+            <span>女</span>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend">好きな色</div>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>黒</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>白</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>赤</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>緑</span>
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" value="color">
+            <span>青</span>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend">星座</div>
+        <label class="select">
+            <select name="horoscope">
+                <option value="Aries">おひつじ座</option>
+                <option value="Taurus">おうし座</option>
+                <option value="Gemini">ふたご座</option>
+                <option value="Cancer">かに座</option>
+                <option value="Leo">しし座</option>
+                <option value="Virgo">おとめ座</option>
+                <option value="Libra">てんびん座</option>
+                <option value="Scorpio">さそり座</option>
+                <option value="Saggitarius">いて座</option>
+                <option value="Capricorn">やぎ座</option>
+                <option value="Aquarius">みずがめ座</option>
+                <option value="Pisces">うお座</option>
+            </select>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend">コメント</div>
+        <label class="textarea">
+            <textarea name="" rows="4" cols="25"></textarea>
+        </label>
+    </fieldset>
+    <fieldset class="fieldset">
+        <div class="legend">パスワード</div>
+        <label class="inline password">
+            <input type="password" name="">
+        </label>
+        <label class="inline submit">
+            <input type="submit" name="" value="submit">
+        </label>
+    </fieldset>
+</section>
+```
+*/
+//mobile placeholder style
+._input-style {
+    @extend .roundrect.sharp;
+    @extend .padding-em-one-third;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+fieldset.fieldset {
+    font-size: 0;
+    margin-bottom: $global-gap * 1.5;
+
+    .legend {
+        letter-spacing: 0;
+
+        &.inline {
+            padding: .333em .666em .333em 0;
+
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+
+        &:not(.inline) {
+            margin-bottom: $global-gap / 2;
+        }
+    }
+
+    label {
+        padding-right: $global-gap * .66;
+
+        display: block;
+        &.inline,
+        &.select {
+            display: inline-block;
+        }
+
+        &:last-of-type {
+            @extend .paddingless-right;
+        }
+    }
+
+    span, input {
+        @extend .font-px;
+    }
+}
+
+label.textarea {
+    vertical-align: top;
+    @extend .font-px;
+
+    textarea {
+        appearance: none;
+
+        @extend ._input-style;
+        font-size: getFontSizeForEM(6);
+    }
+}
+
+label.password input[type='password'],
+label.tel input[type='tel'],
+label.email input[type='email'],
+label.text input[type='text'] {
+    appearance: none;
+
+    @extend ._input-style;
+    width: 70px;
+
+    &::-webkit-input-placeholder {//for iOS
+        font-size: getFontSizeForEM(6);
+    }
+}
+
+label.radio input[type='radio'],
+label.checkbox input[type='checkbox'] {
+    margin-right: .33em;
+
+    +span {
+        padding-right: 1em;
+    }
+}
+
+label.select {
+    @extend .font-px;
+    @extend .arrow-down-before;
+    &:before { right: 16px - $arrow-wide; }
+    position: relative;
+
+    select {
+        appearance: none;
+
+        @extend ._input-style;
+        padding-left: 8px;
+        padding-right: 32px !important;
+        width: 150px;
+
+        font-size: getFontSizeForEM(6);
+    }
+    select::-ms-expand { display: none; }//for IE
+}
+
+label.submit input[type='submit'] {
+    appearance: none;
+
+    @extend ._input-style;
+    background-color: #ddd;
+    width: 80px;
+}

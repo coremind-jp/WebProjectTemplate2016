@@ -1,0 +1,176 @@
+/*
+#styleguide
+backgroundなRetina画像対応
+実際に使う時は以下のmixinで設定する.
+include backgorund-retina-image(画像へのパス, 拡張子, DotPerRatio);
+```
+<figure>
+	<div class="sample-image">
+</figure>
+```
+*/
+.sample-image {
+	@include backgorund-retina-image("../asset/test", ".png", 150px, 150px, 3);
+}
+/*
+#styleguide
+シェイプ：角丸
+```
+<style>
+	.bg-blue { background: #aaf; }
+	.w50h50  { width: 50px; height: 50px; }
+	.w25h50  { width: 25px; height: 50px; }
+	.w50h25  { width: 50px; height: 25px; }
+	.child-as-inline-block > * { display: inline-block; margin: 10px; }
+	.float-left { float: left; }
+</style>
+<div class="child-as-inline-block">
+	<div class="w50h50 bg-blue roundrect gentle">roundrect gentle</div>
+	<div class="w50h50 bg-blue roundrect">roundrect</div>
+	<div class="w50h50 bg-blue roundrect sharp">roundrect sharp</div>
+</div>
+```
+*/
+/*
+#styleguide
+シェイプ：両端角丸
+```
+<div class="roundrect-group horizontal clearfix-after">
+	<div class="w50h25 bg-blue float-left">1</div>
+	<div class="w50h25 bg-blue float-left">2</div>
+	<div class="w50h25 bg-blue float-left">3</div>
+	<div class="w50h25 bg-blue float-left">4</div>
+</div>
+
+<div class="roundrect-group vertical">
+	<div class="w25h50 bg-blue">1</div>
+	<div class="w25h50 bg-blue">2</div>
+	<div class="w25h50 bg-blue">3</div>
+</div>
+```
+*/
+@mixin roundrect-group($round-strength) {
+	&.horizontal {
+		:first-child {
+			border-top-left-radius: $global-gap * $round-strength;
+			border-bottom-left-radius: $global-gap * $round-strength;
+		}
+		:last-child {
+			border-top-right-radius: $global-gap * $round-strength;
+			border-bottom-right-radius: $global-gap * $round-strength;
+		}
+	}
+
+	&.vertical {
+		:first-child {
+			border-top-left-radius: $global-gap * $round-strength;
+			border-top-right-radius: $global-gap * $round-strength;
+		}
+		:last-child {
+			border-bottom-left-radius: $global-gap * $round-strength;
+			border-bottom-right-radius: $global-gap * $round-strength;
+		}
+	}
+}
+@mixin roundrect {
+	overflow: hidden;
+
+	border-radius: $global-gap;
+	&.sharp  { border-radius: $global-gap * .5 }
+	&.gentle { border-radius: $global-gap * 2; }
+}
+.roundrect {
+	@include roundrect;
+}
+.roundrect-group.sharp  { @include roundrect-group(.5); }
+.roundrect-group        { @include roundrect-group( 1); }
+.roundrect-group.gentle { @include roundrect-group( 2); }
+/*
+#styleguide
+シェイプ：円
+```
+<div class="w50h50 bg-blue circle">circle</div>
+```
+*/
+.circle {
+	overflow: hidden;
+	border-radius: 100%;
+}
+/*
+#styleguide
+陰影
+```
+<div class="child-as-inline-block">
+	<div class="w50h50 bg-blue circle shadow">shadow</div>
+	<div class="w50h50 bg-blue circle shadow-45">shadow-45</div>
+	<div class="w50h50 bg-blue circle shadow-90">shadow-90</div>
+	<div class="w50h50 bg-blue circle shadow-135">shadow-135</div>
+	<div class="w50h50 bg-blue circle shadow-180">shadow-180</div>
+	<div class="w50h50 bg-blue circle shadow-225">shadow-225</div>
+	<div class="w50h50 bg-blue circle shadow-270">shadow-270</div>
+	<div class="w50h50 bg-blue circle shadow-315">shadow-315</div>
+	<div class="w50h50 bg-blue circle shadow-360">shadow-360</div>
+</div>
+```
+*/
+$s: $shadow-size;
+$c: $shadow-color;
+.shadow     { box-shadow:   0px   0px $s $s $c; border-collapse: separate; }
+.shadow-45  { box-shadow:    $s $s*-1 $s $s $c; border-collapse: separate; }
+.shadow-90  { box-shadow:    $s   0px $s $s $c; border-collapse: separate; }
+.shadow-135 { box-shadow:    $s    $s $s $s $c; border-collapse: separate; }
+.shadow-180 { box-shadow:   0px    $s $s $s $c; border-collapse: separate; }
+.shadow-225 { box-shadow: $s*-1    $s $s $s $c; border-collapse: separate; }
+.shadow-270 { box-shadow: $s*-1   0px $s $s $c; border-collapse: separate; }
+.shadow-315 { box-shadow: $s*-1 $s*-1 $s $s $c; border-collapse: separate; }
+.shadow-360 { box-shadow:   0px $s*-1 $s $s $c; border-collapse: separate; }
+/*
+#styleguide
+光源
+```
+<div class="child-as-inline-block">
+	<div class="w50h50 bg-blue circle light">inset shadow</div>
+	<div class="w50h50 bg-blue circle light-45">light-45</div>
+	<div class="w50h50 bg-blue circle light-90">light-90</div>
+	<div class="w50h50 bg-blue circle light-135">light-135</div>
+	<div class="w50h50 bg-blue circle light-180">light-180</div>
+	<div class="w50h50 bg-blue circle light-225">light-225</div>
+	<div class="w50h50 bg-blue circle light-270">light-270</div>
+	<div class="w50h50 bg-blue circle light-315">light-315</div>
+	<div class="w50h50 bg-blue circle light-360">light-360</div>
+</div>
+```
+*/
+.light     { box-shadow:   0px   0px $s $s $c inset; }
+.light-45  { box-shadow:    $s $s*-1 $s $s $c inset; }
+.light-90  { box-shadow:    $s   0px $s $s $c inset; }
+.light-135 { box-shadow:    $s    $s $s $s $c inset; }
+.light-180 { box-shadow:   0px    $s $s $s $c inset; }
+.light-225 { box-shadow: $s*-1    $s $s $s $c inset; }
+.light-270 { box-shadow: $s*-1   0px $s $s $c inset; }
+.light-315 { box-shadow: $s*-1 $s*-1 $s $s $c inset; }
+.light-360 { box-shadow:   0px $s*-1 $s $s $c inset; }
+/*
+#styleguide
+グラデーション：垂直(IEにも反映させるにはブロック要素のみで利用する)
+実際に使う時は以下のmixinで設定する.
+include generateGradient("vertical", 開始色, 終了色);
+```
+<div class="gradient-sample-vertical padding">vertical</div>
+```
+*/
+.gradient-sample-vertical {
+	@include generateGradient("vertical");
+}
+/*
+#styleguide
+グラデーション：水平(IEにも反映させるにはブロック要素のみで利用する)
+実際に使う時は以下のmixinで設定する.
+include generateGradient("horizontal", 開始色, 終了色);
+```
+<div class="gradient-sample-horizontal padding">horizontal</div>
+```
+*/
+.gradient-sample-horizontal {
+	@include generateGradient("horizontal");
+}

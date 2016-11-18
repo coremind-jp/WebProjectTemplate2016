@@ -1,0 +1,163 @@
+/*
+ガイド、ページ共通で利用する汎用mixin, 変数を格納する.
+@writer COREMIND
+*/
+//----------------------------------pseudo-element wrapper
+@mixin pseudo-before($display: block, $content: "") {
+	&:before {
+		@if $display != null { display: $display; }
+		@if $content != null { content: $content; }
+		@content;
+	}
+}
+@mixin pseudo-after($display: block, $content: "") {
+	&:after {
+		@if $display != null { display: $display; }
+		@if $content != null { content: $content; }
+		@content;
+	}
+}
+@mixin pseudo-before-after() {
+	&:before, &:after {
+		@content;
+	}
+}
+//---------------------------------------------media query
+$media-mobile: "screen and (max-width: 1024px)";
+$media-pc: "screen and (min-width: 1024px)";
+@mixin if-mobile() { @media #{ $media-mobile } { @content; } }
+@mixin if-pc() { @media #{ $media-pc } { @content; } }
+//----------------------------------------------------font
+$font-size-index: 5;
+$font-size-list: 3, 2, 1.5, 1.25, 1, 0.8;
+$font-color: #2a2a2a;
+@mixin font-size-base($per: 1) {
+	@include if-mobile {
+		font-size: 16px * $per;
+	}
+	@include if-pc {
+		font-size: 14px * $per;
+	}
+}
+@function getFontSizeForEM($index) {
+	@return 1em * nth($font-size-list, $index);
+}
+//---------------------------------------------------space
+$global-gap: 10px;
+//----------------------------------------------------grid
+$grid-margin: 2;//must be unit percentage.
+@function calcColSize($width, $margin, $concatNum) {
+	@return ($width + $margin) * $concatNum - $margin + %;
+}
+@mixin generateGrid($resolution, $margin)
+{
+    $gridSize: (100 - $margin * ($resolution - 1)) / $resolution;
+
+    @extend .clearfix-after;
+
+    .col {
+        float: left;
+        display: inline;
+        margin-left: $margin + %;
+
+        &.size1  { width: calcColSize($gridSize, $margin,  1); }
+        &.size2  { width: calcColSize($gridSize, $margin,  2); }
+        &.size3  { width: calcColSize($gridSize, $margin,  3); }
+        &.size4  { width: calcColSize($gridSize, $margin,  4); }
+        &.size5  { width: calcColSize($gridSize, $margin,  5); }
+        &.size6  { width: calcColSize($gridSize, $margin,  6); }
+        &.size7  { width: calcColSize($gridSize, $margin,  7); }
+        &.size8  { width: calcColSize($gridSize, $margin,  8); }
+        &.size9  { width: calcColSize($gridSize, $margin,  9); }
+        &.size10 { width: calcColSize($gridSize, $margin, 10); }
+        &.size11 { width: calcColSize($gridSize, $margin, 11); }
+        &.size12 { width: calcColSize($gridSize, $margin, 12); }
+        &.first { clear: left; margin-left: 0; }
+    }
+
+    @include if-mobile {
+        .col:not(.fixed) {
+            float: none !important;
+            display: block !important;
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+    }
+}
+//---------------------------------------------------color
+@function pageColor()  { @return #101010; }
+@function blockColor() { @return #292930; }
+@function accentColor($scheme: 0) {
+	@if $scheme == 0 {
+		@return #225964;
+	} @else if $scheme == 1 {
+		@return #2e7b8b;
+	} @else {
+		@return #399eb3;
+	}
+}
+//--------------------------------------------------shadow
+$shadow-size: 3px;
+$shadow-color: rgba(0, 0, 0, .5);
+//---------------------------------------------------arrow
+$arrow-wide: 6px;
+$arrow-height: 7px;
+//------------------------------------------------gradient
+@mixin generateGradient($direction: "vertical", $begin-color: #fefefe, $end-color: #a0a0a0) {
+	$ms-gradient: "progid:DXImageTransform.Microsoft.gradient(startColorstr='"+$begin-color+"', endColorstr='"+$end-color+"'";
+
+	@if $direction == "vertical" {
+		-ms-filter: $ms-gradient+", GradientType=0)";
+		background-image: linear-gradient(to bottom, $begin-color, $end-color);
+	}
+	@elseif $direction == "horizontal" {
+		-ms-filter: $ms-gradient+", GradientType=1)";
+		background-image: linear-gradient(to right, $begin-color, $end-color);
+	}
+}
+//---------------------------------------------------image
+@mixin backgorund-retina-image($file-path, $extension, $width, $height, $max-dpr: 1) {
+	@if 1 <= $max-dpr {
+		@media only screen and (-webkit-min-device-pixel-ratio: 1),
+		       only screen and (   min--moz-device-pixel-ratio: 1),
+		       only screen and (     -o-min-device-pixel-ratio: 1/1),
+		       only screen and (        min-device-pixel-ratio: 1),
+		       only screen and (                min-resolution: 96dpi),
+		       only screen and (                min-resolution: 1dppx) {
+			background-image: url($file-path + $extension);
+		}
+	}
+	@if 2 <= $max-dpr {
+		@media only screen and (-webkit-min-device-pixel-ratio: 2),
+		       only screen and (   min--moz-device-pixel-ratio: 2),
+		       only screen and (     -o-min-device-pixel-ratio: 2/1),
+		       only screen and (        min-device-pixel-ratio: 2),
+		       only screen and (                min-resolution: 192dpi),
+		       only screen and (                min-resolution: 2dppx) {
+			background-image: url($file-path + "@2x" + $extension);
+		}
+	}
+	@if 3 <= $max-dpr {
+		@media only screen and (-webkit-min-device-pixel-ratio: 3),
+		       only screen and (   min--moz-device-pixel-ratio: 3),
+		       only screen and (     -o-min-device-pixel-ratio: 3/1),
+		       only screen and (        min-device-pixel-ratio: 3),
+		       only screen and (                min-resolution: 384dpi),
+		       only screen and (                min-resolution: 3dppx) {
+			background-image: url($file-path + "@3x" + $extension);
+		}
+	}
+	@if 4 <= $max-dpr {
+		@media only screen and (-webkit-min-device-pixel-ratio: 4),
+		       only screen and (   min--moz-device-pixel-ratio: 4),
+		       only screen and (     -o-min-device-pixel-ratio: 4/1),
+		       only screen and (        min-device-pixel-ratio: 4),
+		       only screen and (                min-resolution: 768dpi),
+		       only screen and (                min-resolution: 4dppx) {
+			background-image: url($file-path + "@4x" + $extension);
+		}
+	}
+	width: $width;
+	height: $height;
+	background-size: $width $height;
+}

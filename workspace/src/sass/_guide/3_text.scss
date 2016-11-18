@@ -1,0 +1,99 @@
+/*
+#styleguide
+フォントサイズ
+```
+<div class="font-page-title">font-page-title</div>
+<div class="font-article-title">font-article-title</div>
+<div class="font-section-title">font-section-title</div>
+<div class="font-section-subtitle">font-section-subtitle</div>
+<div class="font-normal">font-normal</div>
+<div class="font-small">font-small</div>
+<p class="bold">bold</p>
+```
+*/
+._normal-set {
+	line-height: 1;
+	font-weight: normal;
+}
+._bold-set {
+	line-height: 1;
+	font-weight: bold;
+}
+.font-page-title       { font-size: getFontSizeForEM(1); @extend ._bold-set; }
+.font-article-title    { font-size: getFontSizeForEM(2); @extend ._bold-set; }
+.font-section-title    { font-size: getFontSizeForEM(3); @extend ._bold-set; }
+.font-section-subtitle { font-size: getFontSizeForEM(4); @extend ._bold-set; }
+.font-normal           { font-size: getFontSizeForEM(5); @extend ._normal-set; }
+.font-small            { font-size: getFontSizeForEM(6); @extend ._normal-set; }
+.font-bold             { font-weight: bold   !important; }
+.font-unbold           { font-weight: normal !important; }
+/*
+#styleguide
+文章デフォルト設定
+```
+<article class="body">
+	<h1>Page Title</h1>
+	<hr>
+	<h2>Main Content Title</h2>
+	<hr>
+	<h3>Sub Content Title1</h3>
+	<hr>
+	<h4>Sub Content Title2</h4>
+	<hr>
+	<p>device-pixel-ratioとは、CSSピクセルに対するデバイスのピクセル密度のことです。minと付いているように、最低2以上という意味です。Androidの高解像度ディスプレイも対象に含める場合は1.5と設定するとほとんどのデバイスに対応することが出来ます。</p>
+	<br>
+	<a href="http://google.com" taget="_blink">アンカー</a>
+	<br>
+	<time>2016-11-18</time>
+	<br>
+	<small>これはsmall</small>
+	<br>
+	<b>強調bタグ</b>
+	<br>
+	<strong>強調strongタグ</strong>
+	<br>
+	<em>強調emタグ</em>
+	<br>
+	<q>これはquote</q>
+</article>
+```
+*/
+.body {
+	@extend .font-px;
+	@extend ._normal-set;
+	@extend .fullsize;
+
+	font-family: "游ゴシック Medium", "メイリオ", "ヒラギノ角ゴ Pro W3";
+	letter-spacing: 1.2px;
+	font-weight: lighter;
+
+	article, section, div, p, blockquote {
+		@extend .font-px;
+		line-height: 1.45em;
+	}
+
+	h1 { @extend .font-page-title; }
+	h2 { @extend .font-article-title; }
+	h3 { @extend .font-section-title; }
+	h4 { @extend .font-section-subtitle; }
+	h5 { @extend .font-section-subtitle; }
+	h6 { @extend .font-section-subtitle; }
+	hr { @extend .marginless; @extend .paddingless; }
+
+	a:visited,
+	a:link {
+		color: accentColor(0);
+	}
+	a:hover {
+		color: accentColor(1);
+	}
+	b, strong, em {
+		@extend .font-bold;
+	}
+	time, small {
+		font-size: getFontSizeForEM(6);
+	}
+	q {
+	    font-style: italic;
+	}
+}
