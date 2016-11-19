@@ -5,9 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="keywords" content="<%= @page.head.keyword %>" />
     <meta name="description" content="<%= @page.head.description %>" />
-<% if @config.isSupportedPc : %>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<% end %>
 <% if @config.isSupportedMobile : %>
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0, minimal-ui" />
@@ -26,9 +23,13 @@
     <meta name="twitter:card" content="<%= @config.sns.card %>">
     <meta name="twitter:site" content="<%= @config.sns.site %>">
 <% end %> 
+<% if @config.isSupportedPC : %>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!--[if lt IE9]>
-     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>     
     <![endif]-->
+<% end %>
     <link rel="stylesheet" href="css/guide.css">
 <% if @page.css : %>
     <link rel="stylesheet" href="css/<%= @page.id %>.css">

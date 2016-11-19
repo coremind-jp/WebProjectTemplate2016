@@ -46,15 +46,15 @@
         @extend .clearfix;
     }
 }
-.fullsize-width {
+.full-width {
     width: 100%;
 }
-.fullsize-height {
+.full-height {
 	height: 100%;
 }
 .fullsize {
-	@extend .fullsize-width;
-	@extend .fullsize-height;
+	@extend .full-width;
+	@extend .full-height;
 }
 .view-width {
 	width: 100vw;
