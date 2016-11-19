@@ -1,7 +1,6 @@
 <head>
     <title><%= @page.head.title %></title>
     <link rel="shortcut icon" href="<%= @config.shortcutIconURL %>" />
-
     <meta charset="UTF-8" />
     <meta name="keywords" content="<%= @page.head.keyword %>" />
     <meta name="description" content="<%= @page.head.description %>" />
@@ -19,13 +18,12 @@
     <meta property="og:site_name" content="<%= @config.sns.siteName %>" />
     <meta property="og:description" content="<%= @config.sns.description %>" />
     <meta property="og:locale" content="<%= @config.sns.locale %>" />
-
     <meta name="twitter:card" content="<%= @config.sns.card %>">
     <meta name="twitter:site" content="<%= @config.sns.site %>">
 <% end %> 
 <% if @config.isSupportedPC : %>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!--[if lt IE9]>
+    <!--[if lte IE 8]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>     
     <![endif]-->
@@ -34,7 +32,6 @@
 <% if @page.css : %>
     <link rel="stylesheet" href="css/<%= @page.id %>.css">
 <% end %>
-
 <% if @page.jsx : %>
     <script src="https://fb.me/react-0.13.3.js"></script>
 <% end %>
