@@ -7,7 +7,7 @@ module.exports = {
         "copyright"         : "COREMIND",
         "isHTML5"           : true,
         "isSupportedMobile" : true,
-        "isSupportedPc"     : true,
+        "isSupportedPC"     : true,
         "homeURL"           : "http://coremind.jp",
         "shortcutIconURL"   : "",
 
