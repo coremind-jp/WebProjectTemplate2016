@@ -81,7 +81,8 @@
 	hr { @extend .marginless; @extend .paddingless; }
 
 	a:visited,
-	a:link {
+	a:link,
+	a:active {
 		color: accentColor(0);
 	}
 	a:hover {

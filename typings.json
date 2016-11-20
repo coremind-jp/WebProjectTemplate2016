@@ -1,0 +1,6 @@
+{
+  "name": "coremind_web",
+  "globalDependencies": {
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#55978642a28584b258e511046b9fb9d09c8a80a4"
+  }
+}

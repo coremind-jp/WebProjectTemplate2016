@@ -1,11 +1,14 @@
 <body id="#<% @page.id %>" class="body">
+<% if @page.js : %>
+	<% include "_lib/parts/noscript.ect" %>
+<% end %>
 <% include "_lib/block/header.ect" %>
 <% content content %>
 <% include "_lib/block/footer.ect" %>
+</body>
 <% if @page.js == "append": %>
     <script src="../js/<%= @page.id %>.js"></script>
 <% end %>
-</body>
 <% if @page.jsx : %>
     <script src="js/<%= @page.id %>.react.js"></script>
 <% end %>

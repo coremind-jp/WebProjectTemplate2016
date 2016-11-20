@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module"		: "commonjs",
+        "noImplicitAny"	: true,
+        "sourceMap"		: true,
+        "target"		: "ES5",
+        "newLine"		: "CRLF", //'LF' for linux
+        "noEmitOnError"	: true,
+        "jsx"			: "react",
+        "removeComments": true
+        //outFile: false,
+    }
+}

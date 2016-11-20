@@ -523,18 +523,18 @@
 			"file": "gulpfile.js",
 			"settings":
 			{
-				"buffer_size": 8034,
+				"buffer_size": 7995,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "siteConfigure.js",
+			"file": "tsconfig.json",
 			"settings":
 			{
-				"buffer_size": 1580,
+				"buffer_size": 317,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -550,7 +550,7 @@
 			"file": "workspace/src/sass/_guide/1_helper.scss",
 			"settings":
 			{
-				"buffer_size": 3008,
+				"buffer_size": 1286,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -559,7 +559,7 @@
 			"file": "workspace/src/sass/_guide/2_decoration.scss",
 			"settings":
 			{
-				"buffer_size": 5432,
+				"buffer_size": 9619,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -568,7 +568,7 @@
 			"file": "workspace/src/sass/_guide/3_text.scss",
 			"settings":
 			{
-				"buffer_size": 2400,
+				"buffer_size": 2411,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -577,7 +577,7 @@
 			"file": "workspace/src/sass/_guide/4_layout.scss",
 			"settings":
 			{
-				"buffer_size": 18900,
+				"buffer_size": 18870,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -592,33 +592,6 @@
 			}
 		},
 		{
-			"file": "workspace/src/jsx/index.jsx",
-			"settings":
-			{
-				"buffer_size": 2711,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "workspace/src/ts/ReacctTutorial.tsx",
-			"settings":
-			{
-				"buffer_size": 580,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "workspace/src/ts/test.ts",
-			"settings":
-			{
-				"buffer_size": 0,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "workspace/src/js/index.js",
 			"settings":
 			{
@@ -628,45 +601,20 @@
 			}
 		},
 		{
+			"file": "workspace/src/ts/common.tsx",
+			"settings":
+			{
+				"buffer_size": 68,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "workspace/src/ect/index.ect",
 			"settings":
 			{
-				"buffer_size": 891,
+				"buffer_size": 154,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "workspace/src/ect/_lib/block/header.ect",
-			"settings":
-			{
-				"buffer_size": 243,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "workspace/src/ect/_lib/block/head.ect",
-			"settings":
-			{
-				"buffer_size": 1925,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "workspace/src/ect/_lib/block/body.ect",
-			"settings":
-			{
-				"buffer_size": 355,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "workspace/src/ect/_lib/block/footer.ect",
-			"settings":
-			{
-				"buffer_size": 51,
 				"line_ending": "Windows"
 			}
 		}
@@ -703,7 +651,7 @@
 				"Preferences: Browse Packages"
 			]
 		],
-		"width": 487.0
+		"width": 432.0
 	},
 	"console":
 	{
@@ -729,28 +677,40 @@
 	"expanded_folders":
 	[
 		"/E/coremind_web",
+		"/E/coremind_web/typings",
 		"/E/coremind_web/workspace",
 		"/E/coremind_web/workspace/src",
 		"/E/coremind_web/workspace/src/ect",
-		"/E/coremind_web/workspace/src/ect/_lib",
-		"/E/coremind_web/workspace/src/ect/_lib/block",
-		"/E/coremind_web/workspace/src/ect/_lib/layout",
-		"/E/coremind_web/workspace/src/ect/_lib/parts",
 		"/E/coremind_web/workspace/src/js",
 		"/E/coremind_web/workspace/src/jsx",
-		"/E/coremind_web/workspace/src/lib",
-		"/E/coremind_web/workspace/src/sass",
-		"/E/coremind_web/workspace/src/sass/_guide",
 		"/E/coremind_web/workspace/src/ts",
 		"/E/coremind_web/workspace/www",
-		"/E/coremind_web/workspace/www/asset",
-		"/E/coremind_web/workspace/www/css"
+		"/E/coremind_web/workspace/www/css",
+		"/E/coremind_web/workspace/www/js",
+		"/E/coremind_web/workspace/www/map"
 	],
 	"file_history":
 	[
+		"/C/Users/PC/AppData/Local/Sublime Text 3/Cache/Sass/Syntaxes/Sass.tmLanguage.rcache",
+		"/E/coremind_web/typings/globals/jquery/typings.json",
+		"/E/coremind_web/typings/index.d.ts",
+		"/E/coremind_web/workspace/src/ect/_lib/block/footer.ect",
+		"/E/coremind_web/workspace/src/ect/_lib/block/header.ect",
+		"/E/coremind_web/workspace/src/ect/_lib/block/body.ect",
+		"/E/coremind_web/workspace/src/ect/_lib/block/head.ect",
+		"/E/coremind_web/workspace/src/ect/_lib/block/noscript.ect",
+		"/E/coremind_web/workspace/www/js/common.js",
+		"/E/coremind_web/workspace/src/jsx/common.ts",
+		"/E/coremind_web/workspace/src/jsx/index.jsx",
+		"/E/coremind_web/siteConfigure.js",
+		"/E/coremind_web/package.json",
+		"/E/coremind_web/tsd.json",
+		"/E/coremind_web/typings.json",
+		"/E/coremind_web/workspace/src/ts/ReacctTutorial.tsx",
+		"/E/coremind_web/workspace/src/ts/test.ts",
+		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/_icons.scss",
 		"/E/coremind_web/workspace/www/css/index.css",
 		"/E/coremind_web/workspace/src/sass/index.scss",
-		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/_icons.scss",
 		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/_variables.scss",
 		"/E/coremind_web/workspace/src/lib/font-awesome-4.7.0/scss/font-awesome.scss",
 		"/E/coremind_web/workspace/www/css/guide.css",
@@ -765,8 +725,6 @@
 		"/E/coremind_web/workspace/src/js/index.js",
 		"/E/coremind_web/workspace/www/js/Test.js",
 		"/E/coremind_web/workspace/www/comments.json",
-		"/E/coremind_web/workspace/src/ect/_lib/block/body.ect",
-		"/E/coremind_web/workspace/src/ect/_lib/block/head.ect",
 		"/E/coremind_web/workspace/www/js/index.react.js",
 		"/E/coremind_web/workspace/www/jsx/index.js",
 		"/E/coremind_web/workspace/src/ect/index.ect",
@@ -784,9 +742,6 @@
 		"/E/coremind_web/workspace/public/index.html",
 		"/E/coremind_web/workspace/ect-wrapper.js",
 		"/E/coremind_web/node_modules/gulp-ect/index.js",
-		"/E/coremind_web/workspace/src/ect/_lib/block/header.ect",
-		"/E/coremind_web/workspace/src/ect/_lib/block/footer.ect",
-		"/E/coremind_web/package.json",
 		"/E/coremind_web/workspace/src/ect/_lib/block/base-html",
 		"/E/coremind_web/workspace/src/ect/_lib/block/base-meta-head.ect",
 		"/E/coremind_web/workspace/src/ect/_lib/block/base-body.ect",
@@ -863,19 +818,7 @@
 		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/parts/eventitem/EventItemDialog.as",
 		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/api/ServerAPIClient.as",
 		"/E/Grandharem-bitbucket/External/src/djrpg/grandharem/view/naisei/NaiseiPupSlideQuickbuild.as",
-		"/E/Grandharem-bitbucket/External/src/djrpg/grandharem/view/naisei/NaiseiPupSlideMaterial.as",
-		"/E/Grandharem-bitbucket/External/src/djrpg/grandharem/view/naisei/NaiseiPupSlideIncrease.as",
-		"/E/Grandharem-bitbucket/External/src/djrpg/grandharem/view/naisei/NaiseiPupSlideLeveling.as",
-		"/E/Grandharem-bitbucket/Shared/srcExternal/net/ConnectMan.as",
-		"/E/Grandharem-bitbucket/Shared/srcExternal/battle/BattleMain.as",
-		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/scene/Shop.as",
-		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/scene/ManzokuCity.as",
-		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/parts/StrategyMapBaseDescription.as",
-		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/parts/ninecard/NineCard.as",
-		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/dataObject/RecruitmentProcessBridge.as",
-		"/E/Grandharem-bitbucket/Shared/src/djrpg/grandharem/view/scene/TopPage.as",
-		"/E/Grandharem-bitbucket/Shared/srcExternal/hensei/HenseiTop.as",
-		"/E/Grandharem-bitbucket/Shared/srcExternal/friendselect/FriendSelectTop.as"
+		"/E/Grandharem-bitbucket/External/src/djrpg/grandharem/view/naisei/NaiseiPupSlideMaterial.as"
 	],
 	"find":
 	{
@@ -942,6 +885,31 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"typescript",
+			"height: 20px",
+			"<b>",
+			"</b>",
+			"</div>",
+			"input type=\"button\"",
+			"button",
+			"times",
+			"fa-times",
+			"10px",
+			"<p>",
+			"roundrect",
+			"color ",
+			" bg",
+			"bg",
+			"r-",
+			"e77",
+			".8",
+			"90",
+			"d",
+			"3",
+			"0",
+			"err",
+			"full",
+			"fullsize",
 			"sample-wrapper",
 			"fill",
 			"fullsize",
@@ -1044,32 +1012,7 @@
 			"shape-box",
 			"p",
 			"div",
-			"}",
-			"span",
-			"style=",
-			"style",
-			"defaultFontSize",
-			" fixed",
-			"fixed ",
-			"is-mobile",
-			"col ",
-			"+%;",
-			"; }",
-			"@include colSize",
-			"+%",
-			"colSize",
-			"colWidth",
-			"width:",
-			"calcGridWidth",
-			"is-5",
-			"is-7",
-			"is-4",
-			"is-6",
-			"2",
-			"11",
-			"marginLeft",
-			"; }",
-			"gridResolution"
+			"}"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1088,7 +1031,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1097,15 +1040,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8034,
+						"buffer_size": 7995,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4148,
-								4148
+								6239,
+								6239
 							]
 						],
 						"settings":
@@ -1118,48 +1061,46 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1056.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 3,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
 				{
 					"buffer": 1,
-					"file": "siteConfigure.js",
+					"file": "tsconfig.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1580,
+						"buffer_size": 317,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1580,
-								1580
+								317,
+								317
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 2,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 4,
-			"sheets":
-			[
+				},
 				{
 					"buffer": 2,
 					"file": "workspace/src/sass/_core.scss",
@@ -1173,8 +1114,8 @@
 						"selection":
 						[
 							[
-								2742,
-								2742
+								530,
+								530
 							]
 						],
 						"settings":
@@ -1184,10 +1125,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 240.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1196,15 +1137,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3008,
+						"buffer_size": 1286,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3008,
-								3008
+								1041,
+								1041
 							]
 						],
 						"settings":
@@ -1212,10 +1153,10 @@
 							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1224,15 +1165,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5432,
+						"buffer_size": 9619,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1901,
-								1901
+								6400,
+								6400
 							]
 						],
 						"settings":
@@ -1246,10 +1187,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2858.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -1258,15 +1199,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2400,
+						"buffer_size": 2411,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								182,
-								182
+								2225,
+								2239
 							]
 						],
 						"settings":
@@ -1278,7 +1219,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1287,15 +1228,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18900,
+						"buffer_size": 18870,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16242,
-								16242
+								18870,
+								18870
 							]
 						],
 						"settings":
@@ -1311,10 +1252,10 @@
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 10035.0,
+						"translation.y": 9878.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1330,8 +1271,8 @@
 						"selection":
 						[
 							[
-								127,
-								127
+								7756,
+								7779
 							]
 						],
 						"settings":
@@ -1340,129 +1281,20 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2573.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 8,
-					"file": "workspace/src/jsx/index.jsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2711,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								93,
-								93
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"rulers":
-							[
-								80
-							],
-							"syntax": "Packages/React Templates/react-templates.tmLanguage",
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							}
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "workspace/src/ts/ReacctTutorial.tsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 580,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								580,
-								580
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"rulers":
-							[
-								80
-							],
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							},
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 240.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "workspace/src/ts/test.ts",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
 					"file": "workspace/src/js/index.js",
 					"semi_transient": false,
 					"settings":
@@ -1486,30 +1318,65 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 4,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
+				},
 				{
-					"buffer": 12,
-					"file": "workspace/src/ect/index.ect",
+					"buffer": 9,
+					"file": "workspace/src/ts/common.tsx",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 891,
+						"buffer_size": 68,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								891,
-								891
+								68,
+								68
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScriptReact.tmLanguage",
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							},
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 10,
+					"file": "workspace/src/ect/index.ect",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 154,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								154,
+								154
 							]
 						],
 						"settings":
@@ -1517,128 +1384,10 @@
 							"syntax": "Packages/HTML/HTML.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 134.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "workspace/src/ect/_lib/block/header.ect",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 243,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								243,
-								243
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ECT/Syntaxes/ect_html.tmLanguage"
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "workspace/src/ect/_lib/block/head.ect",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1925,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ECT/Syntaxes/ect_html.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "workspace/src/ect/_lib/block/body.ect",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 355,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								38,
-								38
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 16,
-					"file": "workspace/src/ect/_lib/block/footer.ect",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 51,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								51,
-								51
-							]
-						],
-						"settings":
-						{
-							"rulers":
-							[
-								80
-							],
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1684,9 +1433,9 @@
 		"cols":
 		[
 			0.0,
-			0.23171547436,
-			0.520906268663,
-			0.763801342146,
+			0.306676227892,
+			0.530630305008,
+			0.784518211597,
 			1.0
 		],
 		"rows":
@@ -1754,7 +1503,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 2,
 	"settings":
 	{
 	},

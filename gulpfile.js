@@ -13,21 +13,20 @@ var rootSrc  = root+"/src";
 var rootDest = root+"/www";
 var dir = {
     src:  {
-        ect  : rootSrc+"/ect",
-        sass : rootSrc+"/sass",
-        guide: rootSrc+"/sass/_guide",
-        js   : rootSrc+"/js",
-        jsx  : rootSrc+"/jsx",
-        ts   : rootSrc+"/ts",
+        ect   : rootSrc+"/ect",
+        sass  : rootSrc+"/sass",
+        guide : rootSrc+"/sass/_guide",
+        script: rootSrc+"/script",
         asset: rootSrc+"/asset"
     },
     dest: {
-        html : rootDest,
-        css  : rootDest+"/css",
-        guide: rootDest+"/guide",
-        js   : rootDest+"/js",
-        asset: rootDest+"/asset",
-        maps : {
+        html  : rootDest,
+        css   : rootDest+"/css",
+        guide : rootDest+"/guide",
+        script: rootDest+"/js",
+        tds   : rootDest+"/js/definitions",
+        asset : rootDest+"/asset",
+        maps  : {
             relative: "../map",
             absolute: rootDest+"/map"
         },
@@ -49,22 +48,14 @@ var params = {
         clean: true,
         verbose: true,
         out: dir.dest.guide,
-        css: "../css/guide.css"
+        css: "../css/common.css"
     },
     prefixer: {
         browser: [ 'last 2 versions', 'ie 9' ]
     },
     ect: {
         options: { root: dir.src.ect, ext: ".ect" },
-        data: require("./siteConfigure.js")
-    },
-    typescript: {
-        target: "ES6",
-        newLine: 'CRLF', //'LF' for linux
-        noEmitOnError: true,
-        jsx: "react",
-        //outFile: false,
-        removeComments: true
+        data: require("./ectconfig.js")
     }
 };
 
@@ -167,51 +158,56 @@ var uglify = require("gulp-uglify");
 gulp.task("build-js", function()
 {
     return gulp
-        .src(glob(".js", dir.src.js))
+        .src(glob(".js", dir.src.script))
         .pipe(plumber(params.plumber))
         //.pipe(uglify())
-        .pipe(gulp.dest(dir.dest.js))
+        .pipe(gulp.dest(dir.dest.script))
         .pipe(_if(isExistBrowser, browser.stream({ once: true })));
 });
 gulp.task("dev-js", ["try-start-server"], function() {
-    gulp.watch(glob(".js", dir.src.js), ["build-js"]);
+    gulp.watch(glob(".js", dir.src.script), ["build-js"]);
 });
 
 /*
-typescriptプリコンパイル
+typescriptコンパイル
 */
-var typescript = require("gulp-typescript");
+var merge  = require("merge2");
+var gulpTS = require("gulp-typescript");
 gulp.task("build-typescript", function()
 {
-    return gulp
-        .src(glob("{ts, tsx}", dir.src.ts))
+    var project  = gulpTS.createProject("tsconfig.json", { typescript: require("typescript") });
+    var tsResult = gulp
+        .src(glob("{ts,tsx}", dir.src.script, function(files) {
+            return ["typings/index.d.ts"].concat(files);
+        }))
         .pipe(plumber(params.plumber))
-        .pipe(sourceMap.init())
-            .pipe(typescript(params.typescript))
-        .pipe(sourceMap.write(dir.dest.maps.relative))
-        .pipe(gulp.dest(dir.dest.js))
-        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
+        .pipe(project());
+
+    return merge([
+        tsResult.dts.pipe(gulp.dest(dir.dest.tds)),
+        tsResult.js.pipe(gulp.dest(dir.dest.script))
+    ]);
 });
 gulp.task("dev-typescript", ["try-start-server"], function() {
-    gulp.watch(glob("{ts, tsx}", dir.src.ts), ["build-typescript"]);
+    gulp.watch(glob("{ts,tsx}", dir.src.script), ["build-typescript"]);
 });
 
 /*
-Reactプリコンパイル
+Reactコンパイル
 */
 var react = require("gulp-react");
 gulp.task("build-react", function()
 {
     return gulp
-        .src(glob(".jsx", dir.src.jsx))
+        .src(glob(".jsx", dir.src.script))
         .pipe(plumber(params.plumber))
         .pipe(rename({ suffix: ".react" }))
         .pipe(react())
-        .pipe(gulp.dest(dir.dest.js))
+        .pipe(gulp.dest(dir.dest.script))
         .pipe(_if(isExistBrowser, browser.stream({ once: true })));
 });
 gulp.task("dev-react", ["try-start-server"], function() {
-    gulp.watch(glob(".jsx", dir.src.jsx), ["build-react"]);
+    gulp.watch(glob(".jsx", dir.src.script), ["build-react"]);
 });
 
 /*
@@ -225,10 +221,10 @@ gulp.task("build-sass", function()
     return gulp
         .src(glob(".scss", dir.src.sass))
         .pipe(plumber(params.plumber))
-        .pipe(sourceMap.init())
+        // .pipe(sourceMap.init())
             .pipe(sass(params.sass))
             .pipe(prefixer(params.prefixer))
-        .pipe(sourceMap.write(dir.dest.maps.relative))
+        // .pipe(sourceMap.write(dir.dest.maps.relative))
         .pipe(gulp.dest(dir.dest.css))
         .pipe(_if(isExistBrowser, browser.stream({ once: true })));
 });
@@ -247,7 +243,7 @@ gulp.task("build-guide", function()
         .pipe(plumber(params.plumber))
         .pipe(frontnote(params.frontnote))
         .pipe(sourceMap.init())
-            .pipe(concat("guide.css"))
+            .pipe(concat("common.css"))
             .pipe(sass(params.sass))
             .pipe(prefixer(params.prefixer))
         .pipe(sourceMap.write(dir.dest.maps.relative))
