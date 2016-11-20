@@ -22,7 +22,6 @@ include backgorund-retina-image(画像へのパス, 拡張子, DotPerRatio);
 	.w25h50  { width: 25px; height: 50px; }
 	.w50h25  { width: 50px; height: 25px; }
 	.child-as-inline-block > * { display: inline-block; margin: 10px; }
-	.float-left { float: left; }
 </style>
 <div class="child-as-inline-block">
 	<div class="w50h50 bg-blue roundrect gentle">roundrect gentle</div>
@@ -173,4 +172,152 @@ include generateGradient("horizontal", 開始色, 終了色);
 */
 .gradient-sample-horizontal {
 	@include generateGradient("horizontal");
+}
+/*
+#styleguide
+カラーボックス
+```
+<style>
+	.color-box-sample {
+		margin-bottom: 10px;
+	}
+</style>
+<div class="body">
+	<div class="color-box-sample roundrect error-bg padding">error color</div>
+	<div class="color-box-sample roundrect warning-bg padding">warning color</div>
+	<div class="color-box-sample roundrect success-bg padding">success color</div>
+	<div class="color-box-sample roundrect info-bg padding">info color</div>
+	<div class="color-box-sample roundrect system-bg padding">system color</div>
+</div>
+```
+*/
+.error-bg	  { background-color: rgba(#e77, 1); }
+.error-text   { color: rgba(#e77, 1); }
+
+.warning-bg   { background-color: rgba(#ed7, 1); }
+.warning-text { color: rgba(#ed7, 1); }
+
+.success-bg   { background-color: rgba(#7e7, 1); }
+.success-text { color: rgba(#7e7, 1); }
+
+.info-bg      { background-color: rgba(#79e, 1); }
+.info-text    { color: rgba(#79e, 1); }
+
+.system-bg    { background-color: rgba(#ddd, 1); }
+.system-text  { color: rgba(#ddd, 1); }
+/*
+#styleguide
+borderを利用したアロー
+```
+<div class="body">
+	<div style="position: relative; text-indent: 15px;">
+		<div class="arrow-up"></div>.arrow-up
+	</div>
+	<div style="position: relative; text-indent: 15px;">
+		<div class="arrow-down"></div>.arrow-down
+	</div>
+	<div style="position: relative; text-indent: 15px;">
+		<div class="arrow-left"></div>.arrow-left
+	</div>
+	<div style="position: relative; text-indent: 15px;">
+		<div class="arrow-right"></div>.arrow-right
+	</div>
+</div>
+```
+*/
+$arrow-wide: 5px;
+$arrow-height: 7px;
+.arrow {
+	border: $arrow-wide solid transparent;
+	pointer-events: none;
+	width: 0;
+	height: 0;
+	position: absolute;
+	top: 50%;
+}
+.arrow-down {
+	@extend .arrow;
+	border-top: $arrow-height solid #000;
+	margin-top: -$arrow-height * .5;
+}
+.arrow-up {
+	@extend .arrow;
+	border-bottom: $arrow-height solid #000;
+	margin-top: -($arrow-wide + $arrow-height * .5);
+}
+.arrow-left {
+	@extend .arrow;
+	border-right: $arrow-height solid #000;
+	margin-top: -$arrow-height * .5;
+	margin-left: -$arrow-wide;
+}
+.arrow-right {
+	@extend .arrow;
+	border-left: $arrow-height solid #000;
+	margin-top: -$arrow-height * .5;
+}
+.arrow-down-after   { @include pseudo-after(inline-block)  { @extend .arrow-down;  } }
+.arrow-down-before  { @include pseudo-before(inline-block) { @extend .arrow-down;  } }
+.arrow-up-after     { @include pseudo-after(inline-block)  { @extend .arrow-up;    } }
+.arrow-up-before    { @include pseudo-before(inline-block) { @extend .arrow-up;    } }
+.arrow-left-after   { @include pseudo-after(inline-block)  { @extend .arrow-left;  } }
+.arrow-left-before  { @include pseudo-before(inline-block) { @extend .arrow-left;  } }
+.arrow-right-after  { @include pseudo-after(inline-block)  { @extend .arrow-right; } }
+.arrow-right-before { @include pseudo-before(inline-block) { @extend .arrow-right; } }
+/*
+#styleguide
+汎用閉じるボタン
+```
+<div class="clearfix-after anchor body">
+	<div class="float-left full-width system-bg" style="position:absolute; z-index: -1; height: 10px;"></div>
+	<div class="float-left full-width info-bg" style="margin-top: 10px; position:absolute; z-index: -1; height: 10px;"></div>
+	<div class="float-left full-width" style="margin-top: 20px; position:absolute; z-index: -1; height: 10px;"></div>
+	<div class="float-left full-width success-bg" style="margin-top: 30px; position:absolute; z-index: -1; height: 10px;"></div>
+	<div class="inline-block">
+		<small><b>enabled</b></small>
+		<button class="fa-btn close"></button>
+		<button class="fa-btn close roundrect sharp"></button>
+		<button class="fa-btn close circle"></button>
+	</div>
+	<div class="inline-block">
+		<small><b>disabled</b></small>
+		<button class="fa-btn close" disabled></button>
+		<button class="fa-btn close roundrect sharp" disabled></button>
+		<button class="fa-btn close circle" disabled></button>
+	</div>
+</div>
+```
+*/
+.fa-btn {
+	border: none;
+	font-size: 20px;
+	width: 40px;
+	height: 40px;
+
+	&.close {
+		@extend .fa;
+		@extend .fa-times;
+
+		&:active {
+			padding: 0;//firefox css reset;
+		}
+	}
+
+	//default-style
+    color: #fff;
+	background: rgba(#000, .2);
+
+	&:hover {
+		background: rgba(#000, .1);
+	}
+
+	&:active {
+	    color: #000;
+		background: rgba(#000, .2);
+	}
+
+	&:disabled {
+		color: #000;
+		background: rgba(#000, .5);
+	}
 }

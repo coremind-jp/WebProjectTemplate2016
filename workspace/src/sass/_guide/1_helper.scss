@@ -18,13 +18,9 @@
 .inline-block        { display: inline-block; }
 .block               { display: block; }
 
-.inline.right        { text-align: right; }
-.inline.center       { text-align: center; }
-.inline.left         { text-align: left; }
-
-.inline-block.right  { width: 100%; text-align: right; }
-.inline-block.center { width: 100%; text-align: center; }
-.inline-block.left   { width: 100%; text-align: left; }
+.inline-right        { text-align: right; }
+.inline-center       { text-align: center; }
+.inline-left         { text-align: left; }
 
 .float-right  { float: right; }
 .float-left   { float: left; }
@@ -66,46 +62,3 @@
 	@extend .view-width;
 	@extend .view-height;
 }
-$arrow-wide: 5px;
-$arrow-height: 7px;
-.arrow {
-	pointer-events: none;
-	width: 0;
-	height: 0;
-	position: absolute;
-	top: 50%;
-}
-.arrow-down {
-	@extend .arrow;
-	border: $arrow-wide solid transparent;
-	border-top: $arrow-height solid #000;
-	margin-top: -($arrow-height - $arrow-wide);
-}
-.arrow-up {
-	@extend .arrow;
-	border: $arrow-wide solid transparent;
-	border-bottom: $arrow-height solid #000;
-	margin-top: -($arrow-height - $arrow-wide);
-}
-.arrow-left {
-	@extend .arrow;
-	border: $arrow-wide solid transparent;
-	border-right: $arrow-height solid #000;
-	margin-top: $arrow-height - $arrow-wide;
-	margin-top: -($arrow-wide / 2);
-}
-.arrow-right {
-	@extend .arrow;
-	border: $arrow-wide solid transparent;
-	border-left: $arrow-height solid #000;
-	margin-top: -($arrow-wide / 2);
-}
-.arrow-down-after   { @include pseudo-after(inline-block)  { @extend .arrow-down;  } }
-.arrow-down-before  { @include pseudo-before(inline-block) { @extend .arrow-down;  } }
-.arrow-up-after     { @include pseudo-after(inline-block)  { @extend .arrow-up;    } }
-.arrow-up-before    { @include pseudo-before(inline-block) { @extend .arrow-up;    } }
-.arrow-left-after   { @include pseudo-after(inline-block)  { @extend .arrow-left;  } }
-.arrow-left-before  { @include pseudo-before(inline-block) { @extend .arrow-left;  } }
-.arrow-right-after  { @include pseudo-after(inline-block)  { @extend .arrow-right; } }
-.arrow-right-before { @include pseudo-before(inline-block) { @extend .arrow-right; } }
-//--------------------------------------------global style
