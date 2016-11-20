@@ -7,7 +7,7 @@ var concat    = require("gulp-concat");
 var _if       = require("gulp-if");
 var rename    = require("gulp-rename");
 
-//path variable & utility function-------------
+//path variable--------------------------------
 var root     = "./workspace";
 var rootSrc  = root+"/src";
 var rootDest = root+"/www";
