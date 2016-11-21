@@ -1,7 +1,7 @@
 {
   "name": "coremind_web",
   "version": "1.0.0",
-  "description": "",
+  "description": "WEBページ制作テンプレート",
   "main": "index.js",
   "scripts": {
     "test": "test"
@@ -14,13 +14,11 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-concat": "^2.6.0",
-    "gulp-cssmin": "^0.1.7",
     "gulp-ect-simple": "^0.1.0",
     "gulp-frontnote": "^2.0.1",
     "gulp-if": "^2.0.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
-    "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-typescript": "^3.1.2",
