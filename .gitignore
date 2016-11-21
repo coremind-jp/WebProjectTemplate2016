@@ -1,2 +1,4 @@
 node_modules/
 workspace/www/
+*.sublime-project
+*.sublime-workspace
