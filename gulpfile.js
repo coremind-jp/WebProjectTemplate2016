@@ -24,17 +24,15 @@ var dir = {
         }
     },
     dest: {
-        html  : rootDest,
-        css   : rootDest+"/css",
-        guide : rootDest+"/guide",
-        script: rootDest+"/js",
-        tds   : rootDest+"/js/definitions",
-        asset : rootDest+"/asset",
-        maps  : {
-            relative: "../css",
-            absolute: rootDest+"/map"
-        },
-        temp : rootDest+"/_temp"
+        html   : rootDest,
+        css    : rootDest+"/css",
+        guide  : rootDest+"/guide",
+        script : rootDest+"/js",
+        typeDoc: rootDest+"/typedoc",
+        tds    : rootDest+"/js/definitions",
+        asset  : rootDest+"/asset",
+        maps   : { relative: "../css" },
+        temp   : rootDest+"/_temp"
     }
 };
 
@@ -63,6 +61,12 @@ var params = {
         moduleList: ["common"],
         entryFile : "Main.ts",
         outputDir : dir.dest.script
+    },
+    typeDoc: {
+            module: "commonjs",
+            target: "es5",
+            out: dir.dest.typeDoc,
+            name: "typescript documentation"
     },
     sass: {
         outputStyle: "compressed",
@@ -209,6 +213,15 @@ var gulpTS = require("gulp-typescript");
     glob("{ts,tsx}", dir.src.script, function(f) { return ["typings/index.d.ts"].concat(f); }),
     glob("{ts,tsx}", dir.src.script)
 );
+
+/*
+ドキュメント生成
+*/
+var typeDoc = require("gulp-typedoc");
+gulp.task("typedoc", function() {
+    return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
+        .pipe(typeDoc(params.typeDoc));
+});
 
 
 
