@@ -17,6 +17,7 @@
     "gulp-ect-simple": "^0.1.0",
     "gulp-frontnote": "^2.0.1",
     "gulp-if": "^2.0.2",
+    "gulp-image": "^2.7.2",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^2.3.2",

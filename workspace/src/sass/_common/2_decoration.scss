@@ -10,7 +10,7 @@ include backgorund-retina-image(画像へのパス, 拡張子, DotPerRatio);
 ```
 */
 .sample-image {
-	@include backgorund-retina-image("../asset/test", ".png", 150px, 150px, 3);
+	@include backgorund-retina-image("../asset/150x150", ".png", 150px, 150px, 3);
 }
 /*
 #styleguide

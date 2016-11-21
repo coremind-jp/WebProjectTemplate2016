@@ -43,6 +43,17 @@ var params = {
     plumber: {
         errorHandler: notify.onError("Error: <%= error.message %>")
     },
+    image: {
+        pngquant: true,
+        optipng: false,
+        zopflipng: true,
+        jpegRecompress: false,
+        jpegoptim: true,
+        mozjpeg: true,
+        gifsicle: true,
+        svgo: true,
+        concurrent: 10
+    },
     ect: {
         options: { root: dir.src.ect, ext: ".ect" },
         data: require("./ectconfig.js")
@@ -107,6 +118,24 @@ function createTaskSet(taskName, srcGlob, watchGlob, buildFunction)
     addedTaskSet.push(taskName);
 };
 
+//-------------------------------------------------------------------------image
+/*
+画像最適化
+*/
+var image = require("gulp-image");
+(function(srcGlob, watchGlob)
+{
+    createTaskSet("image", srcGlob, srcGlob, function()
+    {
+        return gulp.src(srcGlob)
+            .pipe(plumber(params.plumber))
+            .pipe(image(params.image))
+            .pipe(gulp.dest(dir.dest.asset));
+    });
+})(glob("{jpg,jpeg,png,gif,svg}", dir.src.asset));
+
+
+
 //---------------------------------------------------------------------ECT(html)
 /*
 テンプレートからhtmlを生成
@@ -122,6 +151,7 @@ var ect = require("gulp-ect-simple");
             .pipe(gulp.dest(dir.dest.html));
     });
 })(glob(".ect", dir.src.ect));
+
 
 
 //----------------------------------------------------------------typescript(js)
