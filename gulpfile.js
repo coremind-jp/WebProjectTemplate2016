@@ -1,23 +1,28 @@
-//package list---------------------------------
-var gulp      = require("gulp");              //task runner
-var del       = require("del");               //file, directory delete
-var plumber   = require("gulp-plumber");      //Prevent pipe breaking caused by errors from gulp plugins
-var notify    = require("gulp-notify");       //notification (dosnt work for win10)
+//----------------------------------------------------------utility package list
+var gulp      = require("gulp");          //task runner
+var del       = require("del");           //file, directory delete
+var plumber   = require("gulp-plumber");  //Prevent pipe breaking caused by errors from gulp plugins
+var notify    = require("gulp-notify");   //notification (dosnt work for win10)
 var concat    = require("gulp-concat");
 var _if       = require("gulp-if");
 var rename    = require("gulp-rename");
+var sourceMap = require("gulp-sourcemaps");
+var sequence  = require("run-sequence");
 
-//path variable--------------------------------
+//----------------------------------------------------------------path parameter
 var root     = "./workspace";
 var rootSrc  = root+"/src";
 var rootDest = root+"/www";
 var dir = {
     src:  {
         ect   : rootSrc+"/ect",
-        sass  : rootSrc+"/sass",
-        guide : rootSrc+"/sass/_guide",
+        asset : rootSrc+"/asset",
         script: rootSrc+"/script",
-        asset: rootSrc+"/asset"
+        sass  : rootSrc+"/sass",
+        common: {
+            script: rootSrc+"/script/_common",
+            sass:   rootSrc+"/sass/_common"
+        }
     },
     dest: {
         html  : rootDest,
@@ -34,15 +39,28 @@ var dir = {
     }
 };
 
-//module parameter-----------------------------
+//-------------------------------------------------------------package parameter
 var params = {
     plumber: {
         errorHandler: notify.onError("Error: <%= error.message %>")
+    },
+    ect: {
+        options: { root: dir.src.ect, ext: ".ect" },
+        data: require("./ectconfig.js")
+    },
+    typescript: {
+        compiler  : require("typescript"),
+        moduleList: ["common"],
+        entryFile : "Main.ts",
+        outputDir : dir.dest.script
     },
     sass: {
         outputStyle: "compressed",
         errLogToConsole: false,
         onError: function(e) { notify().writer(e); }
+    },
+    prefixer: {
+        browser: [ 'last 2 versions', 'ie 9' ]
     },
     frontnote: {
         clean: true,
@@ -50,16 +68,16 @@ var params = {
         out: dir.dest.guide,
         css: "../css/common.css"
     },
-    prefixer: {
-        browser: [ 'last 2 versions', 'ie 9' ]
-    },
-    ect: {
-        options: { root: dir.src.ect, ext: ".ect" },
-        data: require("./ectconfig.js")
+    browserSync: {
+        server: {
+            baseDir: rootDest,
+        },
+        open: false,
+        startPath: "/guide"
     }
 };
 
-
+//------------------------------------------------------------------------helper
 function glob(extension, rootDirectory, advance)
 {
     var defaultRule = [
@@ -71,11 +89,166 @@ function glob(extension, rootDirectory, advance)
     return advance ? advance(defaultRule): defaultRule;
 };
 
-//task list-----------------------------------
+function createBuildTask(taskName, srcGlob, watchGlob, buildFunction)
+{
+    gulp.task("build-"+taskName, buildFunction);
+    gulp.task("watch-"+taskName, function() {
+        gulp.watch(watchGlob || srcGlob, ["update-"+taskName]);
+    });
+    gulp.task("update-"+taskName, function()
+    {
+        browser.active ?
+            sequence("build-"+taskName, "refresh-browser"):
+            browser.init(params.browserSync, function()
+            {
+                sequence("build-"+taskName, "refresh-browser");
+            });
+    });
+};
+
+function createGroupTask(taskName, prefix, preTask) {
+    var taskList = (preTask || []).concat([
+        prefix+"-ect",
+        prefix+"-sass-common",
+        prefix+"-sass",
+    ]);
+
+    for (var i = params.typescript.moduleList.length - 1; i >= 0; i--) {
+        var moduleName = params.typescript.moduleList[i];
+        taskList.push(prefix+"-typescript-"+moduleName);
+    }
+
+    taskList.push(prefix+"-typescript");
+
+    gulp.task(taskName, taskList);
+};
+
+
+
+//---------------------------------------------------------------------ECT(html)
+/*
+テンプレートからhtmlを生成
+*/
+var ect = require("gulp-ect-simple");
+(function(srcGlob, watchGlob)
+{
+    createBuildTask("ect", srcGlob, srcGlob, function()
+    {
+        return gulp.src(srcGlob)
+            .pipe(plumber(params.plumber))
+            .pipe(ect(params.ect))
+            .pipe(gulp.dest(dir.dest.html));
+    });
+})(glob(".ect", dir.src.ect));
+
+
+//----------------------------------------------------------------typescript(js)
+/*
+共有ライブラリ(script/_common)からcommon.js生成
+*/
+var tsify      = require("tsify");
+var source     = require('vinyl-source-stream');
+var browserify = require("browserify");
+var uglify     = require("gulp-uglify");
+for (var i = params.typescript.moduleList.length - 1; i >= 0; i--)
+{
+    (function createTypeScriptRuntimeTask(moduleName)
+    {
+        var entryDir   = dir.src.script+"/_"+moduleName;
+        var entryPath  = entryDir+"/"+params.typescript.entryFile;
+        
+        (function(srcGlob, watchGlob)
+        {
+            createBuildTask("typescript-"+moduleName, srcGlob, watchGlob, function()
+            {
+                return browserify(entryPath, { debug: true })
+                    .plugin('tsify', { typescript: params.typescript.compiler })
+                    .bundle()
+                    .pipe(source(moduleName+".js"))
+                    //.pipe(uglify())
+                    .pipe(gulp.dest(params.typescript.outputDir));
+            });
+        })(glob("{ts,tsx}", entryDir));
+    })(params.typescript.moduleList[i]);
+}
+
+/*
+個別ページ向けコンパイル
+*/
+var merge  = require("merge2");
+var gulpTS = require("gulp-typescript");
+(function(srcGlob, watchGlob)
+{
+    createBuildTask("typescript", srcGlob, watchGlob, function()
+    {
+        var project  = gulpTS.createProject("tsconfig.json", { typescript: params.typescript.compiler });
+        var tsResult = gulp
+            .src(srcGlob)
+            .pipe(plumber(params.plumber))
+            .pipe(project());
+            //.pipe(uglify());
+
+        return merge([
+            tsResult.dts.pipe(gulp.dest(dir.dest.tds)),
+            tsResult.js.pipe(gulp.dest(dir.dest.script))
+        ]);
+    });
+})(
+    glob("{ts,tsx}", dir.src.script, function(f) { return ["typings/index.d.ts"].concat(f); }),
+    glob("{ts,tsx}", dir.src.script)
+);
+
+
+
+//---------------------------------------------------------------------sass(css)
+var sass      = require("gulp-sass");
+var prefixer  = require("gulp-autoprefixer");
+var frontnote = require("gulp-frontnote");
+/*
+共有ライブラリ(sass/_common)からスタイルシート生成・スタイルガイド更新
+*/
+(function(srcGlob, watchGlob)
+{
+    createBuildTask("sass-common", srcGlob, srcGlob, function()
+    {
+        return gulp.src(srcGlob)
+            .pipe(plumber(params.plumber))
+            .pipe(frontnote(params.frontnote))
+            .pipe(sourceMap.init())
+                .pipe(concat("common.css"))
+                .pipe(sass(params.sass))
+                .pipe(prefixer(params.prefixer))
+            .pipe(sourceMap.write(dir.dest.maps.relative))
+            .pipe(gulp.dest(dir.dest.css));
+    });
+})([dir.src.common.sass+"/*.scss"]);
+
+/*
+個別ページ向けコンパイル
+*/
+(function(srcGlob, watchGlob)
+{
+    createBuildTask("sass", srcGlob, srcGlob, function()
+    {
+        return gulp.src(srcGlob)
+            .pipe(plumber(params.plumber))
+            .pipe(sass(params.sass))
+            .pipe(prefixer(params.prefixer))
+            .pipe(gulp.dest(dir.dest.css));
+    });
+})(glob(".scss", dir.src.sass));
+
+
+
+//------------------------------------------------------------------------server
+var browser = require("browser-sync");
+gulp.task("refresh-browser", browser.reload);
+
 /*
 テストサーバー起動
 */
-gulp.task("run-server", function() {
+gulp.task("run-test-server", function()
+{
     var http = require("http");
     var fs = require("fs");
     server = http.createServer();
@@ -134,150 +307,13 @@ gulp.task("run-server", function() {
         else readJson(finalize);
     });
 });
-/*
-テンプレートからhtmlを生成
-*/
-var ect = require("gulp-ect-simple");
-gulp.task("build-ect", function()
-{
-    return gulp
-        .src(glob(".ect", dir.src.ect))
-        .pipe(plumber(params.plumber))
-        .pipe(ect(params.ect))
-        .pipe(gulp.dest(dir.dest.html))
-        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
-});
-gulp.task("dev-ect", ["try-start-server"], function() {
-    gulp.watch(glob(".ect", dir.src.ect), ["build-ect"]);
-});
 
-/*
-js圧縮
-*/
-var uglify = require("gulp-uglify");
-gulp.task("build-js", function()
-{
-    return gulp
-        .src(glob(".js", dir.src.script))
-        .pipe(plumber(params.plumber))
-        //.pipe(uglify())
-        .pipe(gulp.dest(dir.dest.script))
-        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
-});
-gulp.task("dev-js", ["try-start-server"], function() {
-    gulp.watch(glob(".js", dir.src.script), ["build-js"]);
-});
 
-/*
-typescriptコンパイル
-*/
-var merge  = require("merge2");
-var gulpTS = require("gulp-typescript");
-gulp.task("build-typescript", function()
-{
-    var project  = gulpTS.createProject("tsconfig.json", { typescript: require("typescript") });
-    var tsResult = gulp
-        .src(glob("{ts,tsx}", dir.src.script, function(files) {
-            return ["typings/index.d.ts"].concat(files);
-        }))
-        .pipe(plumber(params.plumber))
-        .pipe(project());
 
-    return merge([
-        tsResult.dts.pipe(gulp.dest(dir.dest.tds)),
-        tsResult.js.pipe(gulp.dest(dir.dest.script))
-    ]);
-});
-gulp.task("dev-typescript", ["try-start-server"], function() {
-    gulp.watch(glob("{ts,tsx}", dir.src.script), ["build-typescript"]);
-});
+//-------------------------------------------------------------task registration
+createTask("watch", "watch");
+createTask("build", "build");
 
-/*
-Reactコンパイル
-*/
-var react = require("gulp-react");
-gulp.task("build-react", function()
-{
-    return gulp
-        .src(glob(".jsx", dir.src.script))
-        .pipe(plumber(params.plumber))
-        .pipe(rename({ suffix: ".react" }))
-        .pipe(react())
-        .pipe(gulp.dest(dir.dest.script))
-        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
-});
-gulp.task("dev-react", ["try-start-server"], function() {
-    gulp.watch(glob(".jsx", dir.src.script), ["build-react"]);
-});
-
-/*
-個別ページ向けsassからスタイルシート生成
-*/
-var sass      = require("gulp-sass");
-var prefixer  = require("gulp-autoprefixer");
-var sourceMap = require("gulp-sourcemaps");
-gulp.task("build-sass", function()
-{
-    return gulp
-        .src(glob(".scss", dir.src.sass))
-        .pipe(plumber(params.plumber))
-        // .pipe(sourceMap.init())
-            .pipe(sass(params.sass))
-            .pipe(prefixer(params.prefixer))
-        // .pipe(sourceMap.write(dir.dest.maps.relative))
-        .pipe(gulp.dest(dir.dest.css))
-        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
-});
-gulp.task("dev-sass", ["try-start-server"], function() {
-    gulp.watch(glob(".scss", dir.src.sass), ["build-sass"]);
-});
-
-/*
-スタイルガイドsassからスタイルシート生成・スタイルガイド更新
-*/
-var frontnote = require("gulp-frontnote");
-gulp.task("build-guide", function()
-{
-    return gulp
-        .src([dir.src.guide+"/*.scss"])
-        .pipe(plumber(params.plumber))
-        .pipe(frontnote(params.frontnote))
-        .pipe(sourceMap.init())
-            .pipe(concat("common.css"))
-            .pipe(sass(params.sass))
-            .pipe(prefixer(params.prefixer))
-        .pipe(sourceMap.write(dir.dest.maps.relative))
-        .pipe(gulp.dest(dir.dest.css))
-        .pipe(_if(isExistBrowser, browser.stream({ once: true })));
-});
-gulp.task("dev-guide", ["try-start-server"], function() {
-    gulp.watch(glob(".scss", dir.src.guide), ["build-guide"]);
-});
-
-/*
-出力ファイル削除
-*/
 gulp.task("clean", function() {
-    del(glob("*.*", rootDest));
+    del([rootDest+"/**/**.*", "!"+rootDest+"/asset/**/*.*"]);
 });
-
-/*
-開発タスク
-*/
-var browser = null;
-function isExistBrowser() { return browser !== null; };
-gulp.task("try-start-server", function() {
-    if (isExistBrowser())
-        return;
-
-    (browser = require("browser-sync")).init({
-        server: {
-            baseDir: rootDest,
-        },
-        open: false,
-        startPath: "/guide"
-    });
-});
-gulp.task('default', [
-    //"clean",
-    "dev-sass", "dev-ect", "dev-guide", "dev-js", "dev-react", "dev-typescript"]);
