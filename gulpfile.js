@@ -5,7 +5,6 @@ var plumber   = require("gulp-plumber");  //Prevent pipe breaking caused by erro
 var notify    = require("gulp-notify");   //notification (dosnt work for win10)
 var concat    = require("gulp-concat");
 var _if       = require("gulp-if");
-var rename    = require("gulp-rename");
 var sourceMap = require("gulp-sourcemaps");
 var sequence  = require("run-sequence");
 
@@ -32,7 +31,7 @@ var dir = {
         tds   : rootDest+"/js/definitions",
         asset : rootDest+"/asset",
         maps  : {
-            relative: "../map",
+            relative: "../css",
             absolute: rootDest+"/map"
         },
         temp : rootDest+"/_temp"
@@ -89,41 +88,24 @@ function glob(extension, rootDirectory, advance)
     return advance ? advance(defaultRule): defaultRule;
 };
 
-function createBuildTask(taskName, srcGlob, watchGlob, buildFunction)
+var addedTaskSet = [];
+function createTaskSet(taskName, srcGlob, watchGlob, buildFunction)
 {
+    // console.log("task created.", taskName);
+
     gulp.task("build-"+taskName, buildFunction);
     gulp.task("watch-"+taskName, function() {
-        gulp.watch(watchGlob || srcGlob, ["update-"+taskName]);
+        gulp.watch(watchGlob || srcGlob, ["reload-"+taskName]);
     });
-    gulp.task("update-"+taskName, function()
+    gulp.task("reload-"+taskName, function()
     {
         browser.active ?
             sequence("build-"+taskName, "refresh-browser"):
-            browser.init(params.browserSync, function()
-            {
-                sequence("build-"+taskName, "refresh-browser");
-            });
+            browser.init(params.browserSync, sequence.call(null, "build-"+taskName, "refresh-browser"));
     });
+
+    addedTaskSet.push(taskName);
 };
-
-function createGroupTask(taskName, prefix, preTask) {
-    var taskList = (preTask || []).concat([
-        prefix+"-ect",
-        prefix+"-sass-common",
-        prefix+"-sass",
-    ]);
-
-    for (var i = params.typescript.moduleList.length - 1; i >= 0; i--) {
-        var moduleName = params.typescript.moduleList[i];
-        taskList.push(prefix+"-typescript-"+moduleName);
-    }
-
-    taskList.push(prefix+"-typescript");
-
-    gulp.task(taskName, taskList);
-};
-
-
 
 //---------------------------------------------------------------------ECT(html)
 /*
@@ -132,7 +114,7 @@ function createGroupTask(taskName, prefix, preTask) {
 var ect = require("gulp-ect-simple");
 (function(srcGlob, watchGlob)
 {
-    createBuildTask("ect", srcGlob, srcGlob, function()
+    createTaskSet("ect", srcGlob, srcGlob, function()
     {
         return gulp.src(srcGlob)
             .pipe(plumber(params.plumber))
@@ -152,14 +134,14 @@ var browserify = require("browserify");
 var uglify     = require("gulp-uglify");
 for (var i = params.typescript.moduleList.length - 1; i >= 0; i--)
 {
-    (function createTypeScriptRuntimeTask(moduleName)
+    (function createTypeScriptTask(moduleName)
     {
         var entryDir   = dir.src.script+"/_"+moduleName;
         var entryPath  = entryDir+"/"+params.typescript.entryFile;
         
         (function(srcGlob, watchGlob)
         {
-            createBuildTask("typescript-"+moduleName, srcGlob, watchGlob, function()
+            createTaskSet("typescript-"+moduleName, srcGlob, watchGlob, function()
             {
                 return browserify(entryPath, { debug: true })
                     .plugin('tsify', { typescript: params.typescript.compiler })
@@ -179,7 +161,7 @@ var merge  = require("merge2");
 var gulpTS = require("gulp-typescript");
 (function(srcGlob, watchGlob)
 {
-    createBuildTask("typescript", srcGlob, watchGlob, function()
+    createTaskSet("typescript", srcGlob, watchGlob, function()
     {
         var project  = gulpTS.createProject("tsconfig.json", { typescript: params.typescript.compiler });
         var tsResult = gulp
@@ -209,7 +191,7 @@ var frontnote = require("gulp-frontnote");
 */
 (function(srcGlob, watchGlob)
 {
-    createBuildTask("sass-common", srcGlob, srcGlob, function()
+    createTaskSet("sass-common", srcGlob, srcGlob, function()
     {
         return gulp.src(srcGlob)
             .pipe(plumber(params.plumber))
@@ -228,7 +210,7 @@ var frontnote = require("gulp-frontnote");
 */
 (function(srcGlob, watchGlob)
 {
-    createBuildTask("sass", srcGlob, srcGlob, function()
+    createTaskSet("sass", srcGlob, srcGlob, function()
     {
         return gulp.src(srcGlob)
             .pipe(plumber(params.plumber))
@@ -311,9 +293,31 @@ gulp.task("run-test-server", function()
 
 
 //-------------------------------------------------------------task registration
-createTask("watch", "watch");
-createTask("build", "build");
+(function createTopLevelTask()
+{
+    // console.log("\nTaskList(TopLevel)\n");
+    // console.log("[AllInOne]");
+    // console.log("\tclean\n\tbuild\n\twatch\n\treload");
+    gulp.task("clean", function() {
+        del([rootDest+"/**/**.*", "!"+rootDest+"/asset/**/*.*"]);
+    });
 
-gulp.task("clean", function() {
-    del([rootDest+"/**/**.*", "!"+rootDest+"/asset/**/*.*"]);
-});
+    var taskSet = {
+        build : [],
+        watch : [],
+        reload: []
+    };
+
+    // console.log("[StandAlone]");
+    for (var i = addedTaskSet.length - 1; i >= 0; i--)
+    {
+        // console.log("\t(build-|watch-|reload-)"+addedTaskSet[i]);
+        taskSet.build.push(  "build-"+addedTaskSet[i]);
+        taskSet.watch.push(  "watch-"+addedTaskSet[i]);
+        taskSet.reload.push("reload-"+addedTaskSet[i]);
+    }
+
+    for (var task in taskSet) gulp.task(task, taskSet[task]);
+})();
+
+gulp.task("default", ["watch"]);
