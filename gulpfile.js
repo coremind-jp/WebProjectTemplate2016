@@ -23,8 +23,7 @@ var dir = {
         script: rootSrc+"/script",
         sass  : rootSrc+"/sass",
         common: {
-            script: rootSrc+"/script/_common",
-            sass:   rootSrc+"/sass/_common"
+            sass: rootSrc+"/sass/_common"
         },
         lib   : rootSrc+"/lib",
     },
