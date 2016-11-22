@@ -5,8 +5,8 @@
 <% include "_lib/block/header.ect" %>
 <% content content %>
 <% include "_lib/block/footer.ect" %>
-</body>
-<% if @page.js == "append": %>
+<% if @page.js.indivisual && @page.js.insertPosition == "append" : %>
     <script src="../js/<%= @page.id %>.js"></script>
 <% end %>
+</body>
 <% content "appendBody" %>

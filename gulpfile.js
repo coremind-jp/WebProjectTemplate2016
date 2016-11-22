@@ -1,8 +1,12 @@
+var isRelease = process.argv.slice(2).indexOf("--dev") == -1;
+console.log("_/_/_/_/"+(isRelease ? "RELEASE TASK": "DEVELOP TASK")+"_/_/_/_/");
+
 //----------------------------------------------------------utility package list
-var gulp      = require("gulp");          //task runner
 var del       = require("del");           //file, directory delete
+var gulp      = require("gulp");          //task runner
 var plumber   = require("gulp-plumber");  //Prevent pipe breaking caused by errors from gulp plugins
 var notify    = require("gulp-notify");   //notification (dosnt work for win10)
+var uglify    = require("gulp-uglify");
 var concat    = require("gulp-concat");
 var _if       = require("gulp-if");
 var sourceMap = require("gulp-sourcemaps");
@@ -21,7 +25,8 @@ var dir = {
         common: {
             script: rootSrc+"/script/_common",
             sass:   rootSrc+"/sass/_common"
-        }
+        },
+        lib   : rootSrc+"/lib",
     },
     dest: {
         html   : rootDest,
@@ -31,7 +36,6 @@ var dir = {
         typeDoc: rootDest+"/typedoc",
         tds    : rootDest+"/js/definitions",
         asset  : rootDest+"/asset",
-        maps   : { relative: "../css" },
         temp   : rootDest+"/_temp"
     }
 };
@@ -67,6 +71,9 @@ var params = {
             target: "es5",
             out: dir.dest.typeDoc,
             name: "typescript documentation"
+    },
+    uglify: {
+        preserveComments: "some"
     },
     sass: {
         outputStyle: "compressed",
@@ -131,10 +138,14 @@ var image = require("gulp-image");
 {
     createTaskSet("image", srcGlob, srcGlob, function()
     {
-        return gulp.src(srcGlob)
-            .pipe(plumber(params.plumber))
-            .pipe(image(params.image))
-            .pipe(gulp.dest(dir.dest.asset));
+        return isRelease ?
+            gulp.src(srcGlob)
+                .pipe(plumber(params.plumber))
+                .pipe(image(params.image))
+                .pipe(gulp.dest(dir.dest.asset)):
+
+            gulp.src(srcGlob)
+                .pipe(gulp.dest(dir.dest.asset));
     });
 })(glob("{jpg,jpeg,png,gif,svg}", dir.src.asset));
 
@@ -162,10 +173,10 @@ var ect = require("gulp-ect-simple");
 /*
 共有ライブラリ(script/_common)からcommon.js生成
 */
+var buffer     = require("vinyl-buffer");
 var tsify      = require("tsify");
 var source     = require('vinyl-source-stream');
 var browserify = require("browserify");
-var uglify     = require("gulp-uglify");
 for (var i = params.typescript.moduleList.length - 1; i >= 0; i--)
 {
     (function createTypeScriptTask(moduleName)
@@ -177,12 +188,20 @@ for (var i = params.typescript.moduleList.length - 1; i >= 0; i--)
         {
             createTaskSet("typescript-"+moduleName, srcGlob, watchGlob, function()
             {
-                return browserify(entryPath, { debug: true })
-                    .plugin('tsify', { typescript: params.typescript.compiler })
-                    .bundle()
-                    .pipe(source(moduleName+".js"))
-                    //.pipe(uglify())
-                    .pipe(gulp.dest(params.typescript.outputDir));
+                return isRelease ?
+                    browserify(entryPath, { debug: true })
+                        .plugin('tsify', { typescript: params.typescript.compiler })
+                        .bundle()
+                        .pipe(source(moduleName+".js"))
+                        .pipe(buffer())
+                        .pipe(uglify(params.uglify))
+                        .pipe(gulp.dest(params.typescript.outputDir)):
+
+                    browserify(entryPath, { debug: true })
+                        .plugin('tsify', { typescript: params.typescript.compiler })
+                        .bundle()
+                        .pipe(source(moduleName+".js"))
+                        .pipe(gulp.dest(params.typescript.outputDir));
             });
         })(glob("{ts,tsx}", entryDir));
     })(params.typescript.moduleList[i]);
@@ -198,11 +217,12 @@ var gulpTS = require("gulp-typescript");
     createTaskSet("typescript", srcGlob, watchGlob, function()
     {
         var project  = gulpTS.createProject("tsconfig.json", { typescript: params.typescript.compiler });
-        var tsResult = gulp
-            .src(srcGlob)
+        var tsResult = gulp.src(srcGlob)
             .pipe(plumber(params.plumber))
             .pipe(project());
-            //.pipe(uglify());
+
+        if (isRelease)
+            tsResult.js.pipe(buffer()).pipe(uglify(params.uglify));
 
         return merge([
             tsResult.dts.pipe(gulp.dest(dir.dest.tds)),
@@ -213,17 +233,6 @@ var gulpTS = require("gulp-typescript");
     glob("{ts,tsx}", dir.src.script, function(f) { return ["typings/index.d.ts"].concat(f); }),
     glob("{ts,tsx}", dir.src.script)
 );
-
-/*
-ドキュメント生成
-*/
-var typeDoc = require("gulp-typedoc");
-gulp.task("typedoc", function() {
-    return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
-        .pipe(typeDoc(params.typeDoc));
-});
-
-
 
 //---------------------------------------------------------------------sass(css)
 var sass      = require("gulp-sass");
@@ -236,15 +245,23 @@ var frontnote = require("gulp-frontnote");
 {
     createTaskSet("sass-common", srcGlob, srcGlob, function()
     {
-        return gulp.src(srcGlob)
-            .pipe(plumber(params.plumber))
-            .pipe(frontnote(params.frontnote))
-            .pipe(sourceMap.init())
+        return isRelease ?
+            gulp.src(srcGlob)
+                .pipe(plumber(params.plumber))
                 .pipe(concat("common.css"))
                 .pipe(sass(params.sass))
                 .pipe(prefixer(params.prefixer))
-            .pipe(sourceMap.write(dir.dest.maps.relative))
-            .pipe(gulp.dest(dir.dest.css));
+                .pipe(gulp.dest(dir.dest.css)):
+
+            gulp.src(srcGlob)
+                .pipe(plumber(params.plumber))
+                .pipe(frontnote(params.frontnote))
+                .pipe(sourceMap.init())
+                    .pipe(concat("common.css"))
+                    .pipe(sass(params.sass))
+                    .pipe(prefixer(params.prefixer))
+                .pipe(sourceMap.write("./"))
+                .pipe(gulp.dest(dir.dest.css));
     });
 })([dir.src.common.sass+"/*.scss"]);
 
@@ -345,12 +362,44 @@ gulp.task("run-test-server", function()
         del([rootDest+"/**/**.*", "!"+rootDest+"/asset/**/*.*"]);
     });
 
+    /*
+    typescriptドキュメント生成
+    */
+    var typeDoc = require("gulp-typedoc");
+    gulp.task("typedoc", function()
+    {
+        return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
+            .pipe(typeDoc(params.typeDoc));
+    });
+
+    /*
+    外部ライブラリ結合
+    */
+    gulp.task("bundle", function()
+    {
+        return isRelease ?
+            gulp.src(glob(".js", dir.src.lib))
+                .pipe(plumber(params.plumber))
+                .pipe(concat("lib.js"))
+                .pipe(uglify(params.uglify))
+                .pipe(gulp.dest(dir.dest.script)):
+
+            gulp.src(glob(".js", dir.src.lib))
+                .pipe(plumber(params.plumber))
+                .pipe(sourceMap.init())
+                    .pipe(concat("lib.js"))
+                .pipe(sourceMap.write("./"))
+                .pipe(gulp.dest(dir.dest.script));
+    });
+
+    /*
+    外部ライブラリ結合
+    */
     var taskSet = {
         build : [],
         watch : [],
         reload: []
     };
-
     // console.log("[StandAlone]");
     for (var i = addedTaskSet.length - 1; i >= 0; i--)
     {

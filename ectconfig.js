@@ -24,31 +24,45 @@ module.exports = {
             //twitter
             "card"          : "",
             "site"          : "",
-        }
+        },
+
+        "useJavascriptExternalLibrary": true
     },
     //各ページの固有設定
     "pages": {
         //固有設定が存在しない場合に利用される設定
         "common": {
-            "id"    : "common",
-            "css"   : false,
-            "js"    : false,
-            "jsx"   : false,
-            "head": {
-                "title"      : "common",
-                "keyword"    : "common 0",
-                "description": "about common",
+            "id": "common",
+            "css": {
+                "indivisual"  : false,
+                "internalLibs": ["common"],
             },
+            "js": {
+                "indivisual"    : false,
+                "insertPosition": "prepend",
+                "internalLibs"  : [],
+            },
+            "head": {
+                "title"      : "UnknownPage.",
+                "keyword"    : "",
+                "description": "",
+            }
         },
         "index": {
-            "id"    : "index",
-            "css"   : true,
-            "js"    : "prepend",
-            "jsx"   : true,
+            "id" : "index",
+            "css": {
+                "indivisual"  : true,
+                "internalLibs": ["common"],
+            },
+            "js": {
+                "indivisual"    : true,
+                "insertPosition": "prepend",
+                "internalLibs"  : ["common"],
+            },
             "head": {
-                "title"      : "index",
-                "keyword"    : "index, 1",
-                "description": "about index"
+                "title"      : "",
+                "keyword"    : "",
+                "description": ""
             }
         }
     }
