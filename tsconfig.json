@@ -1,13 +1,11 @@
 {
     "compilerOptions": {
+        "target"        : "ES5",
         "module"		: "commonjs",
+        "jsx"           : "react",
+        "newLine"       : "CRLF",
         "noImplicitAny"	: true,
-        "sourceMap"		: true,
-        "target"		: "ES5",
-        "newLine"		: "CRLF", //'LF' for linux
         "noEmitOnError"	: true,
-        "jsx"			: "react",
         "removeComments": true
-        //outFile: false,
     }
 }

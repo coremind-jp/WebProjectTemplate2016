@@ -11,6 +11,7 @@ var concat    = require("gulp-concat");
 var _if       = require("gulp-if");
 var sourceMap = require("gulp-sourcemaps");
 var sequence  = require("run-sequence");
+var source    = require('vinyl-source-stream');
 
 //----------------------------------------------------------------path parameter
 var root     = "./workspace";
@@ -18,22 +19,19 @@ var rootSrc  = root+"/src";
 var rootDest = root+"/www";
 var dir = {
     src:  {
-        ect   : rootSrc+"/ect",
-        asset : rootSrc+"/asset",
-        script: rootSrc+"/script",
-        sass  : rootSrc+"/sass",
-        common: {
-            sass: rootSrc+"/sass/_common"
-        },
-        lib   : rootSrc+"/lib",
+        lib      : rootSrc+"/external-lib",
+        asset    : rootSrc+"/asset",
+        ect      : rootSrc+"/ect",
+        script   : rootSrc+"/script",
+        sass     : rootSrc+"/sass",
     },
     dest: {
+        dummy  : rootDest+"/test.js",
         html   : rootDest,
         css    : rootDest+"/css",
         guide  : rootDest+"/guide",
         script : rootDest+"/js",
         typeDoc: rootDest+"/typedoc",
-        tds    : rootDest+"/js/definitions",
         asset  : rootDest+"/asset",
         temp   : rootDest+"/_temp"
     }
@@ -60,10 +58,7 @@ var params = {
         data: require("./ectconfig.js")
     },
     typescript: {
-        compiler  : require("typescript"),
-        moduleList: ["common"],
-        entryFile : "Main.ts",
-        outputDir : dir.dest.script
+        compiler: require("typescript")
     },
     typeDoc: {
             module: "commonjs",
@@ -98,15 +93,19 @@ var params = {
 };
 
 //------------------------------------------------------------------------helper
-function glob(extension, rootDirectory, advance)
+function glob(extension, rootDirectory, advance, ignoreDirList)
 {
-    var defaultRule = [
-            rootDirectory+"/**/*"    +extension,
-        "!"+rootDirectory+"/**/_*"   +extension,//ignore '_' prefix files
-        "!"+rootDirectory+"/_**/**/*"+extension //ignore '_' prefix directorys
+    var rule = [
+            rootDirectory+"/**/*"       +extension,
+        "!"+rootDirectory+"/**/_*"      +extension,//ignore '_' prefix files
+        "!"+rootDirectory+"/_**/**/*"   +extension //ignore '_' prefix directorys
     ];
 
-    return advance ? advance(defaultRule): defaultRule;
+    if (ignoreDirList && ignoreDirList.length > 0)
+        for (var i = 0, len = ignoreDirList.length; i < len; i++)
+            rule.push("!"+rootDirectory+"/"+ignoreDirList[i]+"/**/*"+extension);
+
+    return advance ? advance(rule): rule;
 };
 
 var addedTaskSet = [];
@@ -170,75 +169,61 @@ var ect = require("gulp-ect-simple");
 
 //----------------------------------------------------------------typescript(js)
 /*
-共有ライブラリ(script/_common)からcommon.js生成
+typescriptコンパイル
 */
-var buffer     = require("vinyl-buffer");
-var tsify      = require("tsify");
-var source     = require('vinyl-source-stream');
-var browserify = require("browserify");
-for (var i = params.typescript.moduleList.length - 1; i >= 0; i--)
-{
-    (function createTypeScriptTask(moduleName)
-    {
-        var entryDir   = dir.src.script+"/_"+moduleName;
-        var entryPath  = entryDir+"/"+params.typescript.entryFile;
-        
-        (function(srcGlob, watchGlob)
-        {
-            createTaskSet("typescript-"+moduleName, srcGlob, watchGlob, function()
-            {
-                return isRelease ?
-                    browserify(entryPath, { debug: true })
-                        .plugin('tsify', { typescript: params.typescript.compiler })
-                        .bundle()
-                        .pipe(source(moduleName+".js"))
-                        .pipe(buffer())
-                        .pipe(uglify(params.uglify))
-                        .pipe(gulp.dest(params.typescript.outputDir)):
-
-                    browserify(entryPath, { debug: true })
-                        .plugin('tsify', { typescript: params.typescript.compiler })
-                        .bundle()
-                        .pipe(source(moduleName+".js"))
-                        .pipe(gulp.dest(params.typescript.outputDir));
-            });
-        })(glob("{ts,tsx}", entryDir));
-    })(params.typescript.moduleList[i]);
-}
-
-/*
-個別ページ向けコンパイル
-*/
-var merge  = require("merge2");
-var gulpTS = require("gulp-typescript");
+var webpack = require("webpack-stream");
 (function(srcGlob, watchGlob)
 {
-    createTaskSet("typescript", srcGlob, watchGlob, function()
+    createTaskSet("typescript", srcGlob, srcGlob, function()
     {
-        var project  = gulpTS.createProject("tsconfig.json", { typescript: params.typescript.compiler });
-        var tsResult = gulp.src(srcGlob)
+        var wpconf = require("./webpack.config.js")
+            .initialize(isRelease, dir.src.script);
+
+        return gulp.src([])
             .pipe(plumber(params.plumber))
-            .pipe(project());
-
-        if (isRelease)
-            tsResult.js.pipe(buffer()).pipe(uglify(params.uglify));
-
-        return merge([
-            tsResult.dts.pipe(gulp.dest(dir.dest.tds)),
-            tsResult.js.pipe(gulp.dest(dir.dest.script))
-        ]);
+            .pipe(webpack(wpconf), webpack)
+            .pipe(gulp.dest(dir.dest.script));
     });
-})(
-    glob("{ts,tsx}", dir.src.script, function(f) { return ["typings/index.d.ts"].concat(f); }),
-    glob("{ts,tsx}", dir.src.script)
-);
+})(glob(".{ts,tsx}", dir.src.script));
+
+/*
+typescriptドキュメント生成
+*/
+var typeDoc = require("gulp-typedoc");
+gulp.task("typedoc", function()
+{
+    return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
+        .pipe(typeDoc(params.typeDoc));
+});
+
+/*
+外部ライブラリ結合
+*/
+gulp.task("bundle", function()
+{
+    return isRelease ?
+        gulp.src(glob(".js", dir.src.lib))
+            .pipe(plumber(params.plumber))
+            .pipe(concat("lib.js"))
+            .pipe(uglify(params.uglify))
+            .pipe(gulp.dest(dir.dest.script)):
+
+        gulp.src(glob(".js", dir.src.lib))
+            .pipe(plumber(params.plumber))
+            .pipe(sourceMap.init())
+                .pipe(concat("lib.js"))
+            .pipe(sourceMap.write("./"))
+            .pipe(gulp.dest(dir.dest.script));
+});
+
+
 
 //---------------------------------------------------------------------sass(css)
 var sass      = require("gulp-sass");
 var prefixer  = require("gulp-autoprefixer");
 var frontnote = require("gulp-frontnote");
 /*
-共有ライブラリ(sass/_common)からスタイルシート生成・スタイルガイド更新
+共有ライブラリ(sass/lib)からスタイルシート生成・スタイルガイド更新
 */
 (function(srcGlob, watchGlob)
 {
@@ -262,7 +247,7 @@ var frontnote = require("gulp-frontnote");
                 .pipe(sourceMap.write("./"))
                 .pipe(gulp.dest(dir.dest.css));
     });
-})([dir.src.common.sass+"/*.scss"]);
+})([dir.src.sass.lib+"/*.scss"]);
 
 /*
 個別ページ向けコンパイル
@@ -277,13 +262,16 @@ var frontnote = require("gulp-frontnote");
             .pipe(prefixer(params.prefixer))
             .pipe(gulp.dest(dir.dest.css));
     });
-})(glob(".scss", dir.src.sass));
+})(glob(".scss", dir.src.sass, null, ["common"]));
 
 
 
 //------------------------------------------------------------------------server
 var browser = require("browser-sync");
 gulp.task("refresh-browser", browser.reload);
+gulp.task("browser", function() {
+    browser.init(params.browserSync);
+});
 
 /*
 テストサーバー起動
@@ -361,39 +349,6 @@ gulp.task("run-test-server", function()
         del([rootDest+"/**/**.*", "!"+rootDest+"/asset/**/*.*"]);
     });
 
-    /*
-    typescriptドキュメント生成
-    */
-    var typeDoc = require("gulp-typedoc");
-    gulp.task("typedoc", function()
-    {
-        return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
-            .pipe(typeDoc(params.typeDoc));
-    });
-
-    /*
-    外部ライブラリ結合
-    */
-    gulp.task("bundle", function()
-    {
-        return isRelease ?
-            gulp.src(glob(".js", dir.src.lib))
-                .pipe(plumber(params.plumber))
-                .pipe(concat("lib.js"))
-                .pipe(uglify(params.uglify))
-                .pipe(gulp.dest(dir.dest.script)):
-
-            gulp.src(glob(".js", dir.src.lib))
-                .pipe(plumber(params.plumber))
-                .pipe(sourceMap.init())
-                    .pipe(concat("lib.js"))
-                .pipe(sourceMap.write("./"))
-                .pipe(gulp.dest(dir.dest.script));
-    });
-
-    /*
-    外部ライブラリ結合
-    */
     var taskSet = {
         build : [],
         watch : [],
