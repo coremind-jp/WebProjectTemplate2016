@@ -64,7 +64,8 @@ var params = {
             module: "commonjs",
             target: "es5",
             out: dir.dest.typeDoc,
-            name: "typescript documentation"
+            name: "TypeDoc for Common",
+            hideGenerator: true
     },
     uglify: {
         preserveComments: "some"
