@@ -56,9 +56,6 @@ var params = {
         options: { root: dir.src.ect, ext: ".ect" },
         data: require("./ectconfig.js")
     },
-    typescript: {
-        compiler: require("typescript")
-    },
     typeDoc: {
             module: "commonjs",
             target: "es5",
@@ -258,7 +255,7 @@ var frontnote = require("gulp-frontnote");
                 .pipe(sourceMap.write("./"))
                 .pipe(gulp.dest(dir.dest.css));
     });
-})([dir.src.sass.lib+"/*.scss"]);
+})([dir.src.sass+"/common/*.scss"]);
 
 /*
 個別ページ向けコンパイル
