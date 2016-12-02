@@ -26,14 +26,13 @@ var dir = {
         sass     : rootSrc+"/sass",
     },
     dest: {
-        dummy  : rootDest+"/test.js",
+        guide  : rootDest+"/_guide",
+        typeDoc: rootDest+"/_typedoc",
+
         html   : rootDest,
         css    : rootDest+"/css",
-        guide  : rootDest+"/guide",
         script : rootDest+"/js",
-        typeDoc: rootDest+"/typedoc",
         asset  : rootDest+"/asset",
-        temp   : rootDest+"/_temp"
     }
 };
 
@@ -89,7 +88,7 @@ var params = {
             baseDir: rootDest,
         },
         open: false,
-        startPath: "/guide"
+        startPath: "/_guide"
     }
 };
 
@@ -198,6 +197,17 @@ gulp.task("typedoc", function()
 });
 
 /*
+ユニットテスト
+ */
+var karmaServer = require("karma").Server;
+gulp.task("test", function(done)
+{
+    new karmaServer({
+        configFile: __dirname+"/karma.conf.js"
+    }, done).start();
+});
+
+/*
 外部ライブラリ結合
 */
 gulp.task("bundle", function()
@@ -274,70 +284,6 @@ gulp.task("browser", function() {
     browser.init(params.browserSync);
 });
 
-/*
-テストサーバー起動
-*/
-gulp.task("run-test-server", function()
-{
-    var http = require("http");
-    var fs = require("fs");
-    server = http.createServer();
-    server.listen(80, "localhost");
-
-    var responseData = "";
-    function readJson(callback) {
-        fs.readFile(dir.dest.temp+"/comments.json", 'utf-8', function(err, data) {
-            callback(err ? "[]": data);
-        });
-    };
-
-    server.on("request", function(req, res)
-    {
-        function finalize(comments)
-        {
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.write(comments);
-            res.end();
-        };
-
-        if (req.method === "POST")
-        {
-            console.log("POST process");
-            var plane = "";
-
-            req.on("readable", function(chunk) { plane += req.read(); });
-            req.on("end", function()
-            {
-                console.log("read complete. for post data", plane);
-
-                var comment = {};
-
-                var v = plane.split("&");
-                console.log(v);
-                for (var i = v.length - 1; i >= 0; i--)
-                {
-                    var w = v[i].split("=");
-                    console.log(w);
-                    comment[w[0]] = w[1];
-                }
-
-                readJson(function(comments)
-                {
-                    comments = JSON.parse(comments);
-                    comments.push(comment);
-                    comments = JSON.stringify(comments);
-
-                    fs.writeFileSync(dir.dest.temp+"/comments.json", comments);
-
-                    finalize(comments);
-                });
-            });
-        }
-        else readJson(finalize);
-    });
-});
-
 
 
 //-------------------------------------------------------------task registration
@@ -367,4 +313,4 @@ gulp.task("run-test-server", function()
     for (var task in taskSet) gulp.task(task, taskSet[task]);
 })();
 
-gulp.task("default", ["watch"]);
+gulp.task("default", ["watch", "test"]);

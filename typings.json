@@ -1,0 +1,6 @@
+{
+  "globalDependencies": {
+    "mocha": "registry:dt/mocha#2.2.5+20161028141524",
+    "power-assert": "registry:dt/power-assert#1.4.1+20160924120522"
+  }
+}

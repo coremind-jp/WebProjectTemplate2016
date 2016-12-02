@@ -6,29 +6,34 @@ var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
     watch     : true,
     cache     : true,
     output    : { filename: "[name].js" },
-    module    : { loaders: [ { test: /\.(ts|tsx)?$/, loader: 'ts-loader' } ] },
     resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
     ts        : { compilerOptions: {} },
     plugins   : [ new ccp({ name: "common", filename: "common.js" }) ],
+    module    : {
+        loaders:     [ { test:      /\.(ts|tsx)?$/, loader: 'ts-loader' } ],
+        postLoaders: [ { test: /_test\.(ts|tsx)?$/, loader: 'webpack-espower-loader' } ],
+    },
 
     initialize: initialize
 };
 
-function initialize(isRelease, pageSrcDir)
+function initialize(buildType, pageSrcDir)
 {
     this.entry = createEntry(glob.sync(pageSrcDir+"/*.{ts,tsx}"));
 
-    if (isRelease)
+    switch (buildType)
     {
-        this.ts.compilerOptions.declaration = false;
-        this.plugins.push(new webpack.optimize.UglifyJsPlugin());
+        case "release":
+            this.ts.compilerOptions.declaration = false;
+            this.plugins.push(new webpack.optimize.UglifyJsPlugin());
+            break;
+
+        case "develop":
+            this.devtool = "#inline-source-map";
+            this.ts.compilerOptions.declaration = true;
+            this.ts.compilerOptions.declarationDir = "/js/d.ts";
+            break;
     }
-    else
-    {
-        this.devtool = "#inline-source-map";
-        this.ts.compilerOptions.declaration = true;
-        this.ts.compilerOptions.declarationDir = "/js/d.ts";
-    };
 
     return this;
 }

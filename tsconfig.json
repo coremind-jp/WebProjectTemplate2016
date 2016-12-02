@@ -5,7 +5,7 @@
         "jsx"           : "react",
         "newLine"       : "CRLF",
         "noImplicitAny"	: true,
-        "noEmitOnError"	: true,
+        "noEmitOnError"	: false,//trueだとtestタスクでエラーが出る
         "removeComments": true
     }
 }
