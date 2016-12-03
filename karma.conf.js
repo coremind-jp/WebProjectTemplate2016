@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'workspace/src/script_test/*.{ts,tsx}'
+      'workspace/src/script_test/**/*.{ts,tsx}'
     ],
 
     plugins: [
@@ -28,7 +28,7 @@ module.exports = function(config) {
     exclude: [
     ],
 
-    webpack: require(__dirname + '/webpack-test.config.js'),
+    webpack: require(__dirname + '/webpack.config.js').test(),
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor

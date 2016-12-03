@@ -1,5 +1,4 @@
-var isRelease = process.argv.slice(2).indexOf("--dev") == -1;
-console.log("_/_/_/_/"+(isRelease ? "RELEASE TASK": "DEVELOP TASK")+"_/_/_/_/");
+var isWatch = process.argv.slice(2).indexOf("--watch") > -1;
 
 //----------------------------------------------------------utility package list
 var del       = require("del");           //file, directory delete
@@ -22,7 +21,7 @@ var dir = {
         lib      : rootSrc+"/external-lib",
         asset    : rootSrc+"/asset",
         ect      : rootSrc+"/ect",
-        script   : rootSrc+"/script",
+        script   : rootSrc+"/script/entry",
         sass     : rootSrc+"/sass",
     },
     dest: {
@@ -105,23 +104,10 @@ function glob(extension, rootDirectory, advance, ignoreDirList)
     return advance ? advance(rule): rule;
 };
 
-var addedTaskSet = [];
-function createTaskSet(taskName, srcGlob, watchGlob, buildFunction)
+function bindWatch(taskName, globPattern, buildTask)
 {
-    // console.log("task created.", taskName);
-
-    gulp.task("build-"+taskName, buildFunction);
-    gulp.task("watch-"+taskName, function() {
-        gulp.watch(watchGlob || srcGlob, ["reload-"+taskName]);
-    });
-    gulp.task("reload-"+taskName, function()
-    {
-        browser.active ?
-            sequence("build-"+taskName, "refresh-browser"):
-            browser.init(params.browserSync, sequence.call(null, "build-"+taskName, "refresh-browser"));
-    });
-
-    addedTaskSet.push(taskName);
+    gulp.task(taskName, buildTask);
+    if (isWatch) gulp.watch(globPattern, [taskName]);
 };
 
 //-------------------------------------------------------------------------image
@@ -129,20 +115,11 @@ function createTaskSet(taskName, srcGlob, watchGlob, buildFunction)
 画像最適化
 */
 var image = require("gulp-image");
-(function(srcGlob, watchGlob)
+var imageGlob = glob("{jpg,jpeg,png,gif,svg}", dir.src.asset);
+bindWatch("image", imageGlob, function()
 {
-    createTaskSet("image", srcGlob, srcGlob, function()
-    {
-        return isRelease ?
-            gulp.src(srcGlob)
-                .pipe(plumber(params.plumber))
-                .pipe(image(params.image))
-                .pipe(gulp.dest(dir.dest.asset)):
-
-            gulp.src(srcGlob)
-                .pipe(gulp.dest(dir.dest.asset));
-    });
-})(glob("{jpg,jpeg,png,gif,svg}", dir.src.asset));
+    return gulp.src(imageGlob).pipe(gulp.dest(dir.dest.asset));
+});
 
 
 
@@ -151,16 +128,14 @@ var image = require("gulp-image");
 テンプレートからhtmlを生成
 */
 var ect = require("gulp-ect-simple");
-(function(srcGlob, watchGlob)
+var ectGlob = glob(".ect", dir.src.ect);
+bindWatch("ect", ectGlob, function()
 {
-    createTaskSet("ect", srcGlob, srcGlob, function()
-    {
-        return gulp.src(srcGlob)
-            .pipe(plumber(params.plumber))
-            .pipe(ect(params.ect))
-            .pipe(gulp.dest(dir.dest.html));
-    });
-})(glob(".ect", dir.src.ect));
+    return gulp.src(ectGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(ect(params.ect))
+        .pipe(gulp.dest(dir.dest.html));
+});
 
 
 
@@ -169,145 +144,157 @@ var ect = require("gulp-ect-simple");
 typescriptコンパイル
 */
 var webpack = require("webpack-stream");
-(function(srcGlob, watchGlob)
+gulp.task("ts", function()
 {
-    createTaskSet("typescript", srcGlob, srcGlob, function()
-    {
-        var wpconf = require("./webpack.config.js")
-            .initialize(isRelease, dir.src.script);
-
-        return gulp.src([])
-            .pipe(plumber(params.plumber))
-            .pipe(webpack(wpconf), webpack)
-            .pipe(gulp.dest(dir.dest.script));
-    });
-})(glob(".{ts,tsx}", dir.src.script));
-
-/*
-typescriptドキュメント生成
-*/
-var typeDoc = require("gulp-typedoc");
-gulp.task("typedoc", function()
-{
-    return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
-        .pipe(typeDoc(params.typeDoc));
+    return gulp.src([])
+        .pipe(
+            webpack(require("./webpack.config.js").develop({
+                watch: true,
+                cache: true
+            })),
+            webpack)
+        .pipe(gulp.dest(dir.dest.script));
 });
 
 /*
 ユニットテスト
  */
 var karmaServer = require("karma").Server;
-gulp.task("test", function(done)
+gulp.task("ts-test", function(done)
 {
     new karmaServer({
-        configFile: __dirname+"/karma.conf.js"
+        configFile: __dirname + "/karma.conf.js"
     }, done).start();
+});
+
+/*
+typescriptドキュメント生成
+*/
+var typeDoc = require("gulp-typedoc");
+gulp.task("ts-doc", function()
+{
+    return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
+        .pipe(typeDoc(params.typeDoc));
+});
+
+/*
+型定義生成
+*/
+var typescript = require("typescript");
+gulp.task("d.ts", function()
+{
+    return gulp.src(dir.src.script+"/common/**/*.{ts,tsx}")
+        .pipe(typeDoc(params.typeDoc));
 });
 
 /*
 外部ライブラリ結合
 */
-gulp.task("bundle", function()
+var libBandleGlob = glob(".js", dir.src.lib);
+bindWatch("lib-bundle", libBandleGlob, function()
 {
-    return isRelease ?
-        gulp.src(glob(".js", dir.src.lib))
-            .pipe(plumber(params.plumber))
+    return gulp.src(libBandleGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(sourceMap.init())
             .pipe(concat("lib.js"))
-            .pipe(uglify(params.uglify))
-            .pipe(gulp.dest(dir.dest.script)):
-
-        gulp.src(glob(".js", dir.src.lib))
-            .pipe(plumber(params.plumber))
-            .pipe(sourceMap.init())
-                .pipe(concat("lib.js"))
-            .pipe(sourceMap.write("./"))
-            .pipe(gulp.dest(dir.dest.script));
+        .pipe(sourceMap.write("./"))
+        .pipe(gulp.dest(dir.dest.script));
 });
 
 
 
 //---------------------------------------------------------------------sass(css)
-var sass      = require("gulp-sass");
-var prefixer  = require("gulp-autoprefixer");
-var frontnote = require("gulp-frontnote");
 /*
 共有ライブラリ(sass/lib)からスタイルシート生成・スタイルガイド更新
 */
-(function(srcGlob, watchGlob)
+var sass = require("gulp-sass");
+var prefixer = require("gulp-autoprefixer");
+var frontnote = require("gulp-frontnote");
+var sassCommonGlob = [dir.src.sass+"/common/*.scss"];
+bindWatch("sass-common", sassCommonGlob, function()
 {
-    createTaskSet("sass-common", srcGlob, srcGlob, function()
-    {
-        return isRelease ?
-            gulp.src(srcGlob)
-                .pipe(plumber(params.plumber))
-                .pipe(concat("common.css"))
-                .pipe(sass(params.sass))
-                .pipe(prefixer(params.prefixer))
-                .pipe(gulp.dest(dir.dest.css)):
-
-            gulp.src(srcGlob)
-                .pipe(plumber(params.plumber))
-                .pipe(frontnote(params.frontnote))
-                .pipe(sourceMap.init())
-                    .pipe(concat("common.css"))
-                    .pipe(sass(params.sass))
-                    .pipe(prefixer(params.prefixer))
-                .pipe(sourceMap.write("./"))
-                .pipe(gulp.dest(dir.dest.css));
-    });
-})([dir.src.sass+"/common/*.scss"]);
+    return gulp.src(sassCommonGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(frontnote(params.frontnote))
+        .pipe(sourceMap.init())
+            .pipe(concat("common.css"))
+            .pipe(sass(params.sass))
+            .pipe(prefixer(params.prefixer))
+        .pipe(sourceMap.write("./"))
+        .pipe(gulp.dest(dir.dest.css));
+});
 
 /*
 個別ページ向けコンパイル
 */
-(function(srcGlob, watchGlob)
+var sassGlob = glob(".scss", dir.src.sass, null, ["common"]);
+bindWatch("sass", sassGlob, function()
 {
-    createTaskSet("sass", srcGlob, srcGlob, function()
-    {
-        return gulp.src(srcGlob)
-            .pipe(plumber(params.plumber))
-            .pipe(sass(params.sass))
-            .pipe(prefixer(params.prefixer))
-            .pipe(gulp.dest(dir.dest.css));
-    });
-})(glob(".scss", dir.src.sass, null, ["common"]));
+    return gulp.src(sassGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(sass(params.sass))
+        .pipe(prefixer(params.prefixer))
+        .pipe(gulp.dest(dir.dest.css));
+});
 
 
 
 //------------------------------------------------------------------------server
 var browser = require("browser-sync");
-gulp.task("refresh-browser", browser.reload);
-gulp.task("browser", function() {
-    browser.init(params.browserSync);
-});
+if (isWatch)
+    gulp.watch(dir.dest.html+"/**/*.*").on("change", function() {
+        console.log("www changed.");
+        browser.active ?
+            browser.reload():
+            browser.init(params.browserSync, browser.reload);
+    });
 
 
 
 //-------------------------------------------------------------task registration
-(function createTopLevelTask()
-{
-    // console.log("\nTaskList(TopLevel)\n");
-    // console.log("[AllInOne]");
-    // console.log("\tclean\n\tbuild\n\twatch\n\treload");
-    gulp.task("clean", function() {
-        del([rootDest+"/**/**.*", "!"+rootDest+"/asset/**/*.*"]);
-    });
+gulp.task("clean", function() {
+    del([rootDest+"/**/*.*", "!"+rootDest+"/asset/**/*.*"]);
+});
 
-    var taskSet = {
-        build : [],
-        watch : [],
-        reload: []
-    };
-    // console.log("[StandAlone]");
-    for (var i = addedTaskSet.length - 1; i >= 0; i--)
-    {
-        // console.log("\t(build-|watch-|reload-)"+addedTaskSet[i]);
-        taskSet.build.push(  "build-"+addedTaskSet[i]);
-        taskSet.watch.push(  "watch-"+addedTaskSet[i]);
-        taskSet.reload.push("reload-"+addedTaskSet[i]);
-    }
+gulp.task("release", ["clean"], function() {
+    //image
+    gulp.src(imageGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(image(params.image))
+        .pipe(gulp.dest(dir.dest.asset));
 
-    for (var task in taskSet) gulp.task(task, taskSet[task]);
-})();
+    //ect
+    gulp.src(ectGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(ect(params.ect))
+        .pipe(gulp.dest(dir.dest.html));
 
-gulp.task("default", ["watch", "test"]);
+    //sass common
+    gulp.src(sassCommonGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(concat("common.css"))
+        .pipe(sass(params.sass))
+        .pipe(prefixer(params.prefixer))
+        .pipe(gulp.dest(dir.dest.css));
+
+    //sass indivisual
+    gulp.src(sassGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(sass(params.sass))
+        .pipe(prefixer(params.prefixer))
+        .pipe(gulp.dest(dir.dest.css));
+
+    //external js lib
+    gulp.src(libBandleGlob)
+        .pipe(plumber(params.plumber))
+        .pipe(concat("lib.js"))
+        .pipe(uglify(params.uglify))
+        .pipe(gulp.dest(dir.dest.script));
+
+    //typescript
+    gulp.src([])
+        .pipe(webpack(require("./webpack.config.js").release), webpack)
+        .pipe(gulp.dest(dir.dest.script));
+});
+
+gulp.task("default", ["ts", "ts-test"]);

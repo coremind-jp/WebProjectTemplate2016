@@ -1,45 +1,58 @@
-var glob    = require("glob");
 var webpack = require("webpack");
 var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
 
  module.exports = {
-    watch     : true,
-    cache     : true,
-    output    : { filename: "[name].js" },
-    resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
-    ts        : { compilerOptions: {} },
-    plugins   : [ new ccp({ name: "common", filename: "common.js" }) ],
-    module    : {
-        loaders:     [ { test:      /\.(ts|tsx)?$/, loader: 'ts-loader' } ],
-        postLoaders: [ { test: /_test\.(ts|tsx)?$/, loader: 'webpack-espower-loader' } ],
+    release: {
+        entry     : createEntry("./workspace/src/script/entry/**/*.{ts,tsx}"),
+        output    : { filename: "[name].js" },
+        resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
+        plugins   : [
+            new ccp({ name: "common", filename: "common.js" }),
+            new webpack.optimize.UglifyJsPlugin()
+        ],
+        module    : { loaders: [ { test: /\.(ts|tsx)?$/, loader: 'ts-loader' } ] },
     },
 
-    initialize: initialize
+    develop: function(overrideOptions)
+    {
+        return mergeOption({
+            entry     : createEntry("./workspace/src/script/entry/**/*.{ts,tsx}"),
+            output    : { filename: "[name].js" },
+            resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
+            devtool   : "#inline-source-map",
+            plugins   : [ new ccp({ name: "common", filename: "common.js" }) ],
+            module    : { loaders: [ { test: /\.(ts|tsx)?$/, loader: 'ts-loader' } ] },
+        }, overrideOptions);
+    },
+
+    test: function(overrideOptions)
+    {
+        return mergeOption({
+            entry     : createEntry("./workspace/src/script_test/entry/**/*.{ts,tsx}"),
+            output    : { filename: "[name].js" },
+            resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
+            module: {
+                // Disable handling of unknown requires
+                unknownContextRegExp: /$^/,
+                unknownContextCritical: false,
+
+                // Disable handling of requires with a single expression
+                exprContextRegExp: /$^/,
+                exprContextCritical: false,
+
+                loaders: [
+                    { test: /\.(ts|tsx)?$/, loader: 'ts-loader' },
+                    { test:      /\.json$/, loader: 'json-loader' }
+                ],
+                postLoaders: [ { test: /\.(ts|tsx)?$/, loader: 'webpack-espower-loader' } ],
+            }
+        }, overrideOptions);
+    }
 };
 
-function initialize(buildType, pageSrcDir)
+function createEntry(globPattern)
 {
-    this.entry = createEntry(glob.sync(pageSrcDir+"/*.{ts,tsx}"));
-
-    switch (buildType)
-    {
-        case "release":
-            this.ts.compilerOptions.declaration = false;
-            this.plugins.push(new webpack.optimize.UglifyJsPlugin());
-            break;
-
-        case "develop":
-            this.devtool = "#inline-source-map";
-            this.ts.compilerOptions.declaration = true;
-            this.ts.compilerOptions.declarationDir = "/js/d.ts";
-            break;
-    }
-
-    return this;
-}
-
-function createEntry(files)
-{
+    var files = require("glob").sync(globPattern);
     var entry = {};
 
     for (var i = 0; i < files.length; i++)
@@ -53,4 +66,12 @@ function createEntry(files)
     }
 
     return entry;
+}
+
+function mergeOption(src, additional)
+{
+    if (additional)
+        for (var p in additional)
+            src[p] = additional[p];
+    return src;
 }
