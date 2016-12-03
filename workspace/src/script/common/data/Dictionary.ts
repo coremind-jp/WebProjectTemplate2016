@@ -111,7 +111,7 @@ export class Dictionary<T, U>
 	public each(f: (key: T, val: U) => boolean): void
 	{
 		for (let i = 0, len: number = this._key.length; i < len; ++i)
-			if (f(this._key[i], this._val[i]))
+			if (!f(this._key[i], this._val[i]))
 				break;
 	}
 }

@@ -65,9 +65,29 @@ export class ObjectContainer<T>
 	public remove(child: T): T
 	{
         let i: number = this._children.indexOf(child);
-        if (i != -1) this._children.splice(i, 1);
+        return i != -1 ? this._children.splice(i, 1)[0]: null;
+	}
 
-        return child;
+	/**
+	 * `index`をもとに追加済みオブジェクトを取得する.
+	 * 指定した`index`が範囲外の場合nullを返す.
+	 * @param  {number} index 取得したいオブジェクトのインデックス
+	 * @return {T}            インデックスに対応した追加済みオブジェクト
+	 */
+	public getChild(index: number): T
+	{
+		return 0 <= index && index < this._children.length ? this._children[index]: null;
+	}
+
+	/**
+	 * `child`をもとに追加済みオブジェクトのインデックスを取得する.
+	 * 指定した`child`が存在しない場合-1を返す.
+	 * @param  {T}      child 追加済みオブジェクト
+	 * @return {number}       `child`のインデックス
+	 */
+	public getChildIndex(child: T): number
+	{
+        return this._children.indexOf(child);
 	}
 
     /**

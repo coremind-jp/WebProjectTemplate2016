@@ -16,15 +16,14 @@ export class OrderList<T> extends WeightingContainer<T>
 			let bVal: number = this._priorityList.getValue(b);
 			return aVal < bVal ? b: a;
 		});
-
+		
 		this._priorityList = new Dictionary<T, number>();
 	}
 
 	public destroy(): void
 	{
-		this._priorityList.destroy();
-		this._priorityList = null;
 		super.destroy();
+		this._priorityList = null;
 	}
 
 	/**
