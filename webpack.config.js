@@ -5,12 +5,12 @@ var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
     release: {
         entry     : createEntry("./workspace/src/script/entry/**/*.{ts,tsx}"),
         output    : { filename: "[name].js" },
-        resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
+        resolve   : { extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"] },
         plugins   : [
             new ccp({ name: "common", filename: "common.js" }),
             new webpack.optimize.UglifyJsPlugin()
         ],
-        module    : { loaders: [ { test: /\.(ts|tsx)?$/, loader: 'ts-loader' } ] },
+        module    : { loaders: [ { test: /\.tsx?$/, loader: 'ts-loader' } ] },
     },
 
     develop: function(overrideOptions)
@@ -18,10 +18,14 @@ var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
         return mergeOption({
             entry     : createEntry("./workspace/src/script/entry/**/*.{ts,tsx}"),
             output    : { filename: "[name].js" },
-            resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
+            resolve   : { extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"] },
             devtool   : "#inline-source-map",
             plugins   : [ new ccp({ name: "common", filename: "common.js" }) ],
-            module    : { loaders: [ { test: /\.(ts|tsx)?$/, loader: 'ts-loader' } ] },
+            module    : { loaders: [ { test: /\.tsx?$/, loader: 'ts-loader' } ] },
+            externals : {
+                "react": "React",
+                "react-dom": "ReactDOM"
+            }
         }, overrideOptions);
     },
 
@@ -30,7 +34,7 @@ var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
         return mergeOption({
             entry     : createEntry("./workspace/src/script_test/entry/**/*.{ts,tsx}"),
             output    : { filename: "[name].js" },
-            resolve   : { extensions: ["", ".ts", ".tsx", ".js"] },
+            resolve   : { extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"] },
             module: {
                 // Disable handling of unknown requires
                 unknownContextRegExp: /$^/,
@@ -41,8 +45,8 @@ var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
                 exprContextCritical: false,
 
                 loaders: [
-                    { test: /\.(ts|tsx)?$/, loader: 'ts-loader' },
-                    { test:      /\.json$/, loader: 'json-loader' }
+                    { test: /\.tsx?$/, loader: 'ts-loader' },
+                    { test: /\.json$/, loader: 'json-loader' }
                 ],
                 postLoaders: [ { test: /\.(ts|tsx)?$/, loader: 'webpack-espower-loader' } ],
             }
