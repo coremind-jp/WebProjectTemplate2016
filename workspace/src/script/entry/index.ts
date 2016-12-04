@@ -1,17 +1,16 @@
 import {Timer} from "../common/utility/Timer";
 import {Ticker} from "../common/utility/Ticker";
+import {Event} from "../common/event/Event";
 
 var timer:Timer = new Timer();
 timer.start(2 * 1000, 3);
-timer.addListener("onTimer", (e: Event): boolean =>  {
+timer.addListener("onTimer", (e: Event): void =>  {
 	console.log(
 		"--------------------",
 		"\nelapsed           :", timer.elapsed,
 		"\ncalcElapsedRate   :", timer.calcElapsedRate(),
 		"\nlap               :", timer.lap
 	);
-
-	return true;
 });
 
 var ticker:Ticker = new Ticker(100);

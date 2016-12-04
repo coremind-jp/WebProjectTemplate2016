@@ -1,6 +1,8 @@
 import {ITicker} from "./ITicker";
 import {Ticker} from "./Ticker";
 import {EventDispatcher} from "../event/EventDispatcher";
+import {Event} from "../event/Event";
+
 /**
  * 汎用タイマークラス.
  */

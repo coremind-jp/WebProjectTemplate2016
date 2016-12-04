@@ -7,59 +7,65 @@ describe("EventDispatcher", () =>
 	beforeEach(() =>
 	{
 		this.dispatcher = new EventDispatcher();
+		this.dispatched = [];
+		this.listernA = (e: Event) => { this.dispatched.push("A"); };
+		this.listernB = (e: Event) => { this.dispatched.push("B"); };
+		this.listernC = (e: Event) => { this.dispatched.push("C"); };
+		this.preventDefaultListener = (e: Event) =>
+		{
+			e.preventDefault();
+			this.dispatched.push("callPreventDefault.");
+		};
 	});
 
 	afterEach(() =>
 	{
 		this.dispatcher.destroy();
 		this.dispatcher = null;
+		this.dispatched = null;
 	});
 
-	it("addListener & dispatch", () =>
+	it("addListener & removeListener & hasListener", () =>
 	{
-		let assertResult: number = 0;
+		this.dispatcher.addListener("test", this.listenerA);
+		assert(this.dispatcher.hasListener("test", this.listenerA) === true);
 
-		this.dispatcher.addListener("test", (e: Event): boolean =>
-		{
-			assertResult += 1;
-			return true;
-		});
+		this.dispatcher.removeListener("test", this.listenerA);
+		assert(this.dispatcher.hasListener("test", this.listenerA) === false);
 
-		this.dispatcher.dispatch(new Event("test"));
+		this.dispatcher.addListener("test", this.listenerA);
+		this.dispatcher.addListener("test", this.listenerB);
+		this.dispatcher.addListener("test", this.listenerC);
+		assert(this.dispatcher.hasListener("test") === true);// equal has any listeners(type = test).
+		assert(this.dispatcher.hasListener("test", this.listenerA) === true);
+		assert(this.dispatcher.hasListener("test", this.listenerB) === true);
+		assert(this.dispatcher.hasListener("test", this.listenerC) === true);
 
-		assert(assertResult == 1);
+		this.dispatcher.removeListener("test");// equal all listeners removed.
+		assert(this.dispatcher.hasListener("test") === false);
+		assert(this.dispatcher.hasListener("test", this.listenerA) === false);
+		assert(this.dispatcher.hasListener("test", this.listenerB) === false);
+		assert(this.dispatcher.hasListener("test", this.listenerC) === false);
 	});
 
-	it("addListener(priority)", () =>
+	it("dispatche", () =>
 	{
-		let dispatchedOrder: Array<string> = [];
-
-		for (let i: number = 0; i < 3; i++)
-			for (let k: number = 0; k < 2; k++)
-				this.dispatcher.addListener("test", (e: Event): boolean =>
-				{
-					dispatchedOrder.push(i+""+k);
-					return true;
-				}, i);
-
+		this.dispatcher.addListener("test", this.listernA);
+		this.dispatcher.addListener("test", this.listernB);
+		this.dispatcher.addListener("test", this.listernC);
 		this.dispatcher.dispatch(new Event("test"));
-		assert(dispatchedOrder.join(",") == "20,21,10,11,00,01");
+
+		assert(this.dispatched.join(",") === "A,B,C");
 	});
 
-	it("dispatch:プライオリティー値が同じ場合、先に追加されたリスナーから順に呼び出される", () =>
+	it("dispatche canceled", () =>
 	{
-		let dispatchedOrder: Array<number> = [];
-
-		for (let i: number = 0; i < 3; i++)
-		{
-			this.dispatcher.addListener("test", (e: Event): boolean =>
-			{
-				dispatchedOrder.push(i);
-				return true;
-			}, 100);// <-毎回100で呼び出す.
-		}
-
+		this.dispatcher.addListener("test", this.listernA);
+		this.dispatcher.addListener("test", this.preventDefaultListener);
+		this.dispatcher.addListener("test", this.listernB);//canceled
+		this.dispatcher.addListener("test", this.listernC);//canceled
 		this.dispatcher.dispatch(new Event("test"));
-		assert(dispatchedOrder.join(",") == "0,1,2");
+
+		assert(this.dispatched.join(",") === "A,callPreventDefault.");
 	});
 });
