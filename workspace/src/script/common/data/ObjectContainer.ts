@@ -98,7 +98,7 @@ export class ObjectContainer<T>
 	public each(f: (child: T, i: number) => boolean): void
 	{
 		for (let i: number = 0, len: number = this._children.length; i < len; i++)
-			if (!f(this._children[i], i))
+			if (f(this._children[i], i) === false)
 				break;
 	}
 }
