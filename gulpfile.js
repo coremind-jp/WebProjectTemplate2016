@@ -240,14 +240,12 @@ bindWatch("sass", sassGlob, function()
 
 
 //------------------------------------------------------------------------server
-var browser = require("browser-sync");
 if (isWatch)
-    gulp.watch(dir.dest.html+"/**/*.*").on("change", function() {
-        console.log("www changed.");
-        browser.active ?
-            browser.reload():
-            browser.init(params.browserSync, browser.reload);
-    });
+{
+    var browser = require("browser-sync");
+    browser.init(params.browserSync);
+    gulp.watch(dir.dest.html+"/**/*.*").on("change", browser.reload);
+}
 
 
 
