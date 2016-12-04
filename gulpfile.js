@@ -176,7 +176,7 @@ typescriptドキュメント生成
 var typeDoc = require("gulp-typedoc");
 gulp.task("ts-doc", function()
 {
-    return gulp.src(dir.src.script+"/**/*.{ts,tsx}")
+    return gulp.src(rootSrc+"/script/common/**/*.{ts,tsx}")
         .pipe(typeDoc(params.typeDoc));
 });
 
