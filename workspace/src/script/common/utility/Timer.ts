@@ -76,7 +76,6 @@ export class Timer extends EventDispatcher implements ITicker
         this._onTick = this._onTickDefault;
 
         Timer._TICKER.remove(this);
-        console.log("stop");
     }
 
     /**
@@ -99,7 +98,6 @@ export class Timer extends EventDispatcher implements ITicker
         this._onTick = this._onTickDefault;
 
         Timer._TICKER.add(this);
-        console.log("start");
     }
 
     /**
@@ -112,7 +110,6 @@ export class Timer extends EventDispatcher implements ITicker
     {
         if (!this.isRunning() || this.isPause()) return;
 
-        console.log("pause.");
         this._pauseDate    = Date.now();
         this._pauseDelay   = delay;
         this._pauseElapsed = 0;
@@ -127,7 +124,6 @@ export class Timer extends EventDispatcher implements ITicker
     {
         if (!this.isRunning() || !this.isPause()) return;
 
-        console.log("resume.");
         this._onTick = this._onTickDefault;
     }
 
