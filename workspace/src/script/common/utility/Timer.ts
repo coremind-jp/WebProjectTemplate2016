@@ -3,6 +3,12 @@ import {Ticker} from "./Ticker";
 import {EventDispatcher} from "../event/EventDispatcher";
 import {Event} from "../event/Event";
 
+export type TimerEvent = "timer" | "timer_complete";
+export const TimerEvent = {
+    TIMER:                   "timer" as TimerEvent,
+    TIMER_COMPLETE: "timer_complete" as TimerEvent
+}
+
 /**
  * 汎用タイマークラス.
  */
@@ -17,6 +23,8 @@ export class Timer extends EventDispatcher implements ITicker
     private _pauseDate: number;
     private _startDate: number;
 
+    private _pauseDelay: number;
+    private _pauseElapsed: number;
     private _elapsed: number;
     private _lapElapsed: number;
     private _lap: number;
@@ -29,6 +37,14 @@ export class Timer extends EventDispatcher implements ITicker
              Timer._TICKER = new Ticker();
 
         this._pauseDate = 0;
+    }
+
+    public destroy()
+    {
+        this.stop();
+        this._onTick = null;
+        
+        super.destroy();
     }
 
     /**
@@ -89,14 +105,18 @@ export class Timer extends EventDispatcher implements ITicker
     /**
      * タイマーを一時停止する.
      * 稼働していない、またはポーズ中の場合何もしない.
+     * `delay`に値を指定しなかった場合手動でresumuが呼ばれるまで一時停止状態となる.
+     * @param {number = NaN} delay 停止時間(ms)
      */
-    public pause(): void
+    public pause(delay: number = NaN): void
     {
         if (!this.isRunning() || this.isPause()) return;
 
         console.log("pause.");
-         this._pauseDate   = Date.now();
-         this._onTick = this._onTickForPause;
+        this._pauseDate    = Date.now();
+        this._pauseDelay   = delay;
+        this._pauseElapsed = 0;
+        this._onTick = this._onTickForPause;
     }
 
     /**
@@ -108,7 +128,6 @@ export class Timer extends EventDispatcher implements ITicker
         if (!this.isRunning() || !this.isPause()) return;
 
         console.log("resume.");
-        this._pauseDate   = 0;
         this._onTick = this._onTickDefault;
     }
 
@@ -176,15 +195,28 @@ export class Timer extends EventDispatcher implements ITicker
             return;
 
         this._lap = afterLap;
-        this.dispatch(new Event("onTimer"));
+        this.dispatch(new Event(TimerEvent.TIMER));
 
         if (this._repeate <= this._lap)
+        {
             this.stop();
+            this.dispatch(new Event(TimerEvent.TIMER_COMPLETE));
+        }
     }
 
     private _onTickForPause(now: number): void
     {
-        this._startDate += (now - this._pauseDate);
+        let delta: number = now - this._pauseDate;
+        this._startDate += delta;
+
+        if (!isNaN(this._pauseDelay))
+        {
+            this._pauseElapsed += delta;
+
+            if (this._pauseDelay <= this._pauseElapsed)
+                this.resume();
+        }
+
         this._pauseDate = now;
     }
 }
