@@ -153,6 +153,9 @@ gulp.task("ts", function()
                 cache: true
             })),
             webpack)
+        .on("error", function(error) {
+            notify().write(error.message);
+        })
         .pipe(gulp.dest(dir.dest.script));
 });
 
