@@ -10,13 +10,13 @@ export class Event
 		this._defaultPrevented = false;
 	}
 
-	preventDefault(): void
+	public preventDefault(): void
 	{
 		if (this._cancelable)
 			this._defaultPrevented = true;
 	}
 
-	reset()
+	public reset()
 	{
 		this._defaultPrevented = false;
 	}
