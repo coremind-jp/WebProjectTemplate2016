@@ -19,9 +19,12 @@ var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
             entry     : createEntry("./workspace/src/script/entry/**/*.{ts,tsx}"),
             output    : { filename: "[name].js" },
             resolve   : { extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"] },
-            devtool   : "#inline-source-map",
+            devtool   : "source-map",
             plugins   : [ new ccp({ name: "common", filename: "common.js" }) ],
-            module    : { loaders: [ { test: /\.tsx?$/, loader: 'ts-loader' } ] },
+            module    : {
+                preLoaders: [ { test:   /\.js$/, loader: 'source-map-loader' } ],
+                loaders   : [ { test: /\.tsx?$/, loader: 'ts-loader' } ]
+            },
             externals : {
                 "react": "React",
                 "react-dom": "ReactDOM"
@@ -48,7 +51,9 @@ var ccp     = new require("webpack/lib/optimize/CommonsChunkPlugin");
                     { test: /\.tsx?$/, loader: 'ts-loader' },
                     { test: /\.json$/, loader: 'json-loader' }
                 ],
-                postLoaders: [ { test: /\.(ts|tsx)?$/, loader: 'webpack-espower-loader' } ],
+                postLoaders: [
+                    { test: /\.tsx?$/, loader: 'webpack-espower-loader' }
+                ],
             }
         }, overrideOptions);
     }
