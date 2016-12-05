@@ -1,4 +1,5 @@
-var isWatch = process.argv.slice(2).indexOf("--watch") > -1;
+var isWatch = process.argv.slice(2).indexOf("-W") > -1;
+var syncBrowser = process.argv.slice(2).indexOf("-B") > -1;
 
 //----------------------------------------------------------utility package list
 var del       = require("del");           //file, directory delete
@@ -18,11 +19,14 @@ var rootSrc  = root+"/src";
 var rootDest = root+"/www";
 var dir = {
     src:  {
-        lib      : rootSrc+"/external-lib",
-        asset    : rootSrc+"/asset",
-        ect      : rootSrc+"/ect",
-        script   : rootSrc+"/script/entry",
-        sass     : rootSrc+"/sass",
+        lib         : rootSrc+"/external-lib",
+        asset       : rootSrc+"/asset",
+        ect         : rootSrc+"/ect",
+        script      : rootSrc+"/script",
+        scriptEntry : rootSrc+"/script/entry",
+        scriptCommon: rootSrc+"/script/common",
+        sass        : rootSrc+"/sass",
+        sassCommon  : rootSrc+"/sass/common",
     },
     dest: {
         guide  : rootDest+"/_guide",
@@ -35,10 +39,21 @@ var dir = {
     }
 };
 
+var globPattern = {
+    image      : glob(".{jpg,jpeg,png,gif,svg}", dir.src.asset),
+    ect        : glob(".ect", dir.src.ect),
+    libBundle  : glob(".js", dir.src.lib),
+    typeDoc    : glob(".{ts,tsx}", dir.src.script),
+    sass       : glob(".scss", dir.src.sass, function(patterns) {
+        return patterns.concat("!"+dir.src.sassCommon+"/**/*.scss");
+    }),
+    sassCommon : [dir.src.sass+"/common/*.scss"]
+};
+
 //-------------------------------------------------------------package parameter
 var params = {
     plumber: {
-        errorHandler: notify.onError("Error: <%= error.message %>")
+        errorHandler: notify.onError("<%= error.message %>")
     },
     image: {
         pngquant: true,
@@ -59,7 +74,7 @@ var params = {
             module: "commonjs",
             target: "es5",
             out: dir.dest.typeDoc,
-            name: "TypeDoc for Common",
+            name: "TypeDoc",
             hideGenerator: true
     },
     uglify: {
@@ -71,7 +86,7 @@ var params = {
         onError: function(e) { notify().writer(e); }
     },
     prefixer: {
-        browser: [ 'last 2 versions', 'ie 9' ]
+        browsers: [ 'last 2 versions', 'ie 9' ]
     },
     frontnote: {
         clean: true,
@@ -89,7 +104,7 @@ var params = {
 };
 
 //------------------------------------------------------------------------helper
-function glob(extension, rootDirectory, advance, ignoreDirList)
+function glob(extension, rootDirectory, advance)
 {
     var rule = [
             rootDirectory+"/**/*"       +extension,
@@ -97,28 +112,53 @@ function glob(extension, rootDirectory, advance, ignoreDirList)
         "!"+rootDirectory+"/_**/**/*"   +extension //ignore '_' prefix directorys
     ];
 
-    if (ignoreDirList && ignoreDirList.length > 0)
-        for (var i = 0, len = ignoreDirList.length; i < len; i++)
-            rule.push("!"+rootDirectory+"/"+ignoreDirList[i]+"/**/*"+extension);
-
     return advance ? advance(rule): rule;
 };
 
-function bindWatch(taskName, globPattern, buildTask)
+function bindWatch(taskName, pattern, buildTask)
 {
-    gulp.task(taskName, buildTask);
-    if (isWatch) gulp.watch(globPattern, [taskName]);
+    if (isWatch)
+    {
+        gulp.task(taskName, function(done)
+        {
+            gulp.task("build-"+taskName, buildTask);
+            gulp.watch(pattern, ["build-"+taskName]);
+
+            done();
+        });
+    }
+    else gulp.task(taskName, buildTask);
 };
+
+
+
+//-----------------------------------------------------------------------browser
+var browser = require("browser-sync");
+gulp.task("activate-browser", function(done)
+{
+    browser.init(params.browserSync, function()
+    {
+        browser.watch([
+                dir.dest.html   +"/*.html",
+                dir.dest.asset  +"/**/*.*",
+                dir.dest.css    +"/**/*.css",
+                dir.dest.script +"/**/*.js"
+        ]).on("change", browser.reload);
+
+        done();
+    });
+});
+
+
 
 //-------------------------------------------------------------------------image
 /*
 画像最適化
 */
 var image = require("gulp-image");
-var imageGlob = glob("{jpg,jpeg,png,gif,svg}", dir.src.asset);
-bindWatch("image", imageGlob, function()
+bindWatch("image", globPattern.image, function()
 {
-    return gulp.src(imageGlob).pipe(gulp.dest(dir.dest.asset));
+    return gulp.src(globPattern.image).pipe(gulp.dest(dir.dest.asset));
 });
 
 
@@ -128,10 +168,9 @@ bindWatch("image", imageGlob, function()
 テンプレートからhtmlを生成
 */
 var ect = require("gulp-ect-simple");
-var ectGlob = glob(".ect", dir.src.ect);
-bindWatch("ect", ectGlob, function()
+bindWatch("ect", globPattern.ect, function()
 {
-    return gulp.src(ectGlob)
+    return gulp.src(globPattern.ect)
         .pipe(plumber(params.plumber))
         .pipe(ect(params.ect))
         .pipe(gulp.dest(dir.dest.html));
@@ -139,84 +178,16 @@ bindWatch("ect", ectGlob, function()
 
 
 
-//----------------------------------------------------------------typescript(js)
-/*
-typescriptコンパイル
-*/
-var webpack = require("webpack-stream");
-gulp.task("ts", function()
-{
-    return gulp.src([])
-        .pipe(
-            webpack(require("./webpack.config.js").develop({
-                watch: true,
-                cache: true
-            })),
-            webpack)
-        .on("error", function(error) {
-            notify().write(error.message);
-        })
-        .pipe(gulp.dest(dir.dest.script));
-});
-
-/*
-ユニットテスト
- */
-var karmaServer = require("karma").Server;
-gulp.task("ts-test", function(done)
-{
-    new karmaServer({
-        configFile: __dirname + "/karma.conf.js"
-    }, done).start();
-});
-
-/*
-typescriptドキュメント生成
-*/
-var typeDoc = require("gulp-typedoc");
-gulp.task("ts-doc", function()
-{
-    return gulp.src(rootSrc+"/script/common/**/*.{ts,tsx}")
-        .pipe(typeDoc(params.typeDoc));
-});
-
-/*
-型定義生成
-*/
-var typescript = require("typescript");
-gulp.task("d.ts", function()
-{
-    return gulp.src(dir.src.script+"/common/**/*.{ts,tsx}")
-        .pipe(typeDoc(params.typeDoc));
-});
-
-/*
-外部ライブラリ結合
-*/
-var libBandleGlob = glob(".js", dir.src.lib);
-bindWatch("lib-bundle", libBandleGlob, function()
-{
-    return gulp.src(libBandleGlob)
-        .pipe(plumber(params.plumber))
-        .pipe(sourceMap.init())
-            .pipe(concat("lib.js"))
-        .pipe(sourceMap.write("./"))
-        .pipe(gulp.dest(dir.dest.script));
-});
-
-
-
 //---------------------------------------------------------------------sass(css)
 /*
-共有ライブラリ(sass/lib)からスタイルシート生成・スタイルガイド更新
+共有ライブラリ(sass/common)からスタイルシート生成・スタイルガイド更新
 */
 var sass = require("gulp-sass");
 var prefixer = require("gulp-autoprefixer");
 var frontnote = require("gulp-frontnote");
-var sassCommonGlob = [dir.src.sass+"/common/*.scss"];
-bindWatch("sass-common", sassCommonGlob, function()
+bindWatch("sass-common", globPattern.sassCommon, function()
 {
-    return gulp.src(sassCommonGlob)
+    return gulp.src(globPattern.sassCommon)
         .pipe(plumber(params.plumber))
         .pipe(frontnote(params.frontnote))
         .pipe(sourceMap.init())
@@ -230,10 +201,9 @@ bindWatch("sass-common", sassCommonGlob, function()
 /*
 個別ページ向けコンパイル
 */
-var sassGlob = glob(".scss", dir.src.sass, null, ["common"]);
-bindWatch("sass", sassGlob, function()
+bindWatch("sass", globPattern.sass, function()
 {
-    return gulp.src(sassGlob)
+    return gulp.src(globPattern.sass)
         .pipe(plumber(params.plumber))
         .pipe(sass(params.sass))
         .pipe(prefixer(params.prefixer))
@@ -242,13 +212,71 @@ bindWatch("sass", sassGlob, function()
 
 
 
-//------------------------------------------------------------------------server
-if (isWatch)
+//----------------------------------------------------------------typescript(js)
+/*
+typescriptコンパイル
+*/
+var webpack = require("webpack-stream");
+gulp.task("ts", function()
 {
-    var browser = require("browser-sync");
-    browser.init(params.browserSync);
-    gulp.watch(dir.dest.html+"/**/*.*").on("change", browser.reload);
-}
+    var config = isWatch ?
+        require("./webpack.config.js").develop({
+                watch: true,
+                cache: true
+            }):
+        require("./webpack.config.js").develop();
+
+    return gulp.src([])
+        .pipe(webpack(config), webpack)
+        .on("error", function(error) {
+            notify().write(error.message);
+        })
+        .pipe(gulp.dest(dir.dest.script));
+});
+
+/*
+ユニットテスト
+ */
+var karmaServer = require("karma").Server;
+gulp.task("ts-test", function(done)
+{
+    new karmaServer({
+        configFile: __dirname + "/karma.conf.js",
+        autoWatch:  isWatch,
+        singleRun: !isWatch
+    }, done).start();
+});
+
+/*
+typescriptドキュメント生成
+*/
+var typeDoc = require("gulp-typedoc");
+gulp.task("ts-doc", function()
+{
+    return gulp.src(globPattern.typeDoc)
+        .pipe(typeDoc(params.typeDoc));
+});
+
+/*
+型定義生成
+*/
+var typescript = require("typescript");
+gulp.task("d.ts", function()
+{
+});
+
+/*
+外部ライブラリ結合
+*/
+bindWatch("lib-bundle", globPattern.libBundle, function()
+{
+    return gulp.src(globPattern.libBundle)
+        .pipe(plumber(params.plumber))
+        .pipe(sourceMap.init())
+            .pipe(concat("lib.js"))
+        .pipe(sourceMap.write("./"))
+        .pipe(gulp.dest(dir.dest.script));
+});
 
 
 
@@ -259,19 +287,19 @@ gulp.task("clean", function() {
 
 gulp.task("release", ["clean"], function() {
     //image
-    gulp.src(imageGlob)
+    gulp.src(globPattern.image)
         .pipe(plumber(params.plumber))
         .pipe(image(params.image))
         .pipe(gulp.dest(dir.dest.asset));
 
     //ect
-    gulp.src(ectGlob)
+    gulp.src(globPattern.ect)
         .pipe(plumber(params.plumber))
         .pipe(ect(params.ect))
         .pipe(gulp.dest(dir.dest.html));
 
     //sass common
-    gulp.src(sassCommonGlob)
+    gulp.src(globPattern.sassCommon)
         .pipe(plumber(params.plumber))
         .pipe(concat("common.css"))
         .pipe(sass(params.sass))
@@ -279,14 +307,14 @@ gulp.task("release", ["clean"], function() {
         .pipe(gulp.dest(dir.dest.css));
 
     //sass indivisual
-    gulp.src(sassGlob)
+    gulp.src(globPattern.sass)
         .pipe(plumber(params.plumber))
         .pipe(sass(params.sass))
         .pipe(prefixer(params.prefixer))
         .pipe(gulp.dest(dir.dest.css));
 
     //external js lib
-    gulp.src(libBandleGlob)
+    gulp.src(globPattern.libBundle)
         .pipe(plumber(params.plumber))
         .pipe(concat("lib.js"))
         .pipe(uglify(params.uglify))
@@ -298,4 +326,16 @@ gulp.task("release", ["clean"], function() {
         .pipe(gulp.dest(dir.dest.script));
 });
 
-gulp.task("default", ["ts", "ts-test"]);
+var defaultTask = [
+    "image",
+    "ect",
+    "ts",
+    "ts-test",
+    "lib-bundle",
+    "sass",
+    "sass-common"
+];
+
+syncBrowser ?
+    gulp.task("default", ["activate-browser"].concat(defaultTask)):
+    gulp.task("default", defaultTask);
