@@ -139,10 +139,10 @@ gulp.task("activate-browser", function(done)
     browser.init(params.browserSync, function()
     {
         browser.watch([
-                dir.dest.html   +"/*.html",
-                dir.dest.asset  +"/**/*.*",
-                dir.dest.css    +"/**/*.css",
-                dir.dest.script +"/**/*.js"
+            dir.dest.html   +"/*.html",
+            dir.dest.asset  +"/**/*.*",
+            dir.dest.css    +"/**/*.css",
+            dir.dest.script +"/**/*.js"
         ]).on("change", browser.reload);
 
         done();
