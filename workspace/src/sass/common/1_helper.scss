@@ -17,10 +17,14 @@
 .inline              { display: inline; }
 .inline-block        { display: inline-block; }
 .block               { display: block; }
+.absolute            { position: absolute; }
 
 .inline-right        { text-align: right; }
 .inline-center       { text-align: center; }
 .inline-left         { text-align: left; }
+
+.hidden       { display: none; }
+.invisible    { visibility: hidden; }
 
 .float-right  { float: right; }
 .float-left   { float: left; }
