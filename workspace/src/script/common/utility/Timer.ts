@@ -14,8 +14,6 @@ export const TimerEvent = {
  */
 export class Timer extends EventDispatcher implements ITicker
 {
-    private static _TICKER:Ticker;
-
     private _onTick: (now: number) => void;
     private _delay: number;
     private _repeate: number;
@@ -32,10 +30,6 @@ export class Timer extends EventDispatcher implements ITicker
     constructor()
     {
         super();
-
-        if (!Timer._TICKER)
-             Timer._TICKER = new Ticker();
-
         this._pauseDate = 0;
     }
 
@@ -53,7 +47,7 @@ export class Timer extends EventDispatcher implements ITicker
      */
     public isRunning(): boolean
     {
-        return Timer._TICKER.contains(this);
+        return Ticker.INSTANCE.contains(this);
     }
 
     /**
@@ -75,7 +69,7 @@ export class Timer extends EventDispatcher implements ITicker
 
         this._onTick = this._onTickDefault;
 
-        Timer._TICKER.remove(this);
+        Ticker.INSTANCE.remove(this);
     }
 
     /**
@@ -97,7 +91,7 @@ export class Timer extends EventDispatcher implements ITicker
         this._lap         = 0;
         this._onTick = this._onTickDefault;
 
-        Timer._TICKER.add(this);
+        Ticker.INSTANCE.add(this);
     }
 
     /**

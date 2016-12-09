@@ -6,6 +6,8 @@ import {ITicker} from "./ITicker";
  */
 export class Ticker extends ObjectContainer<ITicker>
 {
+    static INSTANCE: Ticker = new Ticker();
+
     private _id: number;
     /**
      * @param intervalDelay    更新間隔(ms)
