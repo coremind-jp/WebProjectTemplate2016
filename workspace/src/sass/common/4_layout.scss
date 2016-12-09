@@ -425,32 +425,31 @@
 .anchor {
     position: relative;
 
-    .left {
+    .left, .center, .right,
+    .top, .middle, .bottom {
         position: absolute;
+    }
+
+    .left {
         left: 0;
     }
     .center {
-        position: absolute;
         top: auto;
         left: 50%;
         transform: translateX(-50%);
     }
     .right {
-        position: absolute;
         right: 0;
     }
     .top {
-        position: absolute;
         top: 0;
     }
     .middle {
-        position: absolute;
         top: 50%;
         left: auto;
         transform: translateY(-50%);
     }
     .bottom {
-        position: absolute;
         bottom: 0;
     }
     .middle.center {
